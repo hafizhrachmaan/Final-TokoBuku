@@ -3,54 +3,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Sistem HRD</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Login - NITNOT TOKO BUKU</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/flowbite@1.7.0/dist/flowbite.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    
     <style>
+        .logo-font { font-family: 'Playfair Display', serif; }
+        .body-font { font-family: 'Inter', sans-serif; }
+
+        /* --- BAGIAN UTAMA: GRADASI BERGERAK --- */
         body {
-            background-color: #f8f9fa;
-        }
-        .login-container {
-            max-width: 400px;
-            margin: 100px auto;
-            padding: 30px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        .login-container h2 {
-            margin-bottom: 20px;
-            font-weight: 300;
-            text-align: center;
-        }
-        .btn-primary {
+            margin: 0;
+            padding: 0;
             width: 100%;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            /* Warna gradasi lembut sesuai referensi gambar ITATS */
+            background: linear-gradient(-45deg, #a881af, #f8c9d4, #a3d8f4, #b9fbc0);
+            background-size: 400% 400%;
+            animation: moveGradient 12s ease infinite;
+        }
+
+        @keyframes moveGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Dekorasi sisi kiri card (Biru Solid/Gradasi Biru) */
+        .bg-side-illustration {
+            background: linear-gradient(135deg, #001f3f 0%, #0056b3 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glass-effect {
+            backdrop-filter: blur(10px);
+            background-color: rgba(255, 255, 255, 0.85);
+        }
+
+        .floating-circle {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            top: -50px;
+            right: -50px;
         }
     </style>
 </head>
-<body>
-<div class="login-container">
-    <h2>Employee Login</h2>
-    <div th:if="${param.error}" class="alert alert-danger" role="alert">
-        Username atau password salah.
-    </div>
-    <div th:if="${param.logout}" class="alert alert-success" role="alert">
-        Anda telah berhasil logout.
-    </div>
-    <form th:action="@{/login}" method="post">
-        <div class="mb-3">
-            <label for="username" class="form-label">Username</label>
-            <input type="text" class="form-control" id="username" name="username" required autofocus>
+<body class="body-font">
+
+    <div class="flex flex-col md:flex-row w-full max-w-4xl bg-white rounded-[2rem] shadow-2xl overflow-hidden m-4 min-h-[550px]">
+        
+        <div class="hidden md:flex md:w-1/2 bg-side-illustration p-12 text-white flex-col justify-between relative">
+            <div class="floating-circle"></div>
+            <div class="relative z-10">
+                <h2 class="text-4xl font-bold mb-6 leading-tight">Selamat Datang</h2>
+                <p class="text-blue-100 opacity-90 leading-relaxed text-lg">
+                    Akses sistem manajemen inventaris Toko Buku dengan mudah dan aman. Silakan masuk menggunakan akun karyawan Anda.
+                </p>
+                <div class="mt-8 p-4 bg-white/10 rounded-2xl border border-white/20 backdrop-blur-md">
+                    <p class="text-sm italic text-blue-50">"Daftar sebagai karyawab baru ambil kesempatanmu menjadi bagian dari NITNOT Toko Buku"</p>
+                </div>
+            </div>
+            <div class="relative z-10">
+                <p class="text-xs opacity-60 tracking-widest uppercase">© 2025 NITNOT TOKO BUKU</p>
+                <p class="text-xs opacity-60 mt-1">Kelompok Berani Team</p>
+            </div>
         </div>
-        <div class="mb-3">
-            <label for="password" class="form-label">Password</label>
-            <input type="password" class="form-control" id="password" name="password" required>
+
+        <div class="w-full md:w-1/2 p-10 md:p-14 flex flex-col justify-center bg-white/60 backdrop-blur-sm">
+            
+            <div class="text-center mb-10">
+                <h1 class="logo-font text-5xl text-gray-800 tracking-tighter">NITNOT</h1>
+                <p class="text-[11px] uppercase tracking-[0.5em] text-blue-600 font-bold mt-2">Toko Buku - ATK</p>
+                <div class="w-16 h-1.5 bg-blue-600 mx-auto mt-6 rounded-full shadow-md shadow-blue-200"></div>
+            </div>
+
+            <div th:if="${param.error}" class="bg-red-50 border-l-4 border-red-500 text-red-700 px-4 py-3 rounded-xl mb-6 text-sm flex items-center shadow-sm">
+                <span class="font-bold mr-2">!</span> Username atau password salah.
+            </div>
+            <div th:if="${param.logout}" class="bg-green-50 border-l-4 border-green-500 text-green-700 px-4 py-3 rounded-xl mb-6 text-sm flex items-center shadow-sm">
+                <span class="font-bold mr-2">✓</span> Anda telah berhasil keluar.
+            </div>
+
+            <form th:action="@{/login}" method="post" class="space-y-6">
+                <div class="relative">
+                    <label for="username" class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2 ml-1">Username</label>
+                    <input type="text" 
+                           class="w-full px-5 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:bg-white transition-all outline-none text-gray-700 shadow-inner" 
+                           id="username" name="username" placeholder="Masukkan username" required autofocus>
+                </div>
+                <div class="relative">
+                    <label for="password" class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2 ml-1">Password</label>
+                    <input type="password" 
+                           class="w-full px-5 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:bg-white transition-all outline-none text-gray-700 shadow-inner" 
+                           id="password" name="password" placeholder="••••••••" required>
+                </div>
+                
+                <button type="submit" 
+                        class="w-full bg-blue-600 hover:bg-blue-700 text-white font-black py-4 px-4 rounded-2xl shadow-xl shadow-blue-200 transition-all hover:-translate-y-1 active:scale-95 flex items-center justify-center uppercase tracking-widest text-sm">
+                    Masuk Sekarang
+                </button>
+            </form>
+
+            <div class="text-center mt-10">
+                <p class="text-sm text-gray-500">Belum memiliki akses?</p>
+                <a th:href="@{/register}" class="text-sm text-blue-600 font-bold hover:text-blue-800 hover:underline transition-all">
+                    Daftar sebagai karyawan baru
+                </a>
+            </div>
         </div>
-        <button type="submit" class="btn btn-primary">Login</button>
-    </form>
-    <div class="text-center mt-3">
-        <a th:href="@{/register}">Belum punya akun? Daftar sebagai karyawan</a>
     </div>
-</div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="https://unpkg.com/flowbite@1.7.0/dist/flowbite.bundle.js"></script>
 </body>
 </html>

@@ -6,7 +6,7 @@ import com.example.hrdapp.repository.TransactionRepository;
 import com.example.hrdapp.service.PdfService;
 import com.example.hrdapp.service.ShoppingCart;
 import com.example.hrdapp.service.TransactionService;
-import jakarta.servlet.http.HttpSession; // Import HttpSession
+import jakarta.servlet.http.HttpSession;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -20,7 +20,6 @@ import java.security.Principal;
 
 @Controller
 @RequestMapping("/kasir")
-// Remove @SessionAttributes("shoppingCart")
 public class KasirController {
 
     private final ProductRepository productRepository;
@@ -35,7 +34,6 @@ public class KasirController {
         this.pdfService = pdfService;
     }
 
-    // Manual management of ShoppingCart in session
     private ShoppingCart getCartFromSession(HttpSession session) {
         ShoppingCart cart = (ShoppingCart) session.getAttribute("shoppingCart");
         if (cart == null) {
@@ -52,7 +50,7 @@ public class KasirController {
         model.addAttribute("products", productRepository.findAll());
         model.addAttribute("cartItems", shoppingCart.getItems());
         model.addAttribute("cartTotal", shoppingCart.getTotal());
-        return "kasir-dashboard"; // Mengembalikan ke view asli
+        return "kasir-dashboard";
     }
 
     @PostMapping("/cart/add/{productId}")
@@ -62,21 +60,16 @@ public class KasirController {
         return "redirect:/kasir/dashboard";
     }
 
-    @PostMapping("/cart/update")
-    public String updateCart(@RequestParam Long productId, @RequestParam int quantity, HttpSession session) {
-        ShoppingCart shoppingCart = getCartFromSession(session);
-        shoppingCart.updateQuantity(productId, quantity);
-        return "redirect:/kasir/dashboard";
-    }
-
-    @GetMapping("/cart/remove/{productId}")
+    // UPDATE: Menggunakan PostMapping agar sinkron dengan HTML Form
+    @PostMapping("/cart/remove/{productId}")
     public String removeFromCart(@PathVariable Long productId, HttpSession session) {
         ShoppingCart shoppingCart = getCartFromSession(session);
         shoppingCart.removeProduct(productId);
         return "redirect:/kasir/dashboard";
     }
 
-    @GetMapping("/cart/clear")
+    // UPDATE: Menggunakan PostMapping agar sinkron dengan HTML Form
+    @PostMapping("/cart/clear")
     public String clearCart(HttpSession session) {
         ShoppingCart shoppingCart = getCartFromSession(session);
         shoppingCart.clear();
@@ -87,15 +80,14 @@ public class KasirController {
     public String checkout(Principal principal, HttpSession session) {
         ShoppingCart shoppingCart = getCartFromSession(session);
         try {
-            // Manually pass the cart to the service
             Transaction transaction = transactionService.processCheckout(principal.getName(), shoppingCart);
-            session.removeAttribute("shoppingCart"); // Clear cart from session after successful checkout
+            session.removeAttribute("shoppingCart");
             return "redirect:/kasir/history?checkout_success=" + transaction.getId();
         } catch (IllegalStateException e) {
             return "redirect:/kasir/dashboard?checkout_error=" + e.getMessage();
         }
     }
-    
+
     @GetMapping("/history")
     public String history(Model model, Principal principal) {
         model.addAttribute("username", principal.getName());
@@ -107,16 +99,9 @@ public class KasirController {
     public ResponseEntity<InputStreamResource> getTransactionPdf(@PathVariable Long id) {
         Transaction transaction = transactionRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid transaction Id:" + id));
-
         ByteArrayInputStream bis = pdfService.generateInvoicePdf(transaction);
-
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Disposition", "inline; filename=struk-" + id + ".pdf");
-
-        return ResponseEntity
-                .ok()
-                .headers(headers)
-                .contentType(MediaType.APPLICATION_PDF)
-                .body(new InputStreamResource(bis));
+        return ResponseEntity.ok().headers(headers).contentType(MediaType.APPLICATION_PDF).body(new InputStreamResource(bis));
     }
 }
