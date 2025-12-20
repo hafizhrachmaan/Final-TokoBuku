@@ -1,15 +1,9 @@
-# TODO List for Java Code Simplification
+# TODO: Persiapan Hosting Aplikasi Spring Boot
 
-## Completed Tasks
-- [x] Create LoginService class for encapsulation of login logic
-- [x] Create abstract MenuAction class for abstraction
-- [x] Create ProfileAction subclass (inheritance)
-- [x] Create UsersAction subclass (inheritance)
-- [x] Create ProductsAction subclass (inheritance)
-- [x] Create TransactionsAction subclass (inheritance)
-- [x] Create MenuManager class using polymorphism
-- [x] Refactor CliTaskRunner to use new classes
+## Langkah-langkah yang Harus Diselesaikan:
+- [x] Update file `src/main/resources/application.properties` untuk menggunakan variabel environment (uncomment baris env var dan comment konfigurasi lokal).
+- [x] Buat file `Procfile` di root project untuk deployment Heroku.
+- [ ] Berikan panduan langkah demi langkah untuk deploy ke Heroku dalam bahasa Indonesia.
 
-## Next Steps
-- [ ] Test the refactored application to ensure functionality remains unchanged
-- [ ] Verify that web functionality is not affected
+## Status:
+- Sedang membuat Procfile.
