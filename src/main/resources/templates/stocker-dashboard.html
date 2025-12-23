@@ -3,83 +3,149 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stocker Dashboard - Sistem Toko Buku</title>
+    <title>Stoker Dashboard - NITNOT</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://unpkg.com/flowbite@1.7.0/dist/flowbite.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/lucide.min.js"></script>
+    <style>
+        .logo-font { font-family: 'Playfair Display', serif; }
+        .body-font { font-family: 'Inter', sans-serif; }
+        .bg-dark-navy { background-color: #001f3f; }
+    </style>
 </head>
-<body>
-<nav class="bg-gray-800 text-white">
-  <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
-    <div class="font-semibold">Stocker System</div>
-    <div class="flex items-center space-x-3">
-      <span class="text-gray-200">Welcome, <strong th:text="${username}"></strong>!</span>
-      <form th:action="@{/logout}" method="post"><button type="submit" class="text-sm bg-transparent border border-white text-white rounded px-3 py-1">Logout</button></form>
+<body class="body-font bg-slate-50 min-h-screen">
+
+<nav class="bg-dark-navy text-white shadow-xl sticky top-0 z-50">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+    <div class="flex items-center space-x-2">
+        <span class="logo-font text-2xl tracking-tight">NITNOT</span>
+        <span class="text-[10px] uppercase tracking-[0.3em] text-blue-300 font-bold border-l border-blue-800 pl-3">Inventory Manager</span>
+    </div>
+    <div class="flex items-center space-x-6">
+      <div class="text-right hidden sm:block">
+          <p class="text-[10px] text-blue-300 uppercase font-bold tracking-widest leading-none mb-1">Stoker On-Duty</p>
+          <p class="text-sm font-medium" th:text="${username}">Stoker Name</p>
+      </div>
+      <form th:action="@{/logout}" method="post">
+          <button type="submit" class="bg-red-500/20 hover:bg-red-600 border border-red-500 text-white rounded-xl p-2.5 transition-all">
+              <i data-lucide="log-out" class="w-4 h-4"></i>
+          </button>
+      </form>
     </div>
   </div>
 </nav>
 
-<div class="max-w-7xl mx-auto mt-6 px-4 grid grid-cols-1 md:grid-cols-3 gap-6">
-  <div>
-    <h2 class="text-lg font-semibold mb-3">Tambah Produk Baru</h2>
-    <form th:action="@{/stocker/product/add}" th:object="${product}" method="post" class="space-y-3">
-      <div>
-        <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Nama Produk</label>
-        <input type="text" th:field="*{name}" class="bg-white border border-gray-300 rounded-lg block w-full p-2.5" id="name" required>
-      </div>
-      <div>
-        <label for="description" class="block text-sm font-medium text-gray-700 mb-1">Deskripsi</label>
-        <textarea th:field="*{description}" class="bg-white border border-gray-300 rounded-lg block w-full p-2.5" id="description" rows="3"></textarea>
-      </div>
-      <div>
-        <label for="price" class="block text-sm font-medium text-gray-700 mb-1">Harga</label>
-        <input type="number" step="0.01" th:field="*{price}" class="bg-white border border-gray-300 rounded-lg block w-full p-2.5" id="price" required>
-      </div>
-      <div>
-        <label for="stock" class="block text-sm font-medium text-gray-700 mb-1">Stok</label>
-        <input type="number" th:field="*{stock}" class="bg-white border border-gray-300 rounded-lg block w-full p-2.5" id="stock" required>
-      </div>
-      <div>
-        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white rounded w-full px-4 py-2">Tambah Produk</button>
-      </div>
-    </form>
-  </div>
-
-  <div class="md:col-span-2">
-    <h2 class="text-lg font-semibold mb-3">Daftar Produk ATK</h2>
-    <div class="overflow-x-auto bg-white rounded shadow p-4">
-      <table class="min-w-full divide-y divide-gray-200">
-        <thead class="bg-gray-50">
-          <tr>
-            <th class="px-4 py-2 text-left">ID</th>
-            <th class="px-4 py-2 text-left">Nama</th>
-            <th class="px-4 py-2 text-left">Harga</th>
-            <th class="px-4 py-2 text-left">Stok</th>
-            <th class="px-4 py-2 text-left">Aksi</th>
-          </tr>
-        </thead>
-        <tbody class="bg-white divide-y divide-gray-100">
-          <tr th:each="p : ${products}">
-            <td class="px-4 py-2" th:text="${p.id}"></td>
-            <td class="px-4 py-2" th:text="${p.name}"></td>
-            <td class="px-4 py-2" th:text="${'Rp ' + #numbers.formatDecimal(p.price, 0, 'POINT', 0, 'COMMA')}"></td>
-            <td class="px-4 py-2" th:text="${p.stock}"></td>
-            <td class="px-4 py-2">
-              <a th:href="@{/stocker/product/edit/{id}(id=${p.id})}" class="bg-yellow-400 hover:bg-yellow-500 text-gray-800 text-sm rounded px-3 py-1">Edit</a>
-              <a th:href="@{/stocker/product/delete/{id}(id=${p.id})}" class="bg-red-600 hover:bg-red-700 text-white text-sm rounded px-3 py-1 ml-2" onclick="return confirm('Anda yakin ingin menghapus produk ini?');">Hapus</a>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+<div class="max-w-7xl mx-auto mt-8 px-6 pb-12">
+    
+    <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
+        <div>
+            <h2 class="text-3xl font-black text-slate-800 tracking-tight uppercase">Manajemen Stok</h2>
+            <p class="text-xs text-slate-400 font-bold uppercase tracking-widest mt-1">Update dan monitoring produk toko</p>
+        </div>
+        <div class="relative">
+            <i data-lucide="search" class="w-4 h-4 absolute left-4 top-3.5 text-slate-400"></i>
+            <input type="text" id="inventorySearch" onkeyup="filterInventory()" placeholder="Cari nama produk..." 
+                   class="pl-12 pr-6 py-3.5 bg-white border border-slate-200 rounded-2xl text-sm focus:ring-4 focus:ring-blue-100 shadow-sm w-72 transition-all">
+        </div>
     </div>
-  </div>
+
+    <div class="bg-white rounded-[2.5rem] shadow-2xl border border-slate-100 overflow-hidden">
+        <table class="w-full text-left border-collapse">
+            <thead>
+                <tr class="bg-slate-900 text-white">
+                    <th class="px-8 py-6 text-[10px] font-black uppercase tracking-widest text-center w-20">ID</th>
+                    <th class="px-8 py-6 text-[10px] font-black uppercase tracking-widest text-left">Nama Produk</th>
+                    <th class="px-8 py-6 text-[10px] font-black uppercase tracking-widest text-center">Harga</th>
+                    <th class="px-8 py-6 text-[10px] font-black uppercase tracking-widest text-center">Stok</th>
+                    <th class="px-8 py-6 text-[10px] font-black uppercase tracking-widest text-center">Aksi</th>
+                </tr>
+            </thead>
+            <tbody id="inventoryBody" class="divide-y divide-slate-50">
+                <tr th:each="product : ${products}" class="inventory-row hover:bg-slate-50/80 transition-all group">
+                    <td class="px-8 py-6 text-center text-xs font-bold text-slate-400" th:text="'#' + ${product.id}"></td>
+                    <td class="px-8 py-6">
+                        <span class="product-name font-black text-slate-800 uppercase text-sm" th:text="${product.name}"></span>
+                    </td>
+                    <td class="px-8 py-6 text-center">
+                        <span class="text-blue-600 font-black text-sm" th:text="${'Rp ' + #numbers.formatDecimal(product.price, 0, 'POINT', 0, 'COMMA')}"></span>
+                    </td>
+                    <td class="px-8 py-6 text-center">
+                        <span th:classappend="${product.stock <= 5} ? 'bg-red-100 text-red-600 border-red-200' : 'bg-emerald-100 text-emerald-600 border-emerald-200'"
+                              class="text-[10px] font-black px-3 py-1.5 rounded-lg border uppercase tracking-tighter"
+                              th:text="${product.stock} + ' UNIT'"></span>
+                    </td>
+                    <td class="px-8 py-6 text-center">
+                        <button th:attr="data-modal-target='editModal-' + ${product.id}, data-modal-toggle='editModal-' + ${product.id}"
+                                class="bg-slate-900 hover:bg-blue-600 text-white p-2.5 rounded-xl transition-all shadow-lg active:scale-95 inline-flex items-center">
+                            <i data-lucide="edit-3" class="w-4 h-4"></i>
+                        </button>
+
+                        <div th:id="'editModal-' + ${product.id}" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-modal md:h-full">
+                            <div class="relative p-4 w-full max-w-md h-full md:h-auto">
+                                <div class="relative bg-white rounded-[2.5rem] shadow-2xl p-8 text-left border border-slate-100">
+                                    <div class="flex justify-between items-center mb-6 border-b pb-4">
+                                        <h3 class="text-xl font-black text-slate-800 uppercase tracking-tight">Edit Data Produk</h3>
+                                        <button type="button" th:attr="data-modal-hide='editModal-' + ${product.id}" class="text-slate-400 hover:text-red-500">
+                                            <i data-lucide="x" class="w-6 h-6"></i>
+                                        </button>
+                                    </div>
+                                    
+                                    <form th:action="@{/stoker/product/edit/{id}(id=${product.id})}" method="post" class="space-y-5">
+                                        <div>
+                                            <label class="text-[10px] font-black text-slate-400 uppercase block mb-1">Nama Produk</label>
+                                            <input type="text" name="name" th:value="${product.name}" class="w-full bg-slate-50 border-slate-200 rounded-2xl p-4 text-sm font-bold focus:ring-4 focus:ring-blue-100 transition-all" required>
+                                        </div>
+                                        <div class="grid grid-cols-2 gap-4">
+                                            <div>
+                                                <label class="text-[10px] font-black text-slate-400 uppercase block mb-1">Harga (Rp)</label>
+                                                <input type="number" name="price" th:value="${product.price}" class="w-full bg-slate-50 border-slate-200 rounded-2xl p-4 text-sm font-bold focus:ring-4 focus:ring-blue-100 transition-all" required>
+                                            </div>
+                                            <div>
+                                                <label class="text-[10px] font-black text-slate-400 uppercase block mb-1">Stok Unit</label>
+                                                <input type="number" name="stock" th:value="${product.stock}" class="w-full bg-slate-50 border-slate-200 rounded-2xl p-4 text-sm font-bold focus:ring-4 focus:ring-blue-100 transition-all" required>
+                                            </div>
+                                        </div>
+                                        
+                                        <button type="submit" class="w-full mt-4 bg-blue-600 hover:bg-blue-700 text-white font-black py-4 rounded-2xl uppercase text-xs tracking-[0.2em] shadow-xl shadow-blue-100 active:scale-95 transition-all">
+                                            Simpan Perubahan
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(products)}">
+                    <td colspan="5" class="py-20 text-center text-slate-400 font-bold uppercase italic tracking-widest">
+                        Belum ada data produk tersedia.
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 
-    <script src="https://unpkg.com/flowbite@1.7.0/dist/flowbite.bundle.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/lucide.min.js"></script>
-    <script>
-      document.addEventListener('DOMContentLoaded', function () {
-        if (window.lucide) { lucide.createIcons(); }
-      });
-    </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
+<script>
+    // Inisialisasi Ikon Lucide
+    lucide.createIcons();
+
+    // Fungsi Search (Sama kuatnya dengan versi Kasir/History)
+    function filterInventory() {
+        var input = document.getElementById("inventorySearch");
+        var filter = input.value.toLowerCase();
+        var rows = document.getElementsByClassName("inventory-row");
+
+        for (var i = 0; i < rows.length; i++) {
+            var productName = rows[i].querySelector(".product-name").innerText.toLowerCase();
+            if (productName.indexOf(filter) > -1) {
+                rows[i].style.display = "";
+            } else {
+                rows[i].style.display = "none";
+            }
+        }
+    }
+</script>
 </body>
 </html>
