@@ -10,14 +10,21 @@
     <style>
         body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
         .bg-navy { background-color: #001f3f; }
+        
+        /* Card Styling */
         .product-card {
             background: white;
             border-radius: 2.5rem;
             padding: 1.5rem;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             border: 1px solid #f1f5f9;
         }
-        .product-card:hover { transform: translateY(-5px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05); }
+        .product-card:hover { 
+            transform: translateY(-8px); 
+            box-shadow: 0 25px 30px -10px rgba(0, 0, 0, 0.06); 
+        }
+
+        /* Image Placeholder */
         .image-placeholder {
             background-color: #38bdf8;
             border-radius: 2rem;
@@ -28,6 +35,7 @@
             position: relative;
             overflow: hidden;
         }
+
         .stock-badge {
             position: absolute;
             top: 1rem;
@@ -40,73 +48,53 @@
             border-radius: 9999px;
             box-shadow: 0 4px 6px rgba(34, 197, 94, 0.3);
         }
-        .btn-add {
-            background-color: #2563eb;
-            color: white;
-            border-radius: 1rem;
-            width: 100%;
-            padding: 0.75rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            font-size: 0.75rem;
-            letter-spacing: 0.05em;
-            transition: background 0.2s;
-        }
-        .btn-add:hover { background-color: #1d4ed8; }
+
+        /* Sidebar Cart Styling */
         .cart-container {
             background: white;
-            border-radius: 3rem;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08);
+            border-radius: 3.5rem;
+            box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.1);
             overflow: hidden;
             display: flex;
             flex-direction: column;
         }
-        .btn-checkout {
-            background-color: #2563eb;
-            color: white;
-            width: 100%;
-            padding: 1.25rem;
-            border-radius: 1.5rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            font-size: 0.85rem;
-        }
+
         /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
+        .custom-scroll::-webkit-scrollbar { width: 5px; }
+        .custom-scroll::-webkit-scrollbar-track { background: transparent; }
+        .custom-scroll::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
     </style>
 </head>
-<body>
+<body class="min-h-screen flex flex-col">
 
-<nav class="bg-navy text-white px-8 py-4 sticky top-0 z-50">
+<nav class="bg-navy text-white px-8 py-4 sticky top-0 z-50 shadow-lg">
     <div class="max-w-[1600px] mx-auto flex justify-between items-center">
         <div class="flex items-center space-x-12">
             <div>
                 <h1 class="text-xl font-black tracking-tighter">NITNOT</h1>
                 <p class="text-[10px] tracking-[0.2em] text-blue-300 font-bold -mt-1">POS TERMINAL</p>
             </div>
-            <div class="flex space-x-6 text-[11px] font-bold uppercase tracking-widest">
+            <div class="flex space-x-8 text-[11px] font-bold uppercase tracking-widest">
                 <a th:href="@{/kasir/dashboard}" class="text-blue-400 border-b-2 border-blue-400 pb-1">Kasir</a>
                 <a th:href="@{/kasir/history}" class="text-gray-400 hover:text-white transition">Riwayat Transaksi</a>
             </div>
         </div>
-        <div class="flex items-center space-x-4 text-right">
-            <div>
+        <div class="flex items-center space-x-4">
+            <div class="text-right">
                 <p class="text-[9px] text-blue-300 uppercase font-black">Kasir On-Duty</p>
-                <p class="text-sm font-bold" th:text="${username}">Nitnot</p>
+                <p class="text-sm font-bold" th:text="${username}">User</p>
             </div>
-            <div class="w-10 h-10 bg-red-500 rounded-full border-4 border-navy/50 shadow-lg"></div>
+            <div class="w-10 h-10 bg-red-500 rounded-full border-4 border-navy shadow-xl"></div>
         </div>
     </div>
 </nav>
 
-<div class="max-w-[1600px] mx-auto p-8 grid grid-cols-12 gap-8">
+<main class="max-w-[1600px] mx-auto p-8 w-full grid grid-cols-12 gap-8 flex-1">
     
     <div class="col-span-8">
-        <div class="flex justify-between items-end mb-8">
+        <div class="flex justify-between items-end mb-10">
             <div>
-                <h2 class="text-3xl font-black text-slate-800 uppercase tracking-tight">Katalog Buku</h2>
+                <h2 class="text-4xl font-black text-slate-800 uppercase tracking-tighter">Katalog Buku</h2>
                 <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mt-1">Pilih item untuk ditambahkan</p>
             </div>
             <div class="relative">
@@ -115,58 +103,97 @@
             </div>
         </div>
 
-        <div class="grid grid-cols-3 gap-6">
+        <div class="grid grid-cols-3 gap-8">
             <div th:each="product : ${products}" class="product-card group">
                 <div class="image-placeholder mb-6">
-                    <div class="stock-badge" th:text="'STOK: ' + ${product.stock}">STOK: 198</div>
-                    <div class="text-center text-white">
+                    <div class="stock-badge" th:text="'STOK: ' + ${product.stock}">STOK: 0</div>
+                    <div class="text-center text-white select-none">
                         <p class="text-2xl font-black opacity-80">imgbb.com</p>
-                        <p class="text-xs font-bold opacity-60">image not found</p>
+                        <p class="text-xs font-bold opacity-60 uppercase">image not found</p>
                     </div>
                 </div>
-                <h3 class="font-extrabold text-slate-800 uppercase text-sm mb-1 tracking-tight" th:text="${product.name}">BUKU SIDU</h3>
-                <p class="text-blue-600 font-black text-lg mb-4" th:text="${'Rp ' + #numbers.formatDecimal(product.price, 0, 'POINT', 0, 'COMMA')}">Rp 5.000</p>
+                <h3 class="font-extrabold text-slate-800 uppercase text-sm mb-1 tracking-tight" th:text="${product.name}">NAMA PRODUK</h3>
+                <p class="text-blue-600 font-black text-xl mb-5" th:text="${'Rp ' + #numbers.formatDecimal(product.price, 0, 'POINT', 0, 'COMMA')}">Rp 0</p>
                 
                 <form th:action="@{/kasir/cart/add/{productId}(productId=${product.id})}" method="post">
-                    <button type="submit" class="btn-add">Tambah</button>
+                    <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white rounded-2xl py-3.5 font-bold uppercase text-xs tracking-widest transition-all active:scale-95 shadow-lg shadow-blue-100">
+                        Tambah
+                    </button>
                 </form>
             </div>
         </div>
     </div>
 
     <div class="col-span-4">
-        <div class="cart-container sticky top-28 h-[calc(100vh-9rem)]">
+        <div class="cart-container sticky top-28 h-[calc(100vh-10rem)]">
             <div class="bg-navy p-8 text-white flex justify-between items-center">
                 <div>
-                    <h2 class="text-xl font-black uppercase tracking-tighter leading-none">Order Detail</h2>
-                    <p class="text-[9px] font-bold text-blue-300 uppercase tracking-widest mt-1">Nitnot Toko Buku</p>
+                    <h2 class="text-xl font-black uppercase tracking-tighter">Order Detail</h2>
+                    <p class="text-[9px] font-bold text-blue-300 uppercase tracking-widest mt-0.5">Nitnot Toko Buku</p>
                 </div>
-                <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center font-black text-sm" th:text="${#lists.size(cartItems)}">0</div>
+                <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center font-black text-sm shadow-lg shadow-blue-900/50" 
+                     th:text="${#lists.size(cartItems)}">0</div>
             </div>
 
-            <div class="flex-1 overflow-y-auto p-8 flex flex-col items-center justify-center">
-                <div th:if="${#lists.isEmpty(cartItems)}" class="text-center">
-                    <p class="text-slate-300 font-black uppercase tracking-widest text-sm">Keranjang Kosong</p>
+            <div class="flex-1 overflow-y-auto p-8 custom-scroll">
+                <div th:if="${#lists.isEmpty(cartItems)}" class="h-full flex flex-col items-center justify-center opacity-20">
+                    <p class="text-slate-500 font-black uppercase tracking-[0.2em] text-sm">Keranjang Kosong</p>
                 </div>
                 
-                <div th:each="item : ${cartItems}" class="w-full mb-4 flex justify-between items-center border-b pb-4">
+                <div class="space-y-6">
+                    <div th:each="item : ${cartItems}" class="flex flex-col border-b border-slate-50 pb-6 last:border-0">
+                        <div class="flex justify-between items-start">
+                            <div class="flex-1 pr-4">
+                                <h4 class="font-bold text-slate-800 text-sm uppercase leading-tight" th:text="${item.product.name}">PRODUK</h4>
+                                <p class="text-blue-600 font-bold text-xs mt-1" th:text="${'Rp ' + #numbers.formatDecimal(item.product.price, 0, 'POINT', 0, 'COMMA')}">Rp 0</p>
+                            </div>
+                            <a th:href="@{/kasir/cart/remove/{productId}(productId=${item.product.id})}" 
+                               class="text-slate-300 hover:text-red-500 transition-colors">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                            </a>
+                        </div>
+                        <div class="flex justify-between items-center mt-3">
+                            <span class="text-[10px] bg-slate-100 text-slate-500 px-3 py-1 rounded-lg font-black uppercase" th:text="${item.quantity} + ' Unit'">1 Unit</span>
+                            <span class="text-slate-900 font-black text-base" th:text="${'Rp ' + #numbers.formatDecimal(item.product.price * item.quantity, 0, 'POINT', 0, 'COMMA')}">Rp 0</span>
+                        </div>
                     </div>
+                </div>
             </div>
 
-            <div class="p-8 bg-slate-50/50">
+            <div class="p-8 bg-slate-50/80 border-t border-slate-100">
                 <div class="flex justify-between items-center mb-6">
                     <p class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Total Tagihan</p>
-                    <p class="text-3xl font-black text-slate-800" th:text="${'Rp ' + #numbers.formatDecimal(cartTotal, 0, 'POINT', 0, 'COMMA')}">Rp 0</p>
+                    <p class="text-4xl font-black text-slate-800" th:text="${'Rp ' + #numbers.formatDecimal(cartTotal, 0, 'POINT', 0, 'COMMA')}">Rp 0</p>
                 </div>
-                <button class="btn-checkout shadow-xl shadow-blue-200 active:scale-95 transition-transform" 
-                        th:disabled="${#lists.isEmpty(cartItems)}">
-                    Checkout Sekarang
-                </button>
+                
+                <form th:action="@{/kasir/checkout}" method="post">
+                    <button type="submit" 
+                            class="w-full bg-blue-600 hover:bg-blue-700 text-white py-5 rounded-[1.8rem] font-black uppercase tracking-[0.15em] text-xs shadow-2xl shadow-blue-200 transition-all active:scale-95 disabled:opacity-50 disabled:grayscale"
+                            th:disabled="${#lists.isEmpty(cartItems)}">
+                        Checkout Sekarang
+                    </button>
+                </form>
             </div>
         </div>
     </div>
-</div>
+</main>
 
 <script src="https://unpkg.com/flowbite@1.7.0/dist/flowbite.bundle.js"></script>
+<script>
+    // Fitur Pencarian Sederhana
+    document.getElementById('productSearch').addEventListener('input', function(e) {
+        const term = e.target.value.toLowerCase();
+        const products = document.querySelectorAll('.product-card');
+        
+        products.forEach(product => {
+            const name = product.querySelector('h3').textContent.toLowerCase();
+            if(name.includes(term)) {
+                product.style.display = 'block';
+            } else {
+                product.style.display = 'none';
+            }
+        });
+    });
+</script>
 </body>
 </html>
