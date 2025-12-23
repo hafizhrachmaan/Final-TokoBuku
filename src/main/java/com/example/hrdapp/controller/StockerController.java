@@ -23,10 +23,7 @@ public class StockerController {
     public String dashboard(Model model, Principal principal) {
         model.addAttribute("username", principal.getName());
         model.addAttribute("products", productRepository.findAll());
-        if (!model.containsAttribute("product")) {
-            model.addAttribute("product", new Product());
-        }
-        return "stocker-dashboard";
+        return "stocker-dashboard"; // Pastikan nama file HTML Anda adalah stocker-dashboard.html
     }
 
     @PostMapping("/product/add")
@@ -59,16 +56,8 @@ public class StockerController {
             productRepository.deleteById(id);
             ra.addFlashAttribute("success", "Produk berhasil dihapus!");
         } catch (Exception e) {
-            ra.addFlashAttribute("error", "Hapus gagal! Data ini masih terikat dengan riwayat transaksi.");
+            ra.addFlashAttribute("error", "Gagal hapus! Data masih digunakan.");
         }
         return "redirect:/stocker/dashboard";
-    }
-
-    @GetMapping("/product/edit/{id}")
-    public String showUpdateForm(@PathVariable("id") long id, Model model, Principal principal) {
-        Product product = productRepository.findById(id).orElseThrow();
-        model.addAttribute("productToEdit", product);
-        model.addAttribute("username", principal.getName());
-        return "edit-product";
     }
 }
