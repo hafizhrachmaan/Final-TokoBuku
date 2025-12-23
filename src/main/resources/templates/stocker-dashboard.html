@@ -16,118 +16,143 @@
 </head>
 <body class="body-font bg-slate-50 min-h-screen">
 
-    <nav class="bg-dark-navy text-white shadow-xl sticky top-0 z-50">
-        <div class="max-w-[1600px] mx-auto px-6 py-4 flex items-center justify-between">
-            <div class="flex items-center space-x-2">
-                <span class="logo-font text-2xl tracking-tight">NITNOT</span>
-                <span class="text-[10px] uppercase tracking-[0.3em] text-blue-300 font-bold border-l border-blue-800 pl-3">Inventory System</span>
-            </div>
-            <div class="flex items-center space-x-6">
-                <div class="text-right hidden sm:block">
-                    <p class="text-sm font-medium" th:text="${username}">hafizh16</p>
-                </div>
-                <div class="w-3 h-3 bg-red-500 rounded-full"></div>
-            </div>
+<nav class="bg-dark-navy text-white shadow-xl sticky top-0 z-50">
+    <div class="max-w-[1600px] mx-auto px-6 py-4 flex items-center justify-between">
+        <div class="flex items-center space-x-2">
+            <span class="logo-font text-2xl tracking-tight">NITNOT</span>
+            <span class="text-[10px] uppercase tracking-[0.3em] text-blue-300 font-bold border-l border-blue-800 pl-3">Inventory System</span>
         </div>
-    </nav>
-
-    <div class="max-w-[1600px] mx-auto mt-10 px-6">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-            
-            <div class="lg:col-span-4 sticky top-24">
-                <div class="bg-white rounded-[2.5rem] shadow-2xl border border-slate-100 overflow-hidden">
-                    <div class="bg-slate-900 py-6 text-center">
-                        <h2 class="text-white font-black uppercase tracking-widest text-sm">Manajemen Barang</h2>
-                    </div>
-                    <form th:action="@{/stoker/product/add}" method="post" class="p-8 space-y-4">
-                        <input type="text" name="name" placeholder="Nama Produk" 
-                               class="w-full bg-slate-50 border-slate-200 rounded-2xl p-4 text-sm focus:ring-4 focus:ring-blue-100 transition-all outline-none">
-                        
-                        <textarea name="description" placeholder="Deskripsi" rows="4"
-                                  class="w-full bg-slate-50 border-slate-200 rounded-2xl p-4 text-sm focus:ring-4 focus:ring-blue-100 transition-all outline-none resize-none"></textarea>
-                        
-                        <div class="grid grid-cols-2 gap-4">
-                            <input type="number" step="0.1" name="price" placeholder="0.0" 
-                                   class="w-full bg-slate-50 border-slate-200 rounded-2xl p-4 text-sm focus:ring-4 focus:ring-blue-100 transition-all outline-none">
-                            <input type="number" name="stock" placeholder="0" 
-                                   class="w-full bg-slate-50 border-slate-200 rounded-2xl p-4 text-sm focus:ring-4 focus:ring-blue-100 transition-all outline-none">
-                        </div>
-
-                        <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-black py-4 rounded-2xl uppercase text-xs tracking-widest shadow-xl transition-all active:scale-95 mt-4">
-                            Simpan Barang
-                        </button>
-                    </form>
-                </div>
+        <div class="flex items-center space-x-6">
+            <div class="text-right hidden sm:block">
+                <p class="text-sm font-medium" th:text="${username}">hafizh16</p>
             </div>
-
-            <div class="lg:col-span-8">
-                <div class="flex justify-end mb-6">
-                    <div class="relative">
-                        <i data-lucide="search" class="w-4 h-4 absolute left-4 top-3.5 text-slate-400"></i>
-                        <input type="text" id="inventorySearch" onkeyup="filterInventory()" placeholder="Cari nama produk..." 
-                               class="pl-12 pr-6 py-3 bg-white border border-slate-200 rounded-2xl text-sm focus:ring-4 focus:ring-blue-100 shadow-sm w-72 transition-all">
-                    </div>
-                </div>
-
-                <div class="bg-white rounded-[2.5rem] shadow-xl border border-slate-50 overflow-hidden">
-                    <table class="w-full text-left">
-                        <thead>
-                            <tr class="text-slate-400 border-b border-slate-50">
-                                <th class="px-8 py-5 text-[10px] font-black uppercase tracking-widest">Produk</th>
-                                <th class="px-8 py-5 text-[10px] font-black uppercase tracking-widest">Harga</th>
-                                <th class="px-8 py-5 text-[10px] font-black uppercase tracking-widest">Stok</th>
-                                <th class="px-8 py-5 text-[10px] font-black uppercase tracking-widest text-center">Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody id="inventoryBody" class="divide-y divide-slate-50">
-                            <tr th:each="product : ${products}" class="inventory-row hover:bg-slate-50/50 transition-all group">
-                                <td class="px-8 py-6">
-                                    <div class="flex flex-col">
-                                        <span class="product-name font-bold text-slate-800 text-base" th:text="${product.name}">Buku Sidu</span>
-                                        <span class="text-[10px] text-slate-400 font-medium uppercase" th:text="'ID: ' + ${product.id}">ID: 1</span>
-                                    </div>
-                                </td>
-                                <td class="px-8 py-6">
-                                    <span class="font-black text-slate-700" th:text="${'Rp ' + #numbers.formatDecimal(product.price, 0, 'POINT', 0, 'COMMA')}">Rp 5.000</span>
-                                </td>
-                                <td class="px-8 py-6">
-                                    <span th:classappend="${product.stock <= 5} ? 'text-red-500' : 'text-emerald-500'"
-                                          class="bg-slate-50 px-4 py-1.5 rounded-full font-black text-xs"
-                                          th:text="${product.stock}">198</span>
-                                </td>
-                                <td class="px-8 py-6 text-center">
-                                    <div class="flex justify-center space-x-2">
-                                        <button th:attr="data-modal-target='editModal-' + ${product.id}, data-modal-toggle='editModal-' + ${product.id}"
-                                                class="w-8 h-8 rounded-full bg-yellow-100 flex items-center justify-center text-yellow-600 hover:bg-yellow-200 transition-colors">
-                                            <i data-lucide="edit-3" class="w-4 h-4"></i>
-                                        </button>
-                                        <button class="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center text-red-600 hover:bg-red-200 transition-colors">
-                                            <i data-lucide="trash-2" class="w-4 h-4"></i>
-                                        </button>
-                                    </div>
-                                    <div th:replace="~{::#editModal- + ${product.id}}"></div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
+            <div class="w-3 h-3 bg-red-500 rounded-full"></div>
         </div>
     </div>
+</nav>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
-    <script>
-        lucide.createIcons();
-        function filterInventory() {
-            var input = document.getElementById("inventorySearch");
-            var filter = input.value.toLowerCase();
-            var rows = document.getElementsByClassName("inventory-row");
-            for (var i = 0; i < rows.length; i++) {
-                var productName = rows[i].querySelector(".product-name").innerText.toLowerCase();
-                rows[i].style.display = productName.includes(filter) ? "" : "none";
-            }
+<div class="max-w-[1600px] mx-auto mt-10 px-6">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        
+        <!-- Form Tambah Produk -->
+        <div class="lg:col-span-4 sticky top-24">
+            <div class="bg-white rounded-[2.5rem] shadow-2xl border border-slate-100 overflow-hidden">
+                <div class="bg-slate-900 py-6 text-center">
+                    <h2 class="text-white font-black uppercase tracking-widest text-sm">Manajemen Barang</h2>
+                </div>
+                <form th:action="@{/stoker/product/add}" method="post" class="p-8 space-y-4">
+                    <input type="text" name="name" placeholder="Nama Produk" 
+                           class="w-full bg-slate-50 border-slate-200 rounded-2xl p-4 text-sm focus:ring-4 focus:ring-blue-100 transition-all outline-none">
+                    
+                    <textarea name="description" placeholder="Deskripsi" rows="4"
+                              class="w-full bg-slate-50 border-slate-200 rounded-2xl p-4 text-sm focus:ring-4 focus:ring-blue-100 transition-all outline-none resize-none"></textarea>
+                    
+                    <div class="grid grid-cols-2 gap-4">
+                        <input type="number" step="0.1" name="price" placeholder="0.0" 
+                               class="w-full bg-slate-50 border-slate-200 rounded-2xl p-4 text-sm focus:ring-4 focus:ring-blue-100 transition-all outline-none">
+                        <input type="number" name="stock" placeholder="0" 
+                               class="w-full bg-slate-50 border-slate-200 rounded-2xl p-4 text-sm focus:ring-4 focus:ring-blue-100 transition-all outline-none">
+                    </div>
+
+                    <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-black py-4 rounded-2xl uppercase text-xs tracking-widest shadow-xl transition-all active:scale-95 mt-4">
+                        Simpan Barang
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Tabel Produk -->
+        <div class="lg:col-span-8">
+            <div class="flex justify-end mb-6">
+                <div class="relative">
+                    <i data-lucide="search" class="w-4 h-4 absolute left-4 top-3.5 text-slate-400"></i>
+                    <input type="text" id="inventorySearch" onkeyup="filterInventory()" placeholder="Cari nama produk..." 
+                           class="pl-12 pr-6 py-3 bg-white border border-slate-200 rounded-2xl text-sm focus:ring-4 focus:ring-blue-100 shadow-sm w-72 transition-all">
+                </div>
+            </div>
+
+            <div class="bg-white rounded-[2.5rem] shadow-xl border border-slate-50 overflow-hidden">
+                <table class="w-full text-left">
+                    <thead>
+                        <tr class="text-slate-400 border-b border-slate-50">
+                            <th class="px-8 py-5 text-[10px] font-black uppercase tracking-widest">Produk</th>
+                            <th class="px-8 py-5 text-[10px] font-black uppercase tracking-widest">Harga</th>
+                            <th class="px-8 py-5 text-[10px] font-black uppercase tracking-widest">Stok</th>
+                            <th class="px-8 py-5 text-[10px] font-black uppercase tracking-widest text-center">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="inventoryBody" class="divide-y divide-slate-50">
+                        <tr th:each="product : ${products}" class="inventory-row hover:bg-slate-50/50 transition-all group">
+                            <td class="px-8 py-6">
+                                <div class="flex flex-col">
+                                    <span class="product-name font-bold text-slate-800 text-base" th:text="${product.name}">Buku Sidu</span>
+                                    <span class="text-[10px] text-slate-400 font-medium uppercase" th:text="'ID: ' + ${product.id}">ID: 1</span>
+                                </div>
+                            </td>
+                            <td class="px-8 py-6">
+                                <span class="font-black text-slate-700" th:text="${'Rp ' + #numbers.formatDecimal(product.price, 0, 'POINT', 0, 'COMMA')}">Rp 5.000</span>
+                            </td>
+                            <td class="px-8 py-6">
+                                <span th:classappend="${product.stock <= 5} ? 'text-red-500' : 'text-emerald-500'"
+                                      class="bg-slate-50 px-4 py-1.5 rounded-full font-black text-xs"
+                                      th:text="${product.stock}">198</span>
+                            </td>
+                            <td class="px-8 py-6 text-center">
+                                <div class="flex justify-center space-x-2">
+                                    <button th:attr="data-modal-target='editModal-' + ${product.id}, data-modal-toggle='editModal-' + ${product.id}"
+                                            class="w-8 h-8 rounded-full bg-yellow-100 flex items-center justify-center text-yellow-600 hover:bg-yellow-200 transition-colors">
+                                        <i data-lucide="edit-3" class="w-4 h-4"></i>
+                                    </button>
+                                    <button class="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center text-red-600 hover:bg-red-200 transition-colors">
+                                        <i data-lucide="trash-2" class="w-4 h-4"></i>
+                                    </button>
+                                </div>
+
+                                <!-- Modal Edit Produk -->
+                                <div th:id="'editModal-' + ${product.id}" class="hidden fixed top-0 left-0 w-full h-full bg-black/50 flex items-center justify-center">
+                                    <div class="bg-white rounded-2xl w-96 p-6 relative">
+                                        <h3 class="font-bold text-lg mb-4">Edit Produk</h3>
+                                        <form th:action="@{/stoker/product/update}" method="post" class="space-y-4">
+                                            <input type="hidden" th:name="id" th:value="${product.id}" />
+                                            <input type="text" th:name="name" th:value="${product.name}" placeholder="Nama Produk"
+                                                   class="w-full border rounded-xl p-3">
+                                            <textarea th:name="description" th:text="${product.description}" rows="3" placeholder="Deskripsi"
+                                                      class="w-full border rounded-xl p-3"></textarea>
+                                            <input type="number" th:name="price" th:value="${product.price}" step="0.1"
+                                                   class="w-full border rounded-xl p-3">
+                                            <input type="number" th:name="stock" th:value="${product.stock}"
+                                                   class="w-full border rounded-xl p-3">
+                                            <div class="flex justify-end space-x-2">
+                                                <button type="button" data-modal-hide th:onclick="'this.closest(\'.hidden\').classList.add(\'hidden\')'" 
+                                                        class="px-4 py-2 rounded-xl border">Batal</button>
+                                                <button type="submit" class="px-4 py-2 rounded-xl bg-blue-600 text-white">Simpan</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <!-- End Modal -->
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
+<script>
+    lucide.createIcons();
+    function filterInventory() {
+        var input = document.getElementById("inventorySearch");
+        var filter = input.value.toLowerCase();
+        var rows = document.getElementsByClassName("inventory-row");
+        for (var i = 0; i < rows.length; i++) {
+            var productName = rows[i].querySelector(".product-name").innerText.toLowerCase();
+            rows[i].style.display = productName.includes(filter) ? "" : "none";
         }
-    </script>
+    }
+</script>
 </body>
 </html>
