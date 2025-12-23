@@ -12,7 +12,6 @@
         .logo-font { font-family: 'Playfair Display', serif; }
         .body-font { font-family: 'Inter', sans-serif; }
         
-        /* Animasi Background Mewah */
         body {
             margin: 0;
             padding: 0;
@@ -32,9 +31,8 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* Desain Input Premium untuk Android */
         input, select, textarea { 
-            font-size: 16px !important; /* Mencegah zoom paksa di Chrome Android */
+            font-size: 16px !important; 
             background: rgba(255, 255, 255, 0.5) !important;
             backdrop-filter: blur(4px);
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
@@ -44,9 +42,10 @@
             background: rgba(255, 255, 255, 0.9) !important;
             transform: translateY(-2px);
             box-shadow: 0 10px 20px -10px rgba(0, 0, 0, 0.1);
+            outline: none !important;
+            ring: 2px solid #3b82f6;
         }
 
-        /* Efek Tombol Mewah */
         .btn-elegant {
             background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
             transition: all 0.3s ease;
@@ -59,7 +58,6 @@
             filter: brightness(1.2);
         }
 
-        /* Glassmorphism Card */
         .glass-card {
             background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(12px);
@@ -104,6 +102,8 @@
 
             <form th:action="@{/register}" method="post" class="space-y-12">
                 
+                <input type="hidden" th:if="${_csrf}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
                 <section>
                     <div class="flex items-center space-x-4 mb-8">
                         <div class="p-3 bg-blue-600 rounded-2xl shadow-lg shadow-blue-200">
@@ -116,26 +116,26 @@
                         <div class="relative group">
                             <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2 block ml-1">Nama Lengkap</label>
                             <input type="text" name="fullName" required placeholder="Masukkan nama sesuai ID"
-                                   class="w-full border-none rounded-2xl p-4.5 shadow-inner ring-1 ring-slate-200 focus:ring-2 focus:ring-blue-500 outline-none">
+                                   class="w-full border-none rounded-2xl p-4.5 shadow-inner ring-1 ring-slate-200 outline-none">
                         </div>
                         
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
                                 <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2 block ml-1">Email</label>
                                 <input type="email" name="email" required placeholder="mail@work.com"
-                                       class="w-full border-none rounded-2xl p-4.5 shadow-inner ring-1 ring-slate-200 focus:ring-2 focus:ring-blue-500 outline-none">
+                                       class="w-full border-none rounded-2xl p-4.5 shadow-inner ring-1 ring-slate-200 outline-none">
                             </div>
                             <div>
                                 <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2 block ml-1">WhatsApp</label>
                                 <input type="tel" name="phone" placeholder="0812..."
-                                       class="w-full border-none rounded-2xl p-4.5 shadow-inner ring-1 ring-slate-200 focus:ring-2 focus:ring-blue-500 outline-none">
+                                       class="w-full border-none rounded-2xl p-4.5 shadow-inner ring-1 ring-slate-200 outline-none">
                             </div>
                         </div>
 
                         <div>
                             <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2 block ml-1">Alamat Domisili</label>
                             <textarea name="address" rows="3" placeholder="Tuliskan alamat lengkap..."
-                                      class="w-full border-none rounded-2xl p-4.5 shadow-inner ring-1 ring-slate-200 focus:ring-2 focus:ring-blue-500 outline-none resize-none"></textarea>
+                                      class="w-full border-none rounded-2xl p-4.5 shadow-inner ring-1 ring-slate-200 outline-none resize-none"></textarea>
                         </div>
                     </div>
                 </section>
@@ -153,14 +153,14 @@
                             <div>
                                 <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2 block ml-1">Pendidikan</label>
                                 <input type="text" name="lastEducation" placeholder="SMA / S1"
-                                       class="w-full border-none rounded-2xl p-4.5 shadow-inner ring-1 ring-slate-200 focus:ring-2 focus:ring-blue-500 outline-none">
+                                       class="w-full border-none rounded-2xl p-4.5 shadow-inner ring-1 ring-slate-200 outline-none">
                             </div>
                             <div>
                                 <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2 block ml-1">Posisi</label>
                                 <select name="role" required
-                                        class="w-full border-none rounded-2xl p-4.5 shadow-inner ring-1 ring-slate-200 focus:ring-2 focus:ring-blue-500 outline-none font-bold text-slate-700">
-                                    <option th:value="'KASIR'">KASIR (POS)</option>
-                                    <option th:value="'STOCKER'">STOCKER (Inven)</option>
+                                        class="w-full border-none rounded-2xl p-4.5 shadow-inner ring-1 ring-slate-200 outline-none font-bold text-slate-700">
+                                    <option value="KASIR">KASIR (POS)</option>
+                                    <option value="STOCKER">STOCKER (Inven)</option>
                                 </select>
                             </div>
                         </div>
@@ -172,17 +172,17 @@
                         <i data-lucide="lock" class="w-4 h-4 mr-2"></i> Kredensial Akses
                     </h3>
                     <div class="space-y-4">
-                        <input type="text" name="username" required placeholder="Username"
-                               class="w-full bg-white border-none rounded-xl p-4 shadow-sm ring-1 ring-slate-200 focus:ring-2 focus:ring-slate-800 outline-none transition-all">
-                        <input type="password" name="password" required placeholder="Password"
-                               class="w-full bg-white border-none rounded-xl p-4 shadow-sm ring-1 ring-slate-200 focus:ring-2 focus:ring-slate-800 outline-none transition-all">
+                        <input type="text" name="username" required placeholder="Username untuk login"
+                               class="w-full bg-white border-none rounded-xl p-4 shadow-sm ring-1 ring-slate-200 outline-none transition-all">
+                        <input type="password" name="password" required placeholder="Password Anda"
+                               class="w-full bg-white border-none rounded-xl p-4 shadow-sm ring-1 ring-slate-200 outline-none transition-all">
                     </div>
                 </div>
 
                 <div class="pt-6">
                     <button type="submit" class="btn-elegant w-full text-white font-bold rounded-2xl px-8 py-5 shadow-2xl shadow-slate-400 flex items-center justify-center space-x-4 text-xl">
                         <span class="tracking-tighter italic uppercase">Kirim Lamaran</span>
-                        <i data-lucide="chevron-right" class="w-6 h-6"></i>
+                        <i data-lucide="send" class="w-6 h-6"></i>
                     </button>
                     
                     <a th:href="@{/login}" class="mt-10 block text-center text-xs font-black text-slate-400 hover:text-slate-800 transition-colors tracking-[0.2em]">
@@ -190,7 +190,7 @@
                     </a>
                 </div>
             </form>
-        </div>
+            </div>
     </div>
 
     <div class="text-center mt-12 mb-8">
@@ -204,10 +204,10 @@
   <script>
     lucide.createIcons();
     
-    // Feedback suara/getar halus untuk Android (opsional)
+    // Efek getar halus saat klik tombol di HP Android
     document.querySelector('button[type="submit"]').addEventListener('click', () => {
         if (window.navigator.vibrate) {
-            window.navigator.vibrate(10);
+            window.navigator.vibrate(20);
         }
     });
   </script>
