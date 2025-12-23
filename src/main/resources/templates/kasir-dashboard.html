@@ -11,7 +11,6 @@
         body { font-family: 'Inter', sans-serif; background-color: #f8fafc; overflow-x: hidden; }
         .bg-navy { background-color: #001f3f; }
         
-        /* Card Styling */
         .product-card {
             background: white;
             border-radius: 2rem;
@@ -27,7 +26,6 @@
             .product-card { padding: 1.5rem; border-radius: 2.5rem; }
         }
 
-        /* Image Placeholder */
         .image-placeholder {
             background-color: #38bdf8;
             border-radius: 1.5rem;
@@ -52,7 +50,6 @@
             backdrop-filter: blur(4px);
         }
 
-        /* Sidebar Cart Styling */
         .cart-container {
             background: white;
             border-radius: 2.5rem;
@@ -71,7 +68,6 @@
             }
         }
 
-        /* Custom Scrollbar */
         .custom-scroll::-webkit-scrollbar { width: 4px; }
         .custom-scroll::-webkit-scrollbar-track { background: transparent; }
         .custom-scroll::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
@@ -166,10 +162,15 @@
                                 <h4 class="font-bold text-slate-800 text-[11px] md:text-sm uppercase leading-tight" th:text="${item.product.name}">PRODUK</h4>
                                 <p class="text-blue-600 font-bold text-[10px] md:text-xs mt-1" th:text="${'Rp ' + #numbers.formatDecimal(item.product.price, 0, 'POINT', 0, 'COMMA')}">Rp 0</p>
                             </div>
-                            <a th:href="@{/kasir/cart/remove/{productId}(productId=${item.product.id})}" 
-                               class="text-slate-300 hover:text-red-500 transition-colors">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                            </a>
+                            
+                            <form th:action="@{/kasir/cart/remove/{productId}(productId=${item.product.id})}" method="post" class="m-0">
+                                <button type="submit" class="text-slate-300 hover:text-red-500 transition-colors p-1" title="Hapus Item">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                                    </svg>
+                                </button>
+                            </form>
                         </div>
                         <div class="flex justify-between items-center mt-3">
                             <span class="text-[9px] bg-slate-100 text-slate-500 px-2 py-1 rounded-md font-black uppercase" th:text="${item.quantity} + ' Unit'">1 Unit</span>
@@ -199,7 +200,6 @@
 
 <script src="https://unpkg.com/flowbite@1.7.0/dist/flowbite.bundle.js"></script>
 <script>
-    // Search Filter
     document.getElementById('productSearch').addEventListener('input', function(e) {
         const term = e.target.value.toLowerCase();
         document.querySelectorAll('.product-card').forEach(card => {
