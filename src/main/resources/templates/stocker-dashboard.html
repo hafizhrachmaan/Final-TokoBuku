@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Manajemen Barang - NITNOT</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.css" rel="stylesheet" />
@@ -13,70 +13,83 @@
         .body-font { font-family: 'Inter', sans-serif; }
         .bg-dark-navy { background-color: #001f3f; }
         
-        /* FIX UNTUK ANDROID: Agar form tidak sticky di layar kecil */
+        /* Optimasi Android */
         @media (max-width: 1024px) {
-            .mobile-fix { position: relative !important; top: 0 !important; margin-bottom: 2rem; }
+            .mobile-stack { flex-direction: column; }
+            /* Form tidak sticky di HP agar tidak menutupi konten */
+            .mobile-fix { position: relative !important; top: 0 !important; margin-bottom: 1.5rem; }
+            /* Sembunyikan header tabel di HP */
+            .hide-on-mobile { display: none; }
+            /* Card style untuk baris tabel di HP */
+            .inventory-row { 
+                display: block; 
+                background: white; 
+                margin-bottom: 1rem; 
+                border-radius: 1.5rem; 
+                padding: 1.5rem;
+                box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            }
+            .inventory-row td { display: block; padding: 0.25rem 0; width: 100%; text-align: left !important; border: none; }
         }
     </style>
 </head>
 <body class="body-font bg-slate-50 min-h-screen">
 
 <nav class="bg-dark-navy text-white shadow-xl sticky top-0 z-50">
-    <div class="max-w-[1600px] mx-auto px-6 py-4 flex items-center justify-between">
+    <div class="max-w-[1600px] mx-auto px-4 md:px-6 py-4 flex items-center justify-between">
         <div class="flex items-center space-x-2">
-            <span class="logo-font text-2xl tracking-tight">NITNOT</span>
-            <span class="text-[10px] uppercase tracking-[0.3em] text-blue-300 font-bold border-l border-blue-800 pl-3">Inventory System</span>
+            <span class="logo-font text-xl md:text-2xl tracking-tight">NITNOT</span>
+            <span class="hidden xs:block text-[8px] md:text-[10px] uppercase tracking-[0.2em] text-blue-300 font-bold border-l border-blue-800 pl-3">Inventory</span>
         </div>
-        <div class="flex items-center space-x-6">
-            <div class="text-right hidden sm:block">
-                <p class="text-sm font-medium" th:text="${username}">User</p>
-            </div>
-            <div class="w-3 h-3 bg-emerald-500 rounded-full animate-pulse"></div>
+        <div class="flex items-center space-x-4">
+            <p class="text-xs font-bold" th:text="${username}">User</p>
+            <div class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
         </div>
     </div>
 </nav>
 
-<div class="max-w-[1600px] mx-auto mt-10 px-6 pb-10">
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+<div class="max-w-[1600px] mx-auto mt-6 md:mt-10 px-4 md:px-6 pb-20">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8 items-start">
         
         <div class="lg:col-span-4 sticky top-24 mobile-fix">
-            <div class="bg-white rounded-[2.5rem] shadow-2xl border border-slate-100 overflow-hidden">
-                <div class="bg-slate-900 py-6 text-center">
-                    <h2 class="text-white font-black uppercase tracking-widest text-sm">Manajemen Barang</h2>
+            <div class="bg-white rounded-[2rem] shadow-xl border border-slate-100 overflow-hidden">
+                <div class="bg-slate-900 py-4 text-center">
+                    <h2 class="text-white font-black uppercase tracking-widest text-[10px] md:text-xs">Entry Barang Baru</h2>
                 </div>
-                <form th:action="@{/stocker/product/add}" method="post" class="p-8 space-y-4">
+                <form th:action="@{/stocker/product/add}" method="post" class="p-6 md:p-8 space-y-4">
                     <input type="text" name="name" placeholder="Nama Produk" required
-                           class="w-full bg-slate-50 border-slate-200 rounded-2xl p-4 text-sm focus:ring-4 focus:ring-blue-100 outline-none">
+                           class="w-full bg-slate-50 border-slate-200 rounded-xl p-4 text-sm focus:ring-4 focus:ring-blue-100 outline-none">
                     
-                    <textarea name="description" placeholder="Deskripsi" rows="4"
-                              class="w-full bg-slate-50 border-slate-200 rounded-2xl p-4 text-sm focus:ring-4 focus:ring-blue-100 outline-none resize-none"></textarea>
+                    <textarea name="description" placeholder="Deskripsi Singkat" rows="2"
+                              class="w-full bg-slate-50 border-slate-200 rounded-xl p-4 text-sm focus:ring-4 focus:ring-blue-100 outline-none resize-none"></textarea>
                     
                     <div class="grid grid-cols-2 gap-4">
                         <input type="number" step="0.1" name="price" placeholder="Harga" required
-                               class="w-full bg-slate-50 border-slate-200 rounded-2xl p-4 text-sm focus:ring-4 focus:ring-blue-100 outline-none">
+                               class="w-full bg-slate-50 border-slate-200 rounded-xl p-4 text-sm focus:ring-4 focus:ring-blue-100 outline-none">
                         <input type="number" name="stock" placeholder="Stok" required
-                               class="w-full bg-slate-50 border-slate-200 rounded-2xl p-4 text-sm focus:ring-4 focus:ring-blue-100 outline-none">
+                               class="w-full bg-slate-50 border-slate-200 rounded-xl p-4 text-sm focus:ring-4 focus:ring-blue-100 outline-none">
                     </div>
 
-                    <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-black py-4 rounded-2xl uppercase text-xs tracking-widest shadow-xl transition-all active:scale-95 mt-4">
-                        Simpan Barang
+                    <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-black py-4 rounded-xl uppercase text-[10px] tracking-widest shadow-lg active:scale-95 transition-all mt-2">
+                        Simpan ke Gudang
                     </button>
                 </form>
             </div>
         </div>
 
         <div class="lg:col-span-8">
-            <div class="flex justify-end mb-6">
-                <div class="relative">
+            <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
+                <h3 class="font-black text-slate-800 uppercase tracking-tight text-lg italic">Stok Inventaris</h3>
+                <div class="relative w-full md:w-72">
                     <i data-lucide="search" class="w-4 h-4 absolute left-4 top-3.5 text-slate-400"></i>
-                    <input type="text" id="inventorySearch" onkeyup="filterInventory()" placeholder="Cari nama produk..." 
-                           class="pl-12 pr-6 py-3 bg-white border border-slate-200 rounded-2xl text-sm focus:ring-4 focus:ring-blue-100 shadow-sm w-72 transition-all">
+                    <input type="text" id="inventorySearch" onkeyup="filterInventory()" placeholder="Cari barang..." 
+                           class="w-full pl-12 pr-6 py-3 bg-white border border-slate-200 rounded-2xl text-sm focus:ring-4 focus:ring-blue-100 shadow-sm transition-all outline-none">
                 </div>
             </div>
 
-            <div class="bg-white rounded-[2.5rem] shadow-xl border border-slate-50 overflow-hidden">
-                <table class="w-full text-left">
-                    <thead>
+            <div class="bg-transparent lg:bg-white lg:rounded-[2.5rem] lg:shadow-xl lg:border lg:border-slate-50 lg:overflow-hidden">
+                <table class="w-full text-left border-collapse">
+                    <thead class="hide-on-mobile">
                         <tr class="text-slate-400 border-b border-slate-50">
                             <th class="px-8 py-5 text-[10px] font-black uppercase tracking-widest">Produk</th>
                             <th class="px-8 py-5 text-[10px] font-black uppercase tracking-widest">Harga</th>
@@ -84,69 +97,61 @@
                             <th class="px-8 py-5 text-[10px] font-black uppercase tracking-widest text-center">Aksi</th>
                         </tr>
                     </thead>
-                    <tbody id="inventoryBody" class="divide-y divide-slate-50">
+                    <tbody id="inventoryBody" class="lg:divide-y lg:divide-slate-50">
                         <tr th:each="product : ${products}" class="inventory-row hover:bg-slate-50/50 transition-all group">
-                            <td class="px-8 py-6">
+                            <td class="px-0 lg:px-8 lg:py-6">
                                 <div class="flex flex-col">
-                                    <span class="product-name font-bold text-slate-800 text-base" th:text="${product.name}">Buku</span>
-                                    <span class="text-[10px] text-slate-400 font-medium uppercase" th:text="'ID: ' + ${product.id}">ID: 1</span>
+                                    <span class="product-name font-bold text-slate-800 text-lg lg:text-base" th:text="${product.name}">Nama Barang</span>
+                                    <span class="text-[10px] text-slate-400 font-bold uppercase tracking-tighter" th:text="'ID: ' + ${product.id}">ID: 1</span>
                                 </div>
                             </td>
-                            <td class="px-8 py-6">
-                                <span class="font-black text-slate-700" th:text="${'Rp ' + #numbers.formatDecimal(product.price, 0, 'POINT', 0, 'COMMA')}">Rp 0</span>
+                            <td class="px-0 lg:px-8 lg:py-6">
+                                <span class="lg:hidden text-[9px] font-black text-slate-400 uppercase block mt-2">Harga Jual</span>
+                                <span class="font-black text-blue-600 lg:text-slate-700" th:text="${'Rp ' + #numbers.formatDecimal(product.price, 0, 'POINT', 0, 'COMMA')}">Rp 0</span>
                             </td>
-                            <td class="px-8 py-6">
-                                <span th:classappend="${product.stock <= 5} ? 'text-red-500' : 'text-emerald-500'"
-                                      class="bg-slate-50 px-4 py-1.5 rounded-full font-black text-xs"
-                                      th:text="${product.stock}">0</span>
+                            <td class="px-0 lg:px-8 lg:py-6 text-left lg:text-center">
+                                <span class="lg:hidden text-[9px] font-black text-slate-400 uppercase block mt-2">Ketersediaan</span>
+                                <span th:classappend="${product.stock <= 5} ? 'text-red-500 bg-red-50' : 'text-emerald-500 bg-emerald-50'"
+                                      class="lg:bg-slate-50 px-3 lg:px-4 py-1 rounded-lg font-black text-xs"
+                                      th:text="${product.stock} + ' Unit'">0 Unit</span>
                             </td>
-                            <td class="px-8 py-6 text-center">
-                                <div class="flex justify-center space-x-2">
+                            <td class="px-0 lg:px-8 lg:py-6 text-left lg:text-center pt-4 lg:pt-6">
+                                <div class="flex lg:justify-center space-x-3">
                                     <button th:attr="data-modal-target='editModal-' + ${product.id}, data-modal-toggle='editModal-' + ${product.id}"
-                                            class="w-8 h-8 rounded-full bg-yellow-100 flex items-center justify-center text-yellow-600 hover:bg-yellow-200">
-                                        <i data-lucide="edit-3" class="w-4 h-4"></i>
+                                            class="flex-1 lg:flex-none h-10 lg:w-8 lg:h-8 rounded-xl lg:rounded-full bg-yellow-100 flex items-center justify-center text-yellow-600 font-bold text-xs">
+                                        <i data-lucide="edit-3" class="w-4 h-4 mr-2 lg:mr-0"></i> <span class="lg:hidden">Edit</span>
                                     </button>
                                     <a th:href="@{'/stocker/product/delete/' + ${product.id}}" 
-                                       onclick="return confirm('Yakin ingin menghapus produk ini?')"
-                                       class="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center text-red-600 hover:bg-red-200">
-                                        <i data-lucide="trash-2" class="w-4 h-4"></i>
+                                       onclick="return confirm('Hapus produk ini?')"
+                                       class="flex-1 lg:flex-none h-10 lg:w-8 lg:h-8 rounded-xl lg:rounded-full bg-red-100 flex items-center justify-center text-red-600 font-bold text-xs">
+                                        <i data-lucide="trash-2" class="w-4 h-4 mr-2 lg:mr-0"></i> <span class="lg:hidden">Hapus</span>
                                     </a>
                                 </div>
 
-                                <div th:id="'editModal-' + ${product.id}" tabindex="-1" aria-hidden="true" class="hidden fixed top-0 left-0 right-0 z-50 w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
-                                    <div class="relative w-full max-w-md max-h-full">
-                                        <div class="relative bg-white rounded-3xl shadow-2xl p-6 text-left">
-                                            <h3 class="font-bold text-lg mb-4 text-slate-800">Edit Produk</h3>
+                                <div th:id="'editModal-' + ${product.id}" tabindex="-1" aria-hidden="true" class="hidden fixed top-0 left-0 right-0 z-[60] w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full bg-slate-900/50 backdrop-blur-sm">
+                                    <div class="relative w-full max-w-md max-h-full m-auto mt-10">
+                                        <div class="relative bg-white rounded-[2rem] shadow-2xl p-6 text-left">
+                                            <div class="flex justify-between items-center mb-6">
+                                                <h3 class="font-black text-slate-800 uppercase tracking-tight">Edit Produk</h3>
+                                                <button th:attr="data-modal-hide='editModal-' + ${product.id}" class="text-slate-400"><i data-lucide="x" class="w-5 h-5"></i></button>
+                                            </div>
                                             <form th:action="@{/stocker/product/update}" method="post" class="space-y-4">
                                                 <input type="hidden" name="id" th:value="${product.id}" />
-                                                <div class="space-y-1">
-                                                    <label class="text-[10px] font-bold text-slate-400 uppercase ml-2">Nama</label>
-                                                    <input type="text" name="name" th:value="${product.name}" class="w-full border rounded-xl p-3 text-sm focus:ring-2 focus:ring-blue-400 outline-none">
-                                                </div>
-                                                <div class="space-y-1">
-                                                    <label class="text-[10px] font-bold text-slate-400 uppercase ml-2">Deskripsi</label>
-                                                    <textarea name="description" th:text="${product.description}" rows="3" class="w-full border rounded-xl p-3 text-sm focus:ring-2 focus:ring-blue-400 outline-none"></textarea>
-                                                </div>
+                                                <input type="text" name="name" th:value="${product.name}" class="w-full border-slate-200 rounded-xl p-4 text-sm focus:ring-2 focus:ring-blue-500 outline-none" required>
+                                                <textarea name="description" th:text="${product.description}" rows="3" class="w-full border-slate-200 rounded-xl p-4 text-sm focus:ring-2 focus:ring-blue-500 outline-none"></textarea>
                                                 <div class="grid grid-cols-2 gap-4">
-                                                    <div class="space-y-1">
-                                                        <label class="text-[10px] font-bold text-slate-400 uppercase ml-2">Harga</label>
-                                                        <input type="number" step="0.1" name="price" th:value="${product.price}" class="w-full border rounded-xl p-3 text-sm focus:ring-2 focus:ring-blue-400 outline-none">
-                                                    </div>
-                                                    <div class="space-y-1">
-                                                        <label class="text-[10px] font-bold text-slate-400 uppercase ml-2">Stok</label>
-                                                        <input type="number" name="stock" th:value="${product.stock}" class="w-full border rounded-xl p-3 text-sm focus:ring-2 focus:ring-blue-400 outline-none">
-                                                    </div>
+                                                    <input type="number" step="0.1" name="price" th:value="${product.price}" class="w-full border-slate-200 rounded-xl p-4 text-sm focus:ring-2 focus:ring-blue-500 outline-none" required>
+                                                    <input type="number" name="stock" th:value="${product.stock}" class="w-full border-slate-200 rounded-xl p-4 text-sm focus:ring-2 focus:ring-blue-500 outline-none" required>
                                                 </div>
-                                                <div class="flex justify-end space-x-2 mt-6">
-                                                    <button type="button" th:attr="data-modal-hide='editModal-' + ${product.id}" 
-                                                            class="px-5 py-2.5 rounded-xl border text-sm font-semibold hover:bg-slate-50">Batal</button>
-                                                    <button type="submit" class="px-5 py-2.5 rounded-xl bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 shadow-lg shadow-blue-200">Simpan</button>
+                                                <div class="flex gap-3 pt-4">
+                                                    <button type="button" th:attr="data-modal-hide='editModal-' + ${product.id}" class="flex-1 py-4 rounded-xl border font-bold text-xs uppercase tracking-widest">Batal</button>
+                                                    <button type="submit" class="flex-1 py-4 rounded-xl bg-blue-600 text-white font-bold text-xs uppercase tracking-widest shadow-lg shadow-blue-100">Simpan</button>
                                                 </div>
                                             </form>
                                         </div>
                                     </div>
                                 </div>
-                            </td>
+                                </td>
                         </tr>
                     </tbody>
                 </table>
