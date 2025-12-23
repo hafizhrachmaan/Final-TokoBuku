@@ -10,162 +10,94 @@
     <style>
         body { font-family: 'Inter', sans-serif; background-color: #f8fafc; overflow-x: hidden; }
         .bg-navy { background-color: #001f3f; }
-        
-        .product-card {
-            background: white;
-            border-radius: 2rem;
-            padding: 1rem;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            border: 1px solid #f1f5f9;
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-        }
-        
-        @media (min-width: 768px) {
-            .product-card { padding: 1.5rem; border-radius: 2.5rem; }
-        }
-
-        .image-placeholder {
-            background-color: #38bdf8;
-            border-radius: 1.5rem;
-            aspect-ratio: 1/1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .cart-container {
-            background: white;
-            border-radius: 2.5rem;
-            box-shadow: 0 20px 50px -12px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-        }
-
-        @media (min-width: 1024px) {
-            .cart-container {
-                position: sticky;
-                top: 7rem;
-                height: calc(100vh - 10rem);
-                border-radius: 3.5rem;
-            }
-        }
-
+        .product-card { background: white; border-radius: 2rem; padding: 1rem; border: 1px solid #f1f5f9; display: flex; flex-direction: column; height: 100%; transition: all 0.2s; }
+        .product-card:active { transform: scale(0.98); }
+        .image-placeholder { background-color: #38bdf8; border-radius: 1.5rem; aspect-ratio: 1/1; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+        .cart-container { background: white; border-radius: 2.5rem; box-shadow: 0 20px 50px -12px rgba(0, 0, 0, 0.1); overflow: hidden; display: flex; flex-direction: column; }
+        @media (min-width: 1024px) { .cart-container { position: sticky; top: 7rem; height: calc(100vh - 10rem); border-radius: 3.5rem; } }
         .custom-scroll::-webkit-scrollbar { width: 4px; }
-        .custom-scroll::-webkit-scrollbar-track { background: transparent; }
         .custom-scroll::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
-        
-        /* Animasi saat item baru masuk */
-        @keyframes fadeInRight {
-            from { opacity: 0; transform: translateX(20px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-        .item-anim { animation: fadeInRight 0.3s ease-out forwards; }
     </style>
 </head>
 <body class="min-h-screen flex flex-col">
 
 <nav class="bg-navy text-white px-4 md:px-8 py-4 sticky top-0 z-50 shadow-lg">
     <div class="max-w-[1600px] mx-auto flex justify-between items-center">
-        <div class="flex items-center space-x-4 md:space-x-12">
+        <div class="flex items-center space-x-4">
             <div class="flex flex-col">
                 <h1 class="text-lg md:text-xl font-black tracking-tighter leading-none">NITNOT</h1>
                 <p class="text-[8px] md:text-[10px] tracking-[0.2em] text-blue-300 font-bold uppercase">POS Terminal</p>
             </div>
-            <div class="hidden md:flex space-x-8 text-[11px] font-bold uppercase tracking-widest">
+            <div class="hidden md:flex space-x-8 text-[11px] font-bold uppercase tracking-widest ml-10">
                 <a th:href="@{/kasir/dashboard}" class="text-blue-400 border-b-2 border-blue-400 pb-1">Kasir</a>
                 <a th:href="@{/kasir/history}" class="text-gray-400 hover:text-white transition">Riwayat</a>
             </div>
         </div>
-        <div class="flex items-center space-x-4">
-            <div class="text-right hidden sm:block">
-                <p class="text-[8px] text-blue-300 uppercase font-black">Aktif</p>
-                <p class="text-xs font-bold" th:text="${username}">User</p>
-            </div>
-            <form th:action="@{/logout}" method="post" class="m-0">
-                <button type="submit" class="w-9 h-9 md:w-11 md:h-11 bg-red-500 rounded-full flex items-center justify-center hover:bg-red-600 active:scale-90 transition-all">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 md:w-5 md:h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                    </svg>
-                </button>
-            </form>
-        </div>
+        <form th:action="@{/logout}" method="post" class="m-0">
+            <button type="submit" class="w-10 h-10 bg-red-500 rounded-full flex items-center justify-center shadow-lg active:scale-90 transition-all">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                </svg>
+            </button>
+        </form>
     </div>
 </nav>
 
-<main class="max-w-[1600px] mx-auto p-4 md:p-8 w-full flex flex-col lg:grid lg:grid-cols-12 gap-6 md:gap-8 flex-1">
+<main class="max-w-[1600px] mx-auto p-4 md:p-8 w-full flex flex-col lg:grid lg:grid-cols-12 gap-8 flex-1">
     
     <div class="lg:col-span-7 xl:col-span-8 order-2 lg:order-1">
-        <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-6 md:mb-10 gap-4">
-            <div>
-                <h2 class="text-2xl md:text-4xl font-black text-slate-800 uppercase tracking-tighter">Katalog Buku</h2>
-                <p class="text-[10px] md:text-xs font-bold text-slate-400 uppercase tracking-widest mt-1">Sentuh tombol untuk menambah tanpa refresh</p>
-            </div>
-            <div class="w-full md:w-80 relative">
-                <input type="text" id="productSearch" placeholder="Cari buku..." 
-                       class="w-full bg-white border-none rounded-2xl py-3 md:py-4 px-6 shadow-sm focus:ring-2 focus:ring-blue-500 text-sm font-medium">
-            </div>
+        <div class="mb-8">
+            <h2 class="text-2xl font-black text-slate-800 uppercase italic">Katalog Buku</h2>
+            <input type="text" id="productSearch" placeholder="Cari buku..." class="w-full mt-4 bg-white border-none rounded-2xl py-4 px-6 shadow-sm focus:ring-2 focus:ring-blue-500">
         </div>
 
-        <div class="grid grid-cols-2 md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-8">
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
             <div th:each="product : ${products}" class="product-card">
                 <div class="image-placeholder mb-4">
-                    <div class="stock-badge" th:text="'STOK: ' + ${product.stock}">STOK: 0</div>
                     <p class="text-white font-black italic opacity-30 select-none">NITNOT</p>
                 </div>
-                <h3 class="font-extrabold text-slate-800 uppercase text-[10px] md:text-sm mb-1 truncate" th:text="${product.name}">NAMA PRODUK</h3>
-                <p class="text-blue-600 font-black text-sm md:text-xl mb-4" th:text="${'Rp ' + #numbers.formatDecimal(product.price, 0, 'POINT', 0, 'COMMA')}">Rp 0</p>
+                <h3 class="font-extrabold text-slate-800 uppercase text-[10px] md:text-xs mb-1 truncate" th:text="${product.name}">PRODUK</h3>
+                <p class="text-blue-600 font-black text-sm md:text-lg mb-4" th:text="${'Rp ' + #numbers.formatDecimal(product.price, 0, 'POINT', 0, 'COMMA')}">0</p>
                 
-                <button type="button" 
-                        th:onclick="'addToCart(' + ${product.id} + ')'"
-                        class="w-full bg-blue-600 hover:bg-blue-700 text-white rounded-xl py-3 font-bold uppercase text-[10px] active:scale-95 transition-all shadow-md">
-                    Tambah
-                </button>
+                <form th:onsubmit="'submitForm(event, this); return false;'" th:action="@{/kasir/cart/add/{id}(id=${product.id})}" method="post" class="mt-auto">
+                    <button type="submit" class="w-full bg-blue-600 text-white rounded-xl py-3 font-black uppercase text-[10px] shadow-md active:bg-blue-700">
+                        Tambah
+                    </button>
+                </form>
             </div>
         </div>
     </div>
 
-    <div class="lg:col-span-5 xl:col-span-4 order-1 lg:order-2" id="cartSection">
-        <div class="cart-container">
-            <div class="bg-navy p-6 md:p-8 text-white flex justify-between items-center">
-                <div>
-                    <h2 class="text-lg md:text-xl font-black uppercase tracking-tighter">Order Detail</h2>
-                </div>
-                <div id="cartCount" class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center font-black text-xs" th:text="${#lists.size(cartItems)}">0</div>
+    <div class="lg:col-span-5 xl:col-span-4 order-1 lg:order-2">
+        <div class="cart-container" id="cartContainer">
+            <div class="bg-navy p-6 text-white flex justify-between items-center">
+                <h2 class="font-black uppercase italic tracking-tighter">Order Detail</h2>
+                <span id="cartCount" class="bg-blue-600 px-3 py-1 rounded-full text-xs font-black" th:text="${#lists.size(cartItems)}">0</span>
             </div>
 
             <div class="flex-1 overflow-y-auto max-h-[400px] lg:max-h-none p-6 custom-scroll bg-white" id="cartItemsList">
-                <div th:if="${#lists.isEmpty(cartItems)}" class="py-10 text-center opacity-30">
-                    <p class="text-xs font-black uppercase tracking-widest">Keranjang Kosong</p>
-                </div>
-                
-                <div class="space-y-4">
-                    <div th:each="item : ${cartItems}" class="flex flex-col border-b border-slate-50 pb-4 last:border-0 item-anim">
-                        <div class="flex justify-between items-start">
-                            <h4 class="font-bold text-slate-800 text-[11px] md:text-sm uppercase leading-tight" th:text="${item.product.name}">PRODUK</h4>
-                            <button type="button" th:onclick="'removeFromCart(' + ${item.product.id} + ')'" class="text-slate-300 hover:text-red-500 transition-colors">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                            </button>
-                        </div>
-                        <div class="flex justify-between items-center mt-2">
-                            <span class="text-[9px] bg-slate-100 px-2 py-1 rounded font-black text-slate-500" th:text="${item.quantity} + ' UNIT'">1 UNIT</span>
-                            <span class="text-slate-900 font-black text-sm" th:text="${'Rp ' + #numbers.formatDecimal(item.product.price * item.quantity, 0, 'POINT', 0, 'COMMA')}">Rp 0</span>
-                        </div>
+                <div th:if="${#lists.isEmpty(cartItems)}" class="py-10 text-center opacity-30 font-black uppercase text-xs">Kosong</div>
+                <div th:each="item : ${cartItems}" class="flex flex-col border-b border-slate-50 pb-4 mb-4 last:border-0">
+                    <div class="flex justify-between items-start">
+                        <h4 class="font-bold text-slate-800 text-xs uppercase" th:text="${item.product.name}">PRODUK</h4>
+                        <form th:onsubmit="'submitForm(event, this); return false;'" th:action="@{/kasir/cart/remove/{id}(id=${item.product.id})}" method="post">
+                            <button type="submit" class="text-red-400 p-1">✕</button>
+                        </form>
+                    </div>
+                    <div class="flex justify-between items-center mt-2">
+                        <span class="text-[10px] font-black text-slate-400" th:text="${item.quantity} + ' UNIT'">1 UNIT</span>
+                        <span class="font-black text-slate-800" th:text="${'Rp ' + #numbers.formatDecimal(item.product.price * item.quantity, 0, 'POINT', 0, 'COMMA')}">0</span>
                     </div>
                 </div>
             </div>
 
             <div class="p-6 bg-slate-50 border-t">
                 <div class="flex justify-between items-center mb-6">
-                    <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Total</p>
-                    <p id="totalPrice" class="text-2xl md:text-3xl font-black text-slate-800" th:text="${'Rp ' + #numbers.formatDecimal(cartTotal, 0, 'POINT', 0, 'COMMA')}">Rp 0</p>
+                    <p class="text-[10px] font-black text-slate-400 uppercase">Total</p>
+                    <p id="totalPrice" class="text-2xl font-black text-slate-800" th:text="${'Rp ' + #numbers.formatDecimal(cartTotal, 0, 'POINT', 0, 'COMMA')}">0</p>
                 </div>
                 <form th:action="@{/kasir/checkout}" method="post">
-                    <button type="submit" id="btnCheckout" class="w-full bg-blue-600 text-white py-4 rounded-2xl font-black uppercase text-xs shadow-xl active:scale-95 disabled:opacity-50 transition-all" th:disabled="${#lists.isEmpty(cartItems)}">
+                    <button type="submit" id="btnCheckout" class="w-full bg-blue-600 text-white py-4 rounded-2xl font-black uppercase text-xs shadow-xl active:scale-95 disabled:opacity-30" th:disabled="${#lists.isEmpty(cartItems)}">
                         Checkout Sekarang
                     </button>
                 </form>
@@ -174,61 +106,37 @@
     </div>
 </main>
 
-<script src="https://unpkg.com/flowbite@1.7.0/dist/flowbite.bundle.js"></script>
-<script th:inline="javascript">
-    // FUNGSI TAMBAH (AJAX)
-    function addToCart(productId) {
-        fetch(`/kasir/cart/add/${productId}`, {
-            method: 'POST',
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest' // Memberitahu server ini AJAX
-            }
-        })
-        .then(response => {
-            if (response.ok) {
-                // Refresh bagian keranjang saja
-                updateCartUI();
-            }
-        });
+<script>
+    // Fungsi AJAX untuk Tambah & Hapus tanpa refresh
+    async function submitForm(event, formElement) {
+        event.preventDefault();
+        const url = formElement.getAttribute('action');
+        
+        try {
+            await fetch(url, { method: 'POST', headers: { 'X-Requested-With': 'XMLHttpRequest' } });
+            
+            // Ambil data terbaru dari dashboard diam-diam
+            const response = await fetch(window.location.href);
+            const html = await response.text();
+            const doc = new DOMParser().parseFromString(html, 'text/html');
+            
+            // Update elemen-elemen keranjang
+            document.getElementById('cartItemsList').innerHTML = doc.getElementById('cartItemsList').innerHTML;
+            document.getElementById('totalPrice').innerHTML = doc.getElementById('totalPrice').innerHTML;
+            document.getElementById('cartCount').innerHTML = doc.getElementById('cartCount').innerHTML;
+            document.getElementById('btnCheckout').disabled = doc.getElementById('btnCheckout').disabled;
+            
+        } catch (e) {
+            window.location.reload(); // Jika error, reload normal sebagai cadangan
+        }
     }
 
-    // FUNGSI HAPUS (AJAX)
-    function removeFromCart(productId) {
-        fetch(`/kasir/cart/remove/${productId}`, {
-            method: 'POST',
-            headers: { 'X-Requested-With': 'XMLHttpRequest' }
-        })
-        .then(response => {
-            if (response.ok) updateCartUI();
-        });
-    }
-
-    // FUNGSI UPDATE UI (Mengambil data keranjang terbaru)
-    function updateCartUI() {
-        // Kita memanggil endpoint yang sama tapi hanya mengambil bagian fragment HTML keranjang
-        fetch(window.location.href)
-            .then(response => response.text())
-            .then(html => {
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(html, 'text/html');
-                
-                // Ganti isi keranjang lama dengan yang baru
-                document.getElementById('cartItemsList').innerHTML = doc.getElementById('cartItemsList').innerHTML;
-                document.getElementById('totalPrice').innerHTML = doc.getElementById('totalPrice').innerHTML;
-                document.getElementById('cartCount').innerHTML = doc.getElementById('cartCount').innerHTML;
-                
-                // Update status tombol checkout
-                const newCheckoutBtn = doc.getElementById('btnCheckout');
-                document.getElementById('btnCheckout').disabled = newCheckoutBtn.hasAttribute('disabled');
-            });
-    }
-
-    // Pencarian (Tetap Sama)
+    // Fitur Cari
     document.getElementById('productSearch').addEventListener('input', function(e) {
         const term = e.target.value.toLowerCase();
         document.querySelectorAll('.product-card').forEach(card => {
             const name = card.querySelector('h3').textContent.toLowerCase();
-            card.style.display = name.includes(term) ? 'block' : 'none';
+            card.style.display = name.includes(term) ? 'flex' : 'none';
         });
     });
 </script>
