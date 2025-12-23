@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Manajemen Barang - NITNOT</title>
+    <title>Stocker System - NITNOT</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
@@ -11,19 +11,13 @@
     <style>
         .logo-font { font-family: 'Playfair Display', serif; }
         .body-font { font-family: 'Inter', sans-serif; }
-        .bg-dark-navy { background-color: #001f3f; }
         
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #f1f1f1; }
-        ::-webkit-scrollbar-thumb { background: #001f3f; border-radius: 10px; }
-
+        /* Warna Navy dari gambar kamu */
+        .bg-custom-navy { background-color: #001f3f; }
+        
         @media (max-width: 1024px) {
-            /* Fix agar form tidak menutupi tabel saat scroll di HP */
             .mobile-fix { position: relative !important; top: 0 !important; margin-bottom: 2rem; }
-            /* Sembunyikan header tabel asli di HP */
             .hide-on-mobile { display: none; }
-            /* Ubah baris tabel jadi kartu (card) di HP */
             .inventory-row { 
                 display: block; 
                 background: white; 
@@ -39,23 +33,25 @@
 </head>
 <body class="body-font bg-slate-50 min-h-screen">
 
-<nav class="bg-dark-navy text-white shadow-xl sticky top-0 z-50">
+<nav class="bg-custom-navy text-white shadow-xl sticky top-0 z-50">
     <div class="max-w-[1600px] mx-auto px-4 md:px-6 py-4 flex items-center justify-between">
-        <div class="flex items-center space-x-2">
-            <span class="logo-font text-xl md:text-2xl tracking-tight">NITNOT</span>
-            <span class="hidden sm:block text-[9px] uppercase tracking-[0.3em] text-blue-300 font-bold border-l border-blue-800 pl-3">Inventory System</span>
-        </div>
-
-        <div class="flex items-center space-x-3 md:space-x-6">
-            <div class="text-right hidden xs:block">
-                <p class="text-[9px] text-blue-300 uppercase font-black tracking-tighter leading-none">Logged in as</p>
+        
+        <div class="flex items-center space-x-3">
+            <div class="flex flex-col border-r border-white/20 pr-4">
+                <span class="logo-font text-xl md:text-2xl font-bold tracking-tighter leading-none">NITNOT</span>
+                <span class="text-[8px] md:text-[10px] uppercase tracking-[0.2em] text-blue-300 font-black mt-1">Inventory System</span>
+            </div>
+            <div class="hidden md:block pl-2">
+                <p class="text-[9px] text-blue-300 uppercase font-black tracking-tighter leading-none">Petugas Aktif</p>
                 <p class="text-sm font-bold" th:text="${username}">User</p>
             </div>
-            
+        </div>
+
+        <div class="flex items-center">
             <form th:action="@{/logout}" method="post" class="m-0">
                 <button type="submit" 
-                        class="group flex items-center justify-center w-10 h-10 md:w-11 md:h-11 bg-white/10 hover:bg-red-500 rounded-2xl transition-all duration-300 border border-white/10 hover:border-red-400 shadow-inner">
-                    <i data-lucide="log-out" class="w-5 h-5 text-blue-200 group-hover:text-white transition-colors"></i>
+                        class="w-10 h-10 md:w-12 md:h-12 bg-[#ff4d4d] hover:bg-red-600 rounded-full flex items-center justify-center shadow-lg transition-all active:scale-90 border-2 border-white/10">
+                    <i data-lucide="log-out" class="w-5 h-5 md:w-6 md:h-6 text-white"></i>
                 </button>
             </form>
         </div>
@@ -63,6 +59,7 @@
 </nav>
 
 <div class="max-w-[1600px] mx-auto mt-6 md:mt-10 px-4 md:px-6 pb-20">
+    
     <div th:if="${success}" class="mb-6 p-4 bg-emerald-100 border border-emerald-200 text-emerald-700 rounded-2xl flex items-center">
         <i data-lucide="check-circle" class="w-5 h-5 mr-3"></i>
         <span class="text-sm font-bold" th:text="${success}"></span>
@@ -72,27 +69,21 @@
         
         <div class="lg:col-span-4 sticky top-24 mobile-fix">
             <div class="bg-white rounded-[2.5rem] shadow-2xl border border-slate-100 overflow-hidden">
-                <div class="bg-slate-900 py-6 text-center">
+                <div class="bg-custom-navy py-6 text-center">
                     <h2 class="text-white font-black uppercase tracking-widest text-xs">Manajemen Barang</h2>
                 </div>
                 <form th:action="@{/stocker/product/add}" method="post" class="p-8 space-y-4">
                     <input type="text" name="name" placeholder="Nama Produk" required
-                           class="w-full bg-slate-50 border-slate-200 rounded-2xl p-4 text-sm focus:ring-4 focus:ring-blue-100 transition-all outline-none">
+                           class="w-full bg-slate-50 border-slate-200 rounded-2xl p-4 text-sm focus:ring-4 focus:ring-blue-100 outline-none">
                     
-                    <textarea name="description" placeholder="Deskripsi Singkat" rows="3"
-                              class="w-full bg-slate-50 border-slate-200 rounded-2xl p-4 text-sm focus:ring-4 focus:ring-blue-100 transition-all outline-none resize-none"></textarea>
+                    <textarea name="description" placeholder="Deskripsi" rows="3"
+                              class="w-full bg-slate-50 border-slate-200 rounded-2xl p-4 text-sm focus:ring-4 focus:ring-blue-100 outline-none resize-none"></textarea>
                     
                     <div class="grid grid-cols-2 gap-4">
-                        <div class="space-y-1">
-                            <label class="text-[10px] font-black text-slate-400 uppercase ml-2">Harga</label>
-                            <input type="number" step="0.1" name="price" placeholder="0.0" required
-                                   class="w-full bg-slate-50 border-slate-200 rounded-2xl p-4 text-sm focus:ring-4 focus:ring-blue-100 outline-none">
-                        </div>
-                        <div class="space-y-1">
-                            <label class="text-[10px] font-black text-slate-400 uppercase ml-2">Stok</label>
-                            <input type="number" name="stock" placeholder="0" required
-                                   class="w-full bg-slate-50 border-slate-200 rounded-2xl p-4 text-sm focus:ring-4 focus:ring-blue-100 outline-none">
-                        </div>
+                        <input type="number" step="0.1" name="price" placeholder="Harga" required
+                               class="w-full bg-slate-50 border-slate-200 rounded-2xl p-4 text-sm focus:ring-4 focus:ring-blue-100 outline-none">
+                        <input type="number" name="stock" placeholder="Stok" required
+                               class="w-full bg-slate-50 border-slate-200 rounded-2xl p-4 text-sm focus:ring-4 focus:ring-blue-100 outline-none">
                     </div>
 
                     <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-black py-4 rounded-2xl uppercase text-xs tracking-widest shadow-xl transition-all active:scale-95 mt-4">
@@ -104,11 +95,11 @@
 
         <div class="lg:col-span-8">
             <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
-                <h3 class="font-black text-slate-800 uppercase tracking-tighter text-2xl italic">Inventory List</h3>
+                <h3 class="font-black text-slate-800 uppercase tracking-tighter text-2xl italic">Stok Gudang</h3>
                 <div class="relative w-full md:w-80">
                     <i data-lucide="search" class="w-4 h-4 absolute left-4 top-4 text-slate-400"></i>
                     <input type="text" id="inventorySearch" onkeyup="filterInventory()" placeholder="Cari nama produk..." 
-                           class="w-full pl-12 pr-6 py-4 bg-white border border-slate-200 rounded-[1.5rem] text-sm focus:ring-4 focus:ring-blue-100 shadow-sm transition-all outline-none">
+                           class="w-full pl-12 pr-6 py-4 bg-white border border-slate-200 rounded-2xl text-sm focus:ring-4 focus:ring-blue-100 shadow-sm transition-all outline-none">
                 </div>
             </div>
 
@@ -117,9 +108,9 @@
                     <thead class="hide-on-mobile">
                         <tr class="text-slate-400 border-b border-slate-50">
                             <th class="px-8 py-6 text-[10px] font-black uppercase tracking-widest">Detail Produk</th>
-                            <th class="px-8 py-6 text-[10px] font-black uppercase tracking-widest">Harga Jual</th>
+                            <th class="px-8 py-6 text-[10px] font-black uppercase tracking-widest">Harga</th>
                             <th class="px-8 py-6 text-[10px] font-black uppercase tracking-widest">Stok</th>
-                            <th class="px-8 py-6 text-[10px] font-black uppercase tracking-widest text-center">Opsi</th>
+                            <th class="px-8 py-6 text-[10px] font-black uppercase tracking-widest text-center">Aksi</th>
                         </tr>
                     </thead>
                     <tbody id="inventoryBody" class="lg:divide-y lg:divide-slate-50">
@@ -127,7 +118,7 @@
                             <td class="px-0 lg:px-8 lg:py-6">
                                 <div class="flex flex-col">
                                     <span class="product-name font-bold text-slate-800 text-lg lg:text-base" th:text="${product.name}">Produk</span>
-                                    <span class="text-[10px] text-slate-400 font-bold uppercase tracking-widest" th:text="'ID-PRODUCT: ' + ${product.id}">ID: 1</span>
+                                    <span class="text-[10px] text-slate-400 font-bold" th:text="'ID: ' + ${product.id}">ID: 1</span>
                                 </div>
                             </td>
                             <td class="px-0 lg:px-8 lg:py-6">
@@ -135,61 +126,45 @@
                                 <span class="font-black text-blue-600 lg:text-slate-700" th:text="${'Rp ' + #numbers.formatDecimal(product.price, 0, 'POINT', 0, 'COMMA')}">0</span>
                             </td>
                             <td class="px-0 lg:px-8 lg:py-6">
-                                <span class="lg:hidden text-[10px] font-black text-slate-400 uppercase block mt-2">Stok Tersedia</span>
+                                <span class="lg:hidden text-[10px] font-black text-slate-400 uppercase block mt-2">Stok</span>
                                 <span th:classappend="${product.stock <= 5} ? 'text-red-500 bg-red-50' : 'text-emerald-500 bg-emerald-50'"
-                                      class="lg:bg-slate-50 px-4 py-1.5 rounded-full font-black text-xs"
-                                      th:text="${product.stock} + ' PCS'">0</span>
+                                      class="lg:bg-slate-50 px-4 py-1 rounded-full font-black text-xs"
+                                      th:text="${product.stock} + ' UNIT'">0</span>
                             </td>
                             <td class="px-0 lg:px-8 lg:py-6 text-center pt-6 lg:pt-6">
                                 <div class="flex lg:justify-center space-x-3">
                                     <button th:attr="data-modal-target='editModal-' + ${product.id}, data-modal-toggle='editModal-' + ${product.id}"
-                                            class="flex-1 lg:flex-none h-12 lg:w-9 lg:h-9 rounded-2xl lg:rounded-full bg-yellow-100 flex items-center justify-center text-yellow-600 hover:bg-yellow-200 transition-all">
-                                        <i data-lucide="edit-3" class="w-4 h-4 mr-2 lg:mr-0"></i> <span class="lg:hidden font-bold text-xs uppercase">Edit</span>
+                                            class="flex-1 lg:flex-none h-12 lg:w-9 lg:h-9 rounded-2xl lg:rounded-full bg-yellow-100 flex items-center justify-center text-yellow-600">
+                                        <i data-lucide="edit-3" class="w-4 h-4"></i>
                                     </button>
                                     <a th:href="@{'/stocker/product/delete/' + ${product.id}}" 
-                                       onclick="return confirm('Hapus produk ini dari database?')"
-                                       class="flex-1 lg:flex-none h-12 lg:w-9 lg:h-9 rounded-2xl lg:rounded-full bg-red-100 flex items-center justify-center text-red-600 hover:bg-red-200 transition-all">
-                                        <i data-lucide="trash-2" class="w-4 h-4 mr-2 lg:mr-0"></i> <span class="lg:hidden font-bold text-xs uppercase">Hapus</span>
+                                       onclick="return confirm('Hapus barang?')"
+                                       class="flex-1 lg:flex-none h-12 lg:w-9 lg:h-9 rounded-2xl lg:rounded-full bg-red-100 flex items-center justify-center text-red-600">
+                                        <i data-lucide="trash-2" class="w-4 h-4"></i>
                                     </a>
                                 </div>
 
                                 <div th:id="'editModal-' + ${product.id}" tabindex="-1" aria-hidden="true" class="hidden fixed top-0 left-0 right-0 z-[60] w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full bg-slate-900/40 backdrop-blur-sm">
-                                    <div class="relative w-full max-w-md max-h-full m-auto mt-12 md:mt-24">
-                                        <div class="relative bg-white rounded-[2.5rem] shadow-2xl p-8 text-left">
+                                    <div class="relative w-full max-w-md max-h-full m-auto mt-12 md:mt-24 text-left">
+                                        <div class="relative bg-white rounded-[2.5rem] shadow-2xl p-8">
                                             <div class="flex justify-between items-center mb-6">
-                                                <h3 class="font-black text-slate-800 uppercase tracking-tighter text-xl">Update Data</h3>
-                                                <button th:attr="data-modal-hide='editModal-' + ${product.id}" class="text-slate-400 hover:text-red-500 transition-colors">
-                                                    <i data-lucide="x-circle" class="w-6 h-6"></i>
-                                                </button>
+                                                <h3 class="font-black text-slate-800 uppercase text-xl italic">Update Barang</h3>
+                                                <button th:attr="data-modal-hide='editModal-' + ${product.id}" class="text-slate-400"><i data-lucide="x-circle" class="w-6 h-6"></i></button>
                                             </div>
                                             <form th:action="@{/stocker/product/update}" method="post" class="space-y-4">
                                                 <input type="hidden" name="id" th:value="${product.id}" />
-                                                <div class="space-y-1">
-                                                    <label class="text-[10px] font-black text-slate-400 uppercase ml-2">Nama Barang</label>
-                                                    <input type="text" name="name" th:value="${product.name}" class="w-full border-slate-200 rounded-2xl p-4 text-sm focus:ring-2 focus:ring-blue-500 outline-none" required>
-                                                </div>
-                                                <div class="space-y-1">
-                                                    <label class="text-[10px] font-black text-slate-400 uppercase ml-2">Keterangan</label>
-                                                    <textarea name="description" th:text="${product.description}" rows="3" class="w-full border-slate-200 rounded-2xl p-4 text-sm focus:ring-2 focus:ring-blue-500 outline-none"></textarea>
-                                                </div>
+                                                <input type="text" name="name" th:value="${product.name}" class="w-full border-slate-200 rounded-2xl p-4 text-sm" required>
+                                                <textarea name="description" th:text="${product.description}" rows="3" class="w-full border-slate-200 rounded-2xl p-4 text-sm"></textarea>
                                                 <div class="grid grid-cols-2 gap-4">
-                                                    <div class="space-y-1">
-                                                        <label class="text-[10px] font-black text-slate-400 uppercase ml-2">Harga</label>
-                                                        <input type="number" step="0.1" name="price" th:value="${product.price}" class="w-full border-slate-200 rounded-2xl p-4 text-sm focus:ring-2 focus:ring-blue-500 outline-none" required>
-                                                    </div>
-                                                    <div class="space-y-1">
-                                                        <label class="text-[10px] font-black text-slate-400 uppercase ml-2">Stok</label>
-                                                        <input type="number" name="stock" th:value="${product.stock}" class="w-full border-slate-200 rounded-2xl p-4 text-sm focus:ring-2 focus:ring-blue-500 outline-none" required>
-                                                    </div>
+                                                    <input type="number" step="0.1" name="price" th:value="${product.price}" class="w-full border-slate-200 rounded-2xl p-4 text-sm" required>
+                                                    <input type="number" name="stock" th:value="${product.stock}" class="w-full border-slate-200 rounded-2xl p-4 text-sm" required>
                                                 </div>
-                                                <div class="flex gap-3 pt-6">
-                                                    <button type="submit" class="flex-1 py-4 rounded-2xl bg-blue-600 text-white font-black text-xs uppercase tracking-widest shadow-lg shadow-blue-100 active:scale-95 transition-all">Simpan Perubahan</button>
-                                                </div>
+                                                <button type="submit" class="w-full py-4 rounded-2xl bg-blue-600 text-white font-black text-xs uppercase shadow-lg">Simpan Perubahan</button>
                                             </form>
                                         </div>
                                     </div>
                                 </div>
-                                </td>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -201,10 +176,7 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
 <script>
-    // Initialize Lucide Icons
     lucide.createIcons();
-
-    // Live Search Function
     function filterInventory() {
         var input = document.getElementById("inventorySearch");
         var filter = input.value.toLowerCase();
