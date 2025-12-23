@@ -2,17 +2,16 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Login - NITNOT TOKO BUKU</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://unpkg.com/flowbite@1.7.0/dist/flowbite.min.css" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     
     <style>
         .logo-font { font-family: 'Playfair Display', serif; }
         .body-font { font-family: 'Inter', sans-serif; }
 
-        /* --- BAGIAN UTAMA: GRADASI BERGERAK --- */
         body {
             margin: 0;
             padding: 0;
@@ -21,7 +20,6 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            /* Warna gradasi lembut sesuai referensi gambar ITATS */
             background: linear-gradient(-45deg, #a881af, #f8c9d4, #a3d8f4, #b9fbc0);
             background-size: 400% 400%;
             animation: moveGradient 12s ease infinite;
@@ -33,89 +31,89 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* Dekorasi sisi kiri card (Biru Solid/Gradasi Biru) */
         .bg-side-illustration {
             background: linear-gradient(135deg, #001f3f 0%, #0056b3 100%);
             position: relative;
             overflow: hidden;
         }
 
-        .glass-effect {
-            backdrop-filter: blur(10px);
-            background-color: rgba(255, 255, 255, 0.85);
+        /* Optimalisasi Input untuk Android (mencegah zoom otomatis) */
+        input {
+            font-size: 16px !important; 
         }
 
-        .floating-circle {
-            position: absolute;
-            width: 150px;
-            height: 150px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            top: -50px;
-            right: -50px;
+        /* Animasi masuk untuk mobile */
+        .login-card {
+            animation: slideUp 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
-<body class="body-font">
+<body class="body-font p-4 md:p-6">
 
-    <div class="flex flex-col md:flex-row w-full max-w-4xl bg-white rounded-[2rem] shadow-2xl overflow-hidden m-4 min-h-[550px]">
+    <div class="login-card flex flex-col md:flex-row w-full max-w-[450px] md:max-w-4xl bg-white/90 backdrop-blur-md rounded-[2.5rem] shadow-2xl overflow-hidden min-h-[500px] md:min-h-[600px]">
         
         <div class="hidden md:flex md:w-1/2 bg-side-illustration p-12 text-white flex-col justify-between relative">
-            <div class="floating-circle"></div>
+            <div class="absolute w-40 h-40 bg-white/10 rounded-full -top-10 -right-10"></div>
             <div class="relative z-10">
                 <h2 class="text-4xl font-bold mb-6 leading-tight">Selamat Datang</h2>
                 <p class="text-blue-100 opacity-90 leading-relaxed text-lg">
-                    Akses sistem manajemen inventaris Toko Buku dengan mudah dan aman. Silakan masuk menggunakan akun karyawan Anda.
+                    Akses sistem manajemen inventaris Toko Buku dengan mudah dan aman.
                 </p>
-                <div class="mt-8 p-4 bg-white/10 rounded-2xl border border-white/20 backdrop-blur-md">
-                    <p class="text-sm italic text-blue-50">"Daftar sebagai karyawab baru ambil kesempatanmu menjadi bagian dari NITNOT Toko Buku"</p>
+                <div class="mt-8 p-6 bg-white/10 rounded-3xl border border-white/20 backdrop-blur-md">
+                    <p class="text-sm italic text-blue-50">"Daftar sebagai karyawan baru dan jadi bagian dari NITNOT."</p>
                 </div>
             </div>
             <div class="relative z-10">
-                <p class="text-xs opacity-60 tracking-widest uppercase">© 2025 NITNOT TOKO BUKU</p>
-                <p class="text-xs opacity-60 mt-1">Kelompok Berani Team</p>
+                <p class="text-[10px] opacity-60 tracking-[0.3em] uppercase">© 2025 NITNOT SYSTEM</p>
             </div>
         </div>
 
-        <div class="w-full md:w-1/2 p-10 md:p-14 flex flex-col justify-center bg-white/60 backdrop-blur-sm">
+        <div class="w-full md:w-1/2 p-8 md:p-14 flex flex-col justify-center">
             
-            <div class="text-center mb-10">
-                <h1 class="logo-font text-5xl text-gray-800 tracking-tighter">NITNOT</h1>
-                <p class="text-[11px] uppercase tracking-[0.5em] text-blue-600 font-bold mt-2">Toko Buku - ATK</p>
-                <div class="w-16 h-1.5 bg-blue-600 mx-auto mt-6 rounded-full shadow-md shadow-blue-200"></div>
+            <div class="text-center mb-8 md:mb-10">
+                <h1 class="logo-font text-4xl md:text-5xl text-gray-800 tracking-tighter">NITNOT</h1>
+                <p class="text-[9px] md:text-[11px] uppercase tracking-[0.4em] text-blue-600 font-extrabold mt-2">Toko Buku - ATK</p>
+                <div class="w-12 h-1 bg-blue-600 mx-auto mt-4 rounded-full shadow-md shadow-blue-200"></div>
             </div>
 
-            <div th:if="${param.error}" class="bg-red-50 border-l-4 border-red-500 text-red-700 px-4 py-3 rounded-xl mb-6 text-sm flex items-center shadow-sm">
-                <span class="font-bold mr-2">!</span> Username atau password salah.
+            <div th:if="${param.error}" class="bg-red-50 border-l-4 border-red-500 text-red-700 p-3 rounded-xl mb-4 text-[12px] flex items-center shadow-sm">
+                <span class="font-black mr-2">!</span> Username/Password salah.
             </div>
-            <div th:if="${param.logout}" class="bg-green-50 border-l-4 border-green-500 text-green-700 px-4 py-3 rounded-xl mb-6 text-sm flex items-center shadow-sm">
-                <span class="font-bold mr-2">✓</span> Anda telah berhasil keluar.
+            <div th:if="${param.logout}" class="bg-green-50 border-l-4 border-green-500 text-green-700 p-3 rounded-xl mb-4 text-[12px] flex items-center shadow-sm">
+                <span class="font-black mr-2">✓</span> Berhasil keluar.
             </div>
 
-            <form th:action="@{/login}" method="post" class="space-y-6">
-                <div class="relative">
-                    <label for="username" class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2 ml-1">Username</label>
+            <form th:action="@{/login}" method="post" class="space-y-5">
+                <div class="group">
+                    <label for="username" class="block text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-2 ml-1">Username</label>
                     <input type="text" 
-                           class="w-full px-5 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:bg-white transition-all outline-none text-gray-700 shadow-inner" 
-                           id="username" name="username" placeholder="Masukkan username" required autofocus>
+                           class="w-full px-5 py-3.5 bg-gray-50 border border-gray-100 rounded-2xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 focus:bg-white transition-all outline-none text-gray-700 shadow-sm" 
+                           id="username" name="username" placeholder="Username Anda" required autofocus>
                 </div>
-                <div class="relative">
-                    <label for="password" class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2 ml-1">Password</label>
+                <div class="group">
+                    <label for="password" class="block text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-2 ml-1">Password</label>
                     <input type="password" 
-                           class="w-full px-5 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:bg-white transition-all outline-none text-gray-700 shadow-inner" 
+                           class="w-full px-5 py-3.5 bg-gray-50 border border-gray-100 rounded-2xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 focus:bg-white transition-all outline-none text-gray-700 shadow-sm" 
                            id="password" name="password" placeholder="••••••••" required>
                 </div>
                 
-                <button type="submit" 
-                        class="w-full bg-blue-600 hover:bg-blue-700 text-white font-black py-4 px-4 rounded-2xl shadow-xl shadow-blue-200 transition-all hover:-translate-y-1 active:scale-95 flex items-center justify-center uppercase tracking-widest text-sm">
-                    Masuk Sekarang
-                </button>
+                <div class="pt-2">
+                    <button type="submit" 
+                            class="w-full bg-blue-600 hover:bg-blue-700 text-white font-black py-4 px-4 rounded-2xl shadow-xl shadow-blue-300 transition-all active:scale-[0.97] flex items-center justify-center uppercase tracking-widest text-xs">
+                        Masuk Sekarang
+                    </button>
+                </div>
             </form>
 
-            <div class="text-center mt-10">
-                <p class="text-sm text-gray-500">Belum memiliki akses?</p>
-                <a th:href="@{/register}" class="text-sm text-blue-600 font-bold hover:text-blue-800 hover:underline transition-all">
-                    Daftar sebagai karyawan baru
+            <div class="text-center mt-8">
+                <p class="text-xs text-gray-400 font-medium">Belum memiliki akses?</p>
+                <a th:href="@{/register}" class="inline-block mt-2 text-[13px] text-blue-600 font-extrabold hover:text-blue-800 transition-all border-b-2 border-transparent hover:border-blue-800">
+                    Daftar Karyawan Baru
                 </a>
             </div>
         </div>
