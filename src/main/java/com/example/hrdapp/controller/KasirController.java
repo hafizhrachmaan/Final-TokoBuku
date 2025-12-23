@@ -53,34 +53,22 @@ public class KasirController {
         return "kasir-dashboard";
     }
 
-    // MODIFIKASI: Mendukung Update Fragment Tanpa Reload
     @PostMapping("/cart/add/{productId}")
-    public String addToCart(@PathVariable Long productId, HttpSession session, Model model) {
+    public String addToCart(@PathVariable Long productId, HttpSession session) {
         ShoppingCart shoppingCart = getCartFromSession(session);
         productRepository.findById(productId).ifPresent(shoppingCart::addProduct);
-        
-        // Menyiapkan data untuk fragment keranjang
-        model.addAttribute("cartItems", shoppingCart.getItems());
-        model.addAttribute("cartTotal", shoppingCart.getTotal());
-        
-        // Mengembalikan hanya bagian keranjang (fragment)
-        return "kasir-dashboard :: cart-fragment";
+        return "redirect:/kasir/dashboard";
     }
 
-    // MODIFIKASI: Mendukung Hapus Fragment Tanpa Reload
+    // UPDATE: Menggunakan PostMapping agar sinkron dengan HTML Form
     @PostMapping("/cart/remove/{productId}")
-    public String removeFromCart(@PathVariable Long productId, HttpSession session, Model model) {
+    public String removeFromCart(@PathVariable Long productId, HttpSession session) {
         ShoppingCart shoppingCart = getCartFromSession(session);
         shoppingCart.removeProduct(productId);
-        
-        // Menyiapkan data untuk fragment keranjang
-        model.addAttribute("cartItems", shoppingCart.getItems());
-        model.addAttribute("cartTotal", shoppingCart.getTotal());
-        
-        // Mengembalikan hanya bagian keranjang (fragment)
-        return "kasir-dashboard :: cart-fragment";
+        return "redirect:/kasir/dashboard";
     }
 
+    // UPDATE: Menggunakan PostMapping agar sinkron dengan HTML Form
     @PostMapping("/cart/clear")
     public String clearCart(HttpSession session) {
         ShoppingCart shoppingCart = getCartFromSession(session);
@@ -114,9 +102,6 @@ public class KasirController {
         ByteArrayInputStream bis = pdfService.generateInvoicePdf(transaction);
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Disposition", "inline; filename=struk-" + id + ".pdf");
-        return ResponseEntity.ok()
-                .headers(headers)
-                .contentType(MediaType.APPLICATION_PDF)
-                .body(new InputStreamResource(bis));
+        return ResponseEntity.ok().headers(headers).contentType(MediaType.APPLICATION_PDF).body(new InputStreamResource(bis));
     }
 }
