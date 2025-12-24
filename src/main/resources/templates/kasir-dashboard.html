@@ -120,23 +120,21 @@
         </div>
 
         <div id="desktopGrid" class="hidden lg:grid grid-cols-2 xl:grid-cols-3 gap-6">
-    <div th:each="product : ${products}" class="product-card p-6 rounded-[2.5rem] flex flex-col product-item hover:shadow-2xl hover:shadow-slate-200">
-        <div class="aspect-square bg-slate-50 rounded-3xl mb-4 flex items-center justify-center text-slate-200">
-            <i data-lucide="book" class="w-16 h-16"></i>
+            <div th:each="product : ${products}" class="product-card p-6 rounded-[2.5rem] flex flex-col product-item hover:shadow-2xl hover:shadow-slate-200">
+                <div class="aspect-square bg-slate-50 rounded-3xl mb-4 flex items-center justify-center text-slate-200">
+                    <i data-lucide="book" class="w-16 h-16"></i>
+                </div>
+                <span class="text-[10px] font-black text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full self-start mb-2" th:text="'STOK: ' + ${product.stock}">0</span>
+                <h3 class="font-black text-slate-800 uppercase text-sm mb-1 truncate" th:text="${product.name}">NAMA BUKU</h3>
+                <p class="text-blue-600 font-black text-xl mb-6" th:text="${'Rp ' + #numbers.formatDecimal(product.price, 0, 'POINT', 0, 'COMMA')}">0</p>
+                <form th:action="@{/kasir/cart/add/{productId}(productId=${product.id})}" method="post" class="mt-auto">
+                    <button type="submit" class="w-full bg-slate-900 hover:bg-blue-600 text-white py-4 rounded-2xl font-black uppercase text-xs shadow-lg active:scale-95 transition-all flex items-center justify-center">
+                        <i data-lucide="shopping-cart" class="w-4 h-4 mr-2"></i> Tambah
+                    </button>
+                </form>
+            </div>
         </div>
-        <span class="text-[10px] font-black text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full self-start mb-2" th:text="'STOK: ' + ${product.stock}">0</span>
-        <h3 class="font-black text-slate-800 uppercase text-sm mb-1 truncate" th:text="${product.name}">NAMA BUKU</h3>
-        <p class="text-blue-600 font-black text-xl mb-6" th:text="${'Rp ' + #numbers.formatDecimal(product.price, 0, 'POINT', 0, 'COMMA')}">0</p>
-        <form th:action="@{/kasir/cart/add/{productId}(productId=${product.id})}" method="post" class="mt-auto">
-            <button type="submit" class="w-full bg-slate-900 hover:bg-blue-600 text-white py-4 rounded-2xl font-black uppercase text-xs shadow-lg active:scale-95 transition-all flex items-center justify-center">
-                <i data-lucide="shopping-cart" class="w-4 h-4 mr-2"></i>
-                <i data-lucide="plus" class="w-4 h-4 mr-2"></i>
-                Tambah
-            </button>
-        </form>
     </div>
-</div>
-
 
     <div class="lg:col-span-5 xl:col-span-4 order-1 lg:order-2">
         <div class="bg-white rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.05)] overflow-hidden flex flex-col cart-sticky border border-slate-100">
