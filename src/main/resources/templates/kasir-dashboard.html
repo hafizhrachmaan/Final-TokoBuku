@@ -10,55 +10,16 @@
     <style>
         .logo-font { font-family: 'Playfair Display', serif; }
         .body-font { font-family: 'Inter', sans-serif; }
-        
-        body { 
-            font-family: 'Inter', sans-serif; 
-            background: #f8fafc;
-            min-height: 100vh;
-        }
-
-        .glass-nav {
-            background: rgba(15, 23, 42, 0.95);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .nav-link { 
-            position: relative; 
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
-            font-weight: 800;
-            letter-spacing: 0.1em;
-            padding: 0.5rem 1rem;
-            border-radius: 1rem;
-        }
-        
-        .nav-link.active { 
-            color: #ffffff; 
-            background: rgba(59, 130, 246, 0.2);
-            box-shadow: inset 0 0 0 1px rgba(59, 130, 246, 0.4);
-        }
-
-        .nav-link.active::after {
-            content: ''; position: absolute; bottom: -12px; left: 20%; width: 60%; height: 4px;
-            background: #3b82f6; border-radius: 10px; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.6);
-        }
-
+        body { font-family: 'Inter', sans-serif; background: #f8fafc; min-height: 100vh; }
+        .glass-nav { background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+        .nav-link { position: relative; transition: all 0.4s cubic-bezier(0.4,0,0.2,1); font-weight: 800; letter-spacing: 0.1em; padding: 0.5rem 1rem; border-radius: 1rem; }
+        .nav-link.active { color: #ffffff; background: rgba(59,130,246,0.2); box-shadow: inset 0 0 0 1px rgba(59,130,246,0.4); }
+        .nav-link.active::after { content: ''; position: absolute; bottom: -12px; left: 20%; width: 60%; height: 4px; background: #3b82f6; border-radius: 10px; box-shadow: 0 4px 12px rgba(59,130,246,0.6); }
         .nav-link.inactive { color: #94a3b8; }
         .nav-link.inactive:hover { color: #f1f5f9; background: rgba(255,255,255,0.05); }
-
-        .product-card {
-            background: white;
-            border: 1px solid #f1f5f9;
-            transition: all 0.3s ease;
-        }
-        
+        .product-card { background: white; border: 1px solid #f1f5f9; transition: all 0.3s ease; }
         .product-card:active { transform: scale(0.97); }
-
-        @media (min-width: 1024px) {
-            .cart-sticky { position: sticky; top: 7rem; height: calc(100vh - 10rem); border-radius: 3.5rem; }
-        }
-
+        @media (min-width: 1024px) { .cart-sticky { position: sticky; top: 7rem; height: calc(100vh - 10rem); border-radius: 3.5rem; } }
         .custom-scroll::-webkit-scrollbar { width: 4px; }
         .custom-scroll::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
     </style>
@@ -72,25 +33,22 @@
                 <h1 class="logo-font text-xl md:text-2xl font-black tracking-tighter leading-none">NITNOT</h1>
                 <p class="text-[8px] tracking-[0.3em] text-blue-400 font-bold uppercase mt-1">POS SYSTEM</p>
             </div>
-            
             <div class="flex space-x-2 md:space-x-4 text-[10px] md:text-[11px] uppercase">
                 <a th:href="@{/kasir/dashboard}" class="nav-link active">POS</a>
                 <a th:href="@{/kasir/history}" class="nav-link">Riwayat</a>
             </div>
         </div>
-        
         <form th:action="@{/logout}" method="post" class="m-0">
-                <button type="submit" class="w-9 h-9 bg-red-500/80 hover:bg-red-600 rounded-full flex items-center justify-center shadow-lg transition-all border border-white/20">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                    </svg>
-                </button>
-            </form>
+            <button type="submit" class="w-9 h-9 bg-red-500/80 hover:bg-red-600 rounded-full flex items-center justify-center shadow-lg transition-all border border-white/20">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                </svg>
+            </button>
+        </form>
     </div>
 </nav>
 
 <main class="max-w-[1600px] mx-auto p-4 md:p-8 w-full flex flex-col lg:grid lg:grid-cols-12 gap-6 flex-1">
-    
     <div class="lg:col-span-7 xl:col-span-8 order-2 lg:order-1">
         <div class="mb-8">
             <h2 class="text-2xl md:text-4xl font-black text-slate-800 uppercase tracking-tighter italic">Katalog Buku</h2>
@@ -98,8 +56,7 @@
                 <div class="absolute inset-y-0 left-5 flex items-center pointer-events-none text-slate-400">
                     <i data-lucide="search" class="w-5 h-5"></i>
                 </div>
-                <input type="text" id="productSearch" placeholder="Cari judul buku..." 
-                       class="w-full bg-white border-none rounded-[1.5rem] py-4 pl-14 pr-6 shadow-sm focus:ring-2 focus:ring-blue-500 text-sm font-medium">
+                <input type="text" id="productSearch" placeholder="Cari judul buku..." class="w-full bg-white border-none rounded-[1.5rem] py-4 pl-14 pr-6 shadow-sm focus:ring-2 focus:ring-blue-500 text-sm font-medium">
             </div>
         </div>
 
@@ -110,7 +67,7 @@
                 <div class="flex-1 min-w-0">
                     <span class="text-[8px] font-black text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full" th:text="'Stock: ' + ${product.stock}">0</span>
                     <h3 class="font-bold text-slate-800 text-xs uppercase truncate mt-0.5" th:text="${product.name}">NAMA</h3>
-                    <p class="text-blue-600 font-black text-sm" th:text="${'Rp ' + #numbers.formatDecimal(product.price, 0, 'POINT', 0, 'COMMA')}">0</p>
+                    <p class="text-blue-600 font-black text-sm" th:text="${'Rp ' + #numbers.formatDecimal(product.price,0,'POINT',0,'COMMA')}">0</p>
                 </div>
                 <form th:action="@{/kasir/cart/add/{productId}(productId=${product.id})}" method="post">
                     <button type="submit" class="bg-slate-900 text-white p-4 rounded-2xl active:scale-90 shadow-lg flex items-center justify-center space-x-2">
@@ -129,19 +86,18 @@
                 </div>
                 <span class="text-[10px] font-black text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full self-start mb-2" th:text="'STOK: ' + ${product.stock}">0</span>
                 <h3 class="font-black text-slate-800 uppercase text-sm mb-1 truncate" th:text="${product.name}">NAMA BUKU</h3>
-                <p class="text-blue-600 font-black text-xl mb-6" th:text="${'Rp ' + #numbers.formatDecimal(product.price, 0, 'POINT', 0, 'COMMA')}">0</p>
+                <p class="text-blue-600 font-black text-xl mb-6" th:text="${'Rp ' + #numbers.formatDecimal(product.price,0,'POINT',0,'COMMA')}">0</p>
                 <form th:action="@{/kasir/cart/add/{productId}(productId=${product.id})}" method="post" class="mt-auto">
                     <button type="submit" class="w-full bg-slate-900 hover:bg-blue-600 text-white py-4 rounded-2xl font-black uppercase text-xs shadow-lg active:scale-95 transition-all flex items-center justify-center space-x-2">
                         <i data-lucide="shopping-cart" class="w-4 h-4"></i>
                         <span>Tambah</span>
-                        <i data-lucide="plus" class="w-4 h-4"></i>
                     </button>
                 </form>
             </div>
         </div>
     </div>
 
-    <!-- Cart Section (tidak diubah) -->
+    <!-- Cart Section tetap sama -->
     <div class="lg:col-span-5 xl:col-span-4 order-1 lg:order-2">
         <div class="bg-white rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.05)] overflow-hidden flex flex-col cart-sticky border border-slate-100">
             <div class="bg-slate-900 p-6 text-white flex justify-between items-center">
@@ -149,8 +105,7 @@
                     <h2 class="text-lg font-black uppercase tracking-tighter italic">Bill Detail</h2>
                     <p class="text-[8px] font-bold text-blue-400 uppercase tracking-widest mt-1">Transaction Summary</p>
                 </div>
-                <div class="w-9 h-9 bg-blue-600 rounded-xl flex items-center justify-center font-black text-xs shadow-lg shadow-blue-500/20" 
-                     th:text="${#lists.size(cartItems)}">0</div>
+                <div class="w-9 h-9 bg-blue-600 rounded-xl flex items-center justify-center font-black text-xs shadow-lg shadow-blue-500/20" th:text="${#lists.size(cartItems)}">0</div>
             </div>
 
             <div class="flex-1 overflow-y-auto min-h-[150px] p-6 custom-scroll">
@@ -162,7 +117,7 @@
                     <div class="flex justify-between items-start">
                         <div class="flex-1 pr-4">
                             <h4 class="font-bold text-slate-800 text-[11px] uppercase" th:text="${item.product.name}">ITEM</h4>
-                            <p class="text-blue-600 font-black text-[10px]" th:text="${'Rp ' + #numbers.formatDecimal(item.product.price, 0, 'POINT', 0, 'COMMA')}">0</p>
+                            <p class="text-blue-600 font-black text-[10px]" th:text="${'Rp ' + #numbers.formatDecimal(item.product.price,0,'POINT',0,'COMMA')}">0</p>
                         </div>
                         <form th:action="@{/kasir/cart/remove/{productId}(productId=${item.product.id})}" method="post">
                             <button type="submit" class="text-rose-400 hover:text-rose-600 p-1"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
@@ -170,7 +125,7 @@
                     </div>
                     <div class="flex justify-between items-center mt-3">
                         <span class="text-[9px] font-black text-slate-400 bg-slate-50 px-2 py-1 rounded-lg border border-slate-100" th:text="${item.quantity} + ' UNIT'">1 UNIT</span>
-                        <span class="font-black text-slate-800 text-sm" th:text="${'Rp ' + #numbers.formatDecimal(item.product.price * item.quantity, 0, 'POINT', 0, 'COMMA')}">0</span>
+                        <span class="font-black text-slate-800 text-sm" th:text="${'Rp ' + #numbers.formatDecimal(item.product.price * item.quantity,0,'POINT',0,'COMMA')}">0</span>
                     </div>
                 </div>
             </div>
@@ -178,7 +133,7 @@
             <div class="p-6 bg-slate-50 border-t border-slate-100">
                 <div class="flex justify-between items-center mb-5">
                     <p class="text-[9px] font-black text-slate-400 uppercase">Grand Total</p>
-                    <p class="text-2xl font-black text-slate-800" th:text="${'Rp ' + #numbers.formatDecimal(cartTotal, 0, 'POINT', 0, 'COMMA')}">Rp 0</p>
+                    <p class="text-2xl font-black text-slate-800" th:text="${'Rp ' + #numbers.formatDecimal(cartTotal,0,'POINT',0,'COMMA')}">Rp 0</p>
                 </div>
                 <form th:action="@{/kasir/checkout}" method="post">
                     <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-5 rounded-[1.5rem] font-black uppercase text-xs shadow-xl active:scale-95 disabled:opacity-40 transition-all flex items-center justify-center space-x-2" th:disabled="${#lists.isEmpty(cartItems)}">
@@ -192,44 +147,27 @@
 </main>
 
 <script>
-    // Inisialisasi Icons
+document.addEventListener('DOMContentLoaded', () => {
     lucide.createIcons();
 
-    // Fungsi Utama Search
-    const initSearch = () => {
-        const searchInput = document.getElementById('productSearch');
-        const productItems = document.querySelectorAll('.product-item');
+    const searchInput = document.getElementById('productSearch');
+    const productItems = document.querySelectorAll('.product-item');
 
-        if (!searchInput) return;
+    if (!searchInput) return;
 
-        searchInput.addEventListener('input', (e) => {
-            const val = e.target.value.toLowerCase().trim();
-
-            productItems.forEach(item => {
-                // Cari teks di dalam h3
-                const title = item.querySelector('h3').textContent.toLowerCase();
-                
-                if (title.includes(val)) {
-                    // Tampilkan kembali
-                    item.style.setProperty('display', '', 'important');
-                    // Tambahan untuk mobile (karena pakai space-y-3)
-                    if (item.parentElement.id === 'mobileList') {
-                        item.style.setProperty('display', 'flex', 'important');
-                    }
-                } else {
-                    // Sembunyikan paksa
-                    item.style.setProperty('display', 'none', 'important');
-                }
-            });
+    searchInput.addEventListener('input', (e) => {
+        const val = e.target.value.toLowerCase().trim();
+        productItems.forEach(item => {
+            const title = item.querySelector('h3').textContent.toLowerCase();
+            if (title.includes(val)) {
+                // Desktop -> block, Mobile -> flex
+                item.style.display = (item.parentElement.id === 'mobileList') ? 'flex' : 'block';
+            } else {
+                item.style.display = 'none';
+            }
         });
-    };
-
-    // Jalankan saat DOM siap
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initSearch);
-    } else {
-        initSearch();
-    }
+    });
+});
 </script>
 
 </body>
