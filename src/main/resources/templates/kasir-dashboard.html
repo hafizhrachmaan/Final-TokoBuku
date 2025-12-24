@@ -17,7 +17,6 @@
             min-height: 100vh;
         }
 
-        /* Navbar Mewah */
         .glass-nav {
             background: rgba(15, 23, 42, 0.95);
             backdrop-filter: blur(15px);
@@ -25,7 +24,6 @@
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        /* Nav Link yang Kamu Suka (Updated) */
         .nav-link { 
             position: relative; 
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
@@ -49,7 +47,6 @@
         .nav-link.inactive { color: #94a3b8; }
         .nav-link.inactive:hover { color: #f1f5f9; background: rgba(255,255,255,0.05); }
 
-        /* Card Styling */
         .product-card {
             background: white;
             border: 1px solid #f1f5f9;
@@ -114,7 +111,7 @@
             </div>
         </div>
 
-        <div class="lg:hidden space-y-3 mb-6">
+        <div id="mobileList" class="lg:hidden space-y-3 mb-6">
             <div th:each="product : ${products}" class="bg-white p-4 rounded-[1.5rem] flex items-center gap-4 border border-slate-100 shadow-sm product-item">
                 <div class="w-16 h-16 bg-blue-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-black italic text-[8px] opacity-80">NITNOT</div>
                 <div class="flex-1 min-w-0">
@@ -130,7 +127,7 @@
             </div>
         </div>
 
-        <div class="hidden lg:grid grid-cols-2 xl:grid-cols-3 gap-6">
+        <div id="desktopGrid" class="hidden lg:grid grid-cols-2 xl:grid-cols-3 gap-6">
             <div th:each="product : ${products}" class="product-card p-6 rounded-[2.5rem] flex flex-col product-item hover:shadow-2xl hover:shadow-slate-200">
                 <div class="aspect-square bg-slate-50 rounded-3xl mb-4 flex items-center justify-center text-slate-200">
                     <i data-lucide="book" class="w-16 h-16"></i>
@@ -197,27 +194,45 @@
 </main>
 
 <script>
+    // Inisialisasi Icons
     lucide.createIcons();
-    
-    // PERBAIKAN SEARCH
-    document.getElementById('productSearch').addEventListener('input', function(e) {
-        const term = e.target.value.toLowerCase().trim();
-        const items = document.querySelectorAll('.product-item');
-        
-        items.forEach(item => {
-            const h3 = item.querySelector('h3');
-            if (h3) {
-                const name = h3.textContent.toLowerCase();
-                if (name.includes(term)) {
-                    // Paksa tampilkan (reset display dari Tailwind hidden)
+
+    // Fungsi Utama Search
+    const initSearch = () => {
+        const searchInput = document.getElementById('productSearch');
+        const productItems = document.querySelectorAll('.product-item');
+
+        if (!searchInput) return;
+
+        searchInput.addEventListener('input', (e) => {
+            const val = e.target.value.toLowerCase().trim();
+
+            productItems.forEach(item => {
+                // Cari teks di dalam h3
+                const title = item.querySelector('h3').textContent.toLowerCase();
+                
+                if (title.includes(val)) {
+                    // Tampilkan kembali
                     item.style.setProperty('display', '', 'important');
+                    // Tambahan untuk mobile (karena pakai space-y-3)
+                    if (item.parentElement.id === 'mobileList') {
+                        item.style.setProperty('display', 'flex', 'important');
+                    }
                 } else {
-                    // Paksa sembunyi
+                    // Sembunyikan paksa
                     item.style.setProperty('display', 'none', 'important');
                 }
-            }
+            });
         });
-    });
+    };
+
+    // Jalankan saat DOM siap
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initSearch);
+    } else {
+        initSearch();
+    }
 </script>
+
 </body>
 </html>
