@@ -106,7 +106,7 @@
                 <div class="w-16 h-16 bg-blue-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-black italic text-[8px] opacity-80">NITNOT</div>
                 <div class="flex-1 min-w-0">
                     <span class="text-[8px] font-black text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full" th:text="'STOK: ' + ${product.stock}">0</span>
-                    <h3 class="font-bold text-slate-800 text-xs uppercase truncate mt-0.5" th:text="${product.name}">NAMA</h3>
+                    <h3 class="font-bold text-slate-800 text-xs uppercase truncate mt-0.5" th:text="${product.name}">Nama Produk</h3>
                     <p class="text-blue-600 font-black text-sm" th:text="${'Rp ' + #numbers.formatDecimal(product.price, 0, 'POINT', 0, 'COMMA')}">0</p>
                 </div>
                 <form th:action="@{/kasir/cart/add/{productId}(productId=${product.id})}" method="post">
@@ -125,7 +125,7 @@
                     <i data-lucide="book" class="w-16 h-16"></i>
                 </div>
                 <span class="text-[10px] font-black text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full self-start mb-2" th:text="'STOK: ' + ${product.stock}">0</span>
-                <h3 class="font-black text-slate-800 uppercase text-sm mb-1 truncate" th:text="${product.name}">NAMA BUKU</h3>
+                <h3 class="font-black text-slate-800 uppercase text-sm mb-1 truncate" th:text="${product.name}">Nama Produk</h3>
                 <p class="text-blue-600 font-black text-xl mb-6" th:text="${'Rp ' + #numbers.formatDecimal(product.price, 0, 'POINT', 0, 'COMMA')}">0</p>
                 <form th:action="@{/kasir/cart/add/{productId}(productId=${product.id})}" method="post" class="mt-auto">
                     <button type="submit" class="w-full bg-slate-900 hover:bg-blue-600 text-white py-4 rounded-2xl font-black uppercase text-xs shadow-lg active:scale-95 transition-all flex items-center justify-center space-x-2">
@@ -138,7 +138,7 @@
         </div>
     </div>
 
-    <!-- Cart Section (tidak diubah) -->
+    <!-- Cart Section -->
     <div class="lg:col-span-5 xl:col-span-4 order-1 lg:order-2">
         <div class="bg-white rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.05)] overflow-hidden flex flex-col cart-sticky border border-slate-100">
             <div class="bg-slate-900 p-6 text-white flex justify-between items-center">
@@ -189,35 +189,38 @@
 </main>
 
 <script>
+    // Pastikan Lucide ikon dimuat
     lucide.createIcons();
 
-    const initSearch = () => {
+    // Jalankan pencarian setelah DOM siap
+    document.addEventListener('DOMContentLoaded', () => {
         const searchInput = document.getElementById('productSearch');
-        if (!searchInput) return;
+        if (!searchInput) {
+            console.warn('Input pencarian dengan id="productSearch" tidak ditemukan.');
+            return;
+        }
 
         const mobileItems = document.querySelectorAll('#mobileList .product-item');
         const desktopItems = document.querySelectorAll('#desktopGrid .product-item');
 
+        const filterProducts = (items, query) => {
+            items.forEach(item => {
+                const titleEl = item.querySelector('h3');
+                if (!titleEl) {
+                    item.style.display = 'none';
+                    return;
+                }
+                const titleText = titleEl.textContent.trim().toLowerCase();
+                item.style.display = titleText.includes(query) ? '' : 'none';
+            });
+        };
+
         searchInput.addEventListener('input', (e) => {
-            const val = e.target.value.toLowerCase().trim();
-
-            mobileItems.forEach(item => {
-                const title = item.querySelector('h3')?.textContent.toLowerCase() || '';
-                item.style.display = title.includes(val) ? 'flex' : 'none';
-            });
-
-            desktopItems.forEach(item => {
-                const title = item.querySelector('h3')?.textContent.toLowerCase() || '';
-                item.style.display = title.includes(val) ? 'flex' : 'none';
-            });
+            const query = e.target.value.trim().toLowerCase();
+            filterProducts(mobileItems, query);
+            filterProducts(desktopItems, query);
         });
-    };
-
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initSearch);
-    } else {
-        initSearch();
-    }
+    });
 </script>
 
 </body>
