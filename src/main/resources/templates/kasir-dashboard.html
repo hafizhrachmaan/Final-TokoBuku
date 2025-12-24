@@ -197,13 +197,24 @@
 </main>
 
 <script>
+    // Inisialisasi icon Lucide
     lucide.createIcons();
     
+    // Fitur Pencarian yang sudah diperbaiki
     document.getElementById('productSearch').addEventListener('input', function(e) {
-        const term = e.target.value.toLowerCase();
-        document.querySelectorAll('.product-item').forEach(item => {
-            const name = item.querySelector('h3').textContent.toLowerCase();
-            item.style.display = name.includes(term) ? '' : 'none';
+        const term = e.target.value.toLowerCase().trim();
+        const items = document.querySelectorAll('.product-item');
+
+        items.forEach(item => {
+            const h3 = item.querySelector('h3');
+            if (h3) {
+                const name = h3.textContent.toLowerCase();
+                if (name.includes(term)) {
+                    item.style.setProperty('display', '', 'important');
+                } else {
+                    item.style.setProperty('display', 'none', 'important');
+                }
+            }
         });
     });
 </script>
