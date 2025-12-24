@@ -197,30 +197,25 @@
 </main>
 
 <script>
-    // 1. Jalankan icon Lucide
     lucide.createIcons();
-
-    // 2. Fungsi Search Final
-    document.addEventListener('DOMContentLoaded', function() {
-        const searchInput = document.getElementById('productSearch');
+    
+    // PERBAIKAN SEARCH
+    document.getElementById('productSearch').addEventListener('input', function(e) {
+        const term = e.target.value.toLowerCase().trim();
+        const items = document.querySelectorAll('.product-item');
         
-        searchInput.addEventListener('input', function() {
-            const term = this.value.toLowerCase().trim();
-            const items = document.querySelectorAll('.product-item');
-
-            items.forEach(item => {
-                // Mencari kecocokan di seluruh teks kartu (Nama, Harga, Stok)
-                const content = item.textContent.toLowerCase();
-                
-                if (content.includes(term)) {
-                    // Tampilkan: Hapus gaya display dan pastikan tidak tersembunyi
-                    item.style.display = ""; 
-                    item.classList.remove('hidden');
+        items.forEach(item => {
+            const h3 = item.querySelector('h3');
+            if (h3) {
+                const name = h3.textContent.toLowerCase();
+                if (name.includes(term)) {
+                    // Paksa tampilkan (reset display dari Tailwind hidden)
+                    item.style.setProperty('display', '', 'important');
                 } else {
-                    // Sembunyikan: Gunakan !important untuk menimpa class Tailwind flex/grid
+                    // Paksa sembunyi
                     item.style.setProperty('display', 'none', 'important');
                 }
-            });
+            }
         });
     });
 </script>
