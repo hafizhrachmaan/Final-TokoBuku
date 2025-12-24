@@ -72,13 +72,11 @@
                 <h1 class="logo-font text-xl md:text-2xl font-black tracking-tighter leading-none">NITNOT</h1>
                 <p class="text-[8px] tracking-[0.3em] text-blue-400 font-bold uppercase mt-1">POS SYSTEM</p>
             </div>
-
             <div class="flex space-x-2 md:space-x-4 text-[10px] md:text-[11px] uppercase">
                 <a th:href="@{/kasir/dashboard}" class="nav-link active">POS</a>
                 <a th:href="@{/kasir/history}" class="nav-link">Riwayat</a>
             </div>
         </div>
-
         <form th:action="@{/logout}" method="post" class="m-0">
             <button type="submit" class="w-9 h-9 bg-red-500/80 hover:bg-red-600 rounded-full flex items-center justify-center shadow-lg transition-all border border-white/20">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
@@ -90,7 +88,6 @@
 </nav>
 
 <main class="max-w-[1600px] mx-auto p-4 md:p-8 w-full flex flex-col lg:grid lg:grid-cols-12 gap-6 flex-1">
-
     <div class="lg:col-span-7 xl:col-span-8 order-2 lg:order-1">
         <div class="mb-8">
             <h2 class="text-2xl md:text-4xl font-black text-slate-800 uppercase tracking-tighter italic">Katalog Buku</h2>
@@ -108,7 +105,7 @@
             <div th:each="product : ${products}" class="bg-white p-4 rounded-[1.5rem] flex items-center gap-4 border border-slate-100 shadow-sm product-item">
                 <div class="w-16 h-16 bg-blue-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-black italic text-[8px] opacity-80">NITNOT</div>
                 <div class="flex-1 min-w-0">
-                    <span class="text-[8px] font-black text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full" th:text="'Stock: ' + ${product.stock}">0</span>
+                    <span class="text-[8px] font-black text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full" th:text="'STOK: ' + ${product.stock}">0</span>
                     <h3 class="font-bold text-slate-800 text-xs uppercase truncate mt-0.5" th:text="${product.name}">NAMA</h3>
                     <p class="text-blue-600 font-black text-sm" th:text="${'Rp ' + #numbers.formatDecimal(product.price, 0, 'POINT', 0, 'COMMA')}">0</p>
                 </div>
@@ -141,7 +138,7 @@
         </div>
     </div>
 
-    <!-- Cart Section -->
+    <!-- Cart Section (tidak diubah) -->
     <div class="lg:col-span-5 xl:col-span-4 order-1 lg:order-2">
         <div class="bg-white rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.05)] overflow-hidden flex flex-col cart-sticky border border-slate-100">
             <div class="bg-slate-900 p-6 text-white flex justify-between items-center">
@@ -192,32 +189,26 @@
 </main>
 
 <script>
-    // Inisialisasi Icons
     lucide.createIcons();
 
-    // Search filter yang berfungsi untuk mobile & desktop
     const initSearch = () => {
         const searchInput = document.getElementById('productSearch');
-        const productItems = document.querySelectorAll('.product-item');
-
         if (!searchInput) return;
+
+        const mobileItems = document.querySelectorAll('#mobileList .product-item');
+        const desktopItems = document.querySelectorAll('#desktopGrid .product-item');
 
         searchInput.addEventListener('input', (e) => {
             const val = e.target.value.toLowerCase().trim();
 
-            productItems.forEach(item => {
-                const title = item.querySelector('h3').textContent.toLowerCase();
-                const parentId = item.parentElement.id;
+            mobileItems.forEach(item => {
+                const title = item.querySelector('h3')?.textContent.toLowerCase() || '';
+                item.style.display = title.includes(val) ? 'flex' : 'none';
+            });
 
-                if (title.includes(val)) {
-                    if(parentId === 'mobileList') {
-                        item.style.setProperty('display', 'flex', 'important');
-                    } else if(parentId === 'desktopGrid') {
-                        item.style.setProperty('display', 'block', 'important');
-                    }
-                } else {
-                    item.style.setProperty('display', 'none', 'important');
-                }
+            desktopItems.forEach(item => {
+                const title = item.querySelector('h3')?.textContent.toLowerCase() || '';
+                item.style.display = title.includes(val) ? 'flex' : 'none';
             });
         });
     };
