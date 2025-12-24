@@ -32,6 +32,21 @@ public class ShoppingCart {
     public void removeProduct(Long productId) {
         items.removeIf(item -> Objects.equals(item.getProduct().getId(), productId));
     }
+
+    public void decreaseProduct(Long productId) {
+        Optional<CartItem> existingItem = items.stream()
+                .filter(item -> Objects.equals(item.getProduct().getId(), productId))
+                .findFirst();
+
+        if (existingItem.isPresent()) {
+            CartItem item = existingItem.get();
+            if (item.getQuantity() > 1) {
+                item.setQuantity(item.getQuantity() - 1);
+            } else {
+                items.remove(item);
+            }
+        }
+    }
     
     public void updateQuantity(Long productId, int quantity) {
         Optional<CartItem> existingItem = items.stream()

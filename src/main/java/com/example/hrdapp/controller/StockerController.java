@@ -1,7 +1,7 @@
 package com.example.hrdapp.controller;
 
 import com.example.hrdapp.model.Product;
-import com.example.hrdapp.repository.ProductRepository;
+import com.example.hrdapp.service.ProductService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -13,22 +13,22 @@ import java.security.Principal;
 @RequestMapping("/stocker")
 public class StockerController {
 
-    private final ProductRepository productRepository;
+    private final ProductService productService;
 
-    public StockerController(ProductRepository productRepository) {
-        this.productRepository = productRepository;
+    public StockerController(ProductService productService) {
+        this.productService = productService;
     }
 
     @GetMapping("/dashboard")
     public String dashboard(Model model, Principal principal) {
         model.addAttribute("username", principal.getName());
-        model.addAttribute("products", productRepository.findAll());
-        return "stocker-dashboard"; // Pastikan nama file HTML Anda adalah stocker-dashboard.html
+        model.addAttribute("products", productService.getAllProducts());
+        return "stocker-dashboard";
     }
 
     @PostMapping("/product/add")
     public String addProduct(@ModelAttribute Product product, RedirectAttributes ra) {
-        productRepository.save(product);
+        productService.addProduct(product);
         ra.addFlashAttribute("success", "Produk baru berhasil disimpan!");
         return "redirect:/stocker/dashboard";
     }
@@ -40,23 +40,22 @@ public class StockerController {
                                 @RequestParam double price,
                                 @RequestParam int stock,
                                 RedirectAttributes ra) {
-        Product p = productRepository.findById(id).orElseThrow();
-        p.setName(name);
-        p.setDescription(description);
-        p.setPrice(price);
-        p.setStock(stock);
-        productRepository.save(p);
-        ra.addFlashAttribute("success", "Data produk diperbarui!");
+        try {
+            productService.updateProduct(id, name, description, price, stock);
+            ra.addFlashAttribute("success", "Data produk diperbarui!");
+        } catch (IllegalArgumentException e) {
+            ra.addFlashAttribute("error", e.getMessage());
+        }
         return "redirect:/stocker/dashboard";
     }
 
     @GetMapping("/product/delete/{id}")
     public String deleteProduct(@PathVariable Long id, RedirectAttributes ra) {
         try {
-            productRepository.deleteById(id);
+            productService.deleteProduct(id);
             ra.addFlashAttribute("success", "Produk berhasil dihapus!");
         } catch (Exception e) {
-            ra.addFlashAttribute("error", "Gagal hapus! Data masih digunakan.");
+            ra.addFlashAttribute("error", "Gagal hapus! " + e.getMessage());
         }
         return "redirect:/stocker/dashboard";
     }

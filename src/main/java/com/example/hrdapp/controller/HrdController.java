@@ -1,10 +1,9 @@
 package com.example.hrdapp.controller;
 
 import com.example.hrdapp.model.Role;
-import com.example.hrdapp.model.User;
-import com.example.hrdapp.model.UserStatus;
-import com.example.hrdapp.repository.UserRepository;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import com.example.hrdapp.repository.TransactionRepository;
+import com.example.hrdapp.service.ProductService;
+import com.example.hrdapp.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -15,52 +14,62 @@ import java.security.Principal;
 @RequestMapping("/hrd")
 public class HrdController {
 
-    private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
+    private final UserService userService;
+    private final ProductService productService;
+    private final TransactionRepository transactionRepository;
 
-    public HrdController(UserRepository userRepository, PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
+    public HrdController(UserService userService, ProductService productService, TransactionRepository transactionRepository) {
+        this.userService = userService;
+        this.productService = productService;
+        this.transactionRepository = transactionRepository;
     }
 
     @GetMapping("/dashboard")
     public String dashboard(Model model, Principal principal) {
         model.addAttribute("username", principal.getName());
-        model.addAttribute("pendingEmployees", userRepository.findAllByStatus(UserStatus.PENDING));
-        model.addAttribute("verifiedEmployees", userRepository.findAllByStatus(UserStatus.VERIFIED));
+        model.addAttribute("pendingEmployees", userService.getPendingEmployees());
+        model.addAttribute("verifiedEmployees", userService.getVerifiedEmployees());
         model.addAttribute("allRoles", Role.values());
         return "hrd-dashboard";
     }
+
+    @GetMapping("/products")
+    public String viewProducts(Model model, Principal principal) {
+        model.addAttribute("username", principal.getName());
+        model.addAttribute("allProducts", productService.getAllProducts());
+        return "hrd-products";
+    }
+
+    @GetMapping("/transactions")
+    public String viewTransactions(Model model, Principal principal) {
+        model.addAttribute("username", principal.getName());
+        model.addAttribute("allTransactions", transactionRepository.findAllByOrderByTransactionDateDesc());
+        return "hrd-transactions";
+    }
+
 
     @PostMapping("/addEmployee")
     public String addEmployee(@RequestParam String username,
                               @RequestParam String password,
                               @RequestParam Role role) {
-        if (userRepository.findByUsername(username).isPresent()) {
+        try {
+            userService.addEmployee(username, password, role);
+            return "redirect:/hrd/dashboard?success=true";
+        } catch (IllegalStateException e) {
             return "redirect:/hrd/dashboard?error=true";
         }
-        User newUser = new User();
-        newUser.setUsername(username);
-        newUser.setPassword(passwordEncoder.encode(password));
-        newUser.setRole(role);
-        newUser.setStatus(UserStatus.VERIFIED);
-        userRepository.save(newUser);
-        return "redirect:/hrd/dashboard?success=true";
     }
 
     @PostMapping("/accept/{userId}")
     public String acceptUser(@PathVariable Long userId) {
-        userRepository.findById(userId).ifPresent(user -> {
-            user.setStatus(UserStatus.VERIFIED);
-            userRepository.save(user);
-        });
+        userService.acceptUser(userId);
         return "redirect:/hrd/dashboard?accepted=true";
     }
 
     @PostMapping("/reject/{userId}")
     public String rejectUser(@PathVariable Long userId) {
         try {
-            userRepository.findById(userId).ifPresent(userRepository::delete);
+            userService.rejectUser(userId);
             return "redirect:/hrd/dashboard?rejected=true";
         } catch (Exception e) {
             return "redirect:/hrd/dashboard?error_delete=true";
@@ -70,19 +79,16 @@ public class HrdController {
     @PostMapping("/cut/{userId}")
     public String cutEmployee(@PathVariable Long userId) {
         try {
-            // Mencari user berdasarkan ID, jika ada maka hapus permanen
-            userRepository.findById(userId).ifPresent(user -> {
-                userRepository.delete(user);
-            });
+            userService.cutEmployee(userId);
             return "redirect:/hrd/dashboard?cut=true";
         } catch (Exception e) {
-            // Jika gagal (karena relasi DB atau lainnya), kembali ke dashboard dengan error
             return "redirect:/hrd/dashboard?error_delete=true";
         }
     }
 
     @PostMapping("/verify/{userId}")
     public String verifyUser(@PathVariable Long userId) {
+        // This endpoint is redundant, but we keep it and delegate to the same service method.
         return acceptUser(userId);
     }
 }

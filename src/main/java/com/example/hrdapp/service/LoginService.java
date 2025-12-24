@@ -33,11 +33,20 @@ public class LoginService {
             Optional<User> userOpt = userRepository.findByUsername(username);
             if (userOpt.isPresent()) {
                 User user = userOpt.get();
-                if (passwordEncoder.matches(password, user.getPassword()) && user.getStatus().name().equals("VERIFIED")) {
-                    System.out.println("Login berhasil! Selamat datang, " + user.getUsername() + " (" + user.getRole() + ")");
-                    return user;
+                if (passwordEncoder.matches(password, user.getPassword())) {
+                    switch (user.getStatus()) {
+                        case VERIFIED:
+                            System.out.println("Login berhasil! Selamat datang, " + user.getUsername() + " (" + user.getRole() + ")");
+                            return user;
+                        case PENDING:
+                            System.out.println("Login ditolak. Akun Anda sedang menunggu persetujuan HRD.");
+                            break;
+                        case INACTIVE:
+                            System.out.println("Login ditolak. Akun Anda sudah tidak aktif.");
+                            break;
+                    }
                 } else {
-                    System.out.println("Password salah atau akun belum diverifikasi.");
+                    System.out.println("Password salah.");
                 }
             } else {
                 System.out.println("Username tidak ditemukan.");

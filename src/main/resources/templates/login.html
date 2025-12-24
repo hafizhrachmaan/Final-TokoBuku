@@ -110,6 +110,11 @@
                 </div>
             </div>
 
+            <div th:if="${param.registrationSuccess}" class="bg-emerald-50 border border-emerald-100 text-emerald-600 p-4 rounded-2xl mb-6 text-xs flex items-center shadow-sm">
+                <i data-lucide="check-circle" class="w-4 h-4 mr-2"></i>
+                <span class="font-bold">Registrasi berhasil! Akun Anda menunggu persetujuan HRD.</span>
+            </div>
+
             <div th:if="${param.error}" class="bg-rose-50 border border-rose-100 text-rose-600 p-4 rounded-2xl mb-6 text-xs flex items-center shadow-sm animate-pulse">
                 <i data-lucide="alert-circle" class="w-4 h-4 mr-2"></i>
                 <span class="font-bold">Username atau password tidak sesuai.</span>

@@ -1,10 +1,8 @@
 package com.example.hrdapp.controller;
 
+import com.example.hrdapp.dto.UserRegistrationRequest;
 import com.example.hrdapp.model.Role;
-import com.example.hrdapp.model.User;
-import com.example.hrdapp.model.UserStatus;
-import com.example.hrdapp.repository.UserRepository;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import com.example.hrdapp.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,12 +11,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class WebController {
 
-    private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
+    private final UserService userService;
 
-    public WebController(UserRepository userRepository, PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
+    public WebController(UserService userService) {
+        this.userService = userService;
     }
 
     @GetMapping("/login")
@@ -46,23 +42,14 @@ public class WebController {
                                @RequestParam String address,
                                @RequestParam String lastEducation,
                                @RequestParam String workExperience) {
-        if (userRepository.findByUsername(username).isPresent()) {
+
+        UserRegistrationRequest request = new UserRegistrationRequest(username, password, role, fullName, email, phone, address, lastEducation, workExperience);
+
+        try {
+            userService.registerUser(request);
+            return "redirect:/login?registrationSuccess=true";
+        } catch (IllegalStateException e) {
             return "redirect:/register?error=true";
         }
-
-        User newUser = new User();
-        newUser.setUsername(username);
-        newUser.setPassword(passwordEncoder.encode(password));
-        newUser.setRole(role);
-        newUser.setStatus(UserStatus.PENDING);
-        newUser.setFullName(fullName);
-        newUser.setEmail(email);
-        newUser.setPhone(phone);
-        newUser.setAddress(address);
-        newUser.setLastEducation(lastEducation);
-        newUser.setWorkExperience(workExperience);
-        userRepository.save(newUser);
-
-        return "redirect:/register?success=true";
     }
 }

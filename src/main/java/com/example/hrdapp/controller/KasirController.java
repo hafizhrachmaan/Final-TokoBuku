@@ -1,9 +1,9 @@
 package com.example.hrdapp.controller;
 
 import com.example.hrdapp.model.Transaction;
-import com.example.hrdapp.repository.ProductRepository;
 import com.example.hrdapp.repository.TransactionRepository;
 import com.example.hrdapp.service.PdfService;
+import com.example.hrdapp.service.ProductService;
 import com.example.hrdapp.service.ShoppingCart;
 import com.example.hrdapp.service.TransactionService;
 import jakarta.servlet.http.HttpSession;
@@ -22,13 +22,13 @@ import java.security.Principal;
 @RequestMapping("/kasir")
 public class KasirController {
 
-    private final ProductRepository productRepository;
+    private final ProductService productService;
     private final TransactionService transactionService;
     private final TransactionRepository transactionRepository;
     private final PdfService pdfService;
 
-    public KasirController(ProductRepository productRepository, TransactionService transactionService, TransactionRepository transactionRepository, PdfService pdfService) {
-        this.productRepository = productRepository;
+    public KasirController(ProductService productService, TransactionService transactionService, TransactionRepository transactionRepository, PdfService pdfService) {
+        this.productService = productService;
         this.transactionService = transactionService;
         this.transactionRepository = transactionRepository;
         this.pdfService = pdfService;
@@ -47,34 +47,46 @@ public class KasirController {
     public String dashboard(Model model, Principal principal, HttpSession session) {
         ShoppingCart shoppingCart = getCartFromSession(session);
         model.addAttribute("username", principal.getName());
-        model.addAttribute("products", productRepository.findAll());
+        model.addAttribute("products", productService.getAllProducts());
+        // Cart items are now loaded via AJAX, but we pass an empty shell for initial page load
         model.addAttribute("cartItems", shoppingCart.getItems());
         model.addAttribute("cartTotal", shoppingCart.getTotal());
         return "kasir-dashboard";
     }
 
-    @PostMapping("/cart/add/{productId}")
-    public String addToCart(@PathVariable Long productId, HttpSession session) {
+    // --- New AJAX API endpoints ---
+
+    @PostMapping("/api/cart/add/{productId}")
+    @ResponseBody
+    public ShoppingCart handleAddToCartAjax(@PathVariable Long productId, HttpSession session) {
         ShoppingCart shoppingCart = getCartFromSession(session);
-        productRepository.findById(productId).ifPresent(shoppingCart::addProduct);
-        return "redirect:/kasir/dashboard";
+        productService.findProductById(productId).ifPresent(shoppingCart::addProduct);
+        return shoppingCart;
     }
 
-    // UPDATE: Menggunakan PostMapping agar sinkron dengan HTML Form
-    @PostMapping("/cart/remove/{productId}")
-    public String removeFromCart(@PathVariable Long productId, HttpSession session) {
+    @PostMapping("/api/cart/decrease/{productId}")
+    @ResponseBody
+    public ShoppingCart handleDecreaseCartAjax(@PathVariable Long productId, HttpSession session) {
+        ShoppingCart shoppingCart = getCartFromSession(session);
+        shoppingCart.decreaseProduct(productId);
+        return shoppingCart;
+    }
+
+    @PostMapping("/api/cart/remove/{productId}")
+    @ResponseBody
+    public ShoppingCart handleRemoveFromCartAjax(@PathVariable Long productId, HttpSession session) {
         ShoppingCart shoppingCart = getCartFromSession(session);
         shoppingCart.removeProduct(productId);
-        return "redirect:/kasir/dashboard";
+        return shoppingCart;
     }
 
-    // UPDATE: Menggunakan PostMapping agar sinkron dengan HTML Form
-    @PostMapping("/cart/clear")
-    public String clearCart(HttpSession session) {
-        ShoppingCart shoppingCart = getCartFromSession(session);
-        shoppingCart.clear();
-        return "redirect:/kasir/dashboard";
+    @GetMapping("/api/cart")
+    @ResponseBody
+    public ShoppingCart getCartAjax(HttpSession session) {
+        return getCartFromSession(session);
     }
+
+    // --- Legacy and other endpoints ---
 
     @PostMapping("/checkout")
     public String checkout(Principal principal, HttpSession session) {
@@ -97,7 +109,7 @@ public class KasirController {
 
     @GetMapping(value = "/transaction/pdf/{id}", produces = MediaType.APPLICATION_PDF_VALUE)
     public ResponseEntity<InputStreamResource> getTransactionPdf(@PathVariable Long id) {
-        Transaction transaction = transactionRepository.findById(id)
+        Transaction transaction = transactionRepository.findByIdWithDetails(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid transaction Id:" + id));
         ByteArrayInputStream bis = pdfService.generateInvoicePdf(transaction);
         HttpHeaders headers = new HttpHeaders();

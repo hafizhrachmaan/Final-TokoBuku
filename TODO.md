@@ -1,9 +1,6 @@
-# TODO: Persiapan Hosting Aplikasi Spring Boot
+# TODO for Adding Spring Boot Q&A to Q&A_Project_HRD.txt
 
-## Langkah-langkah yang Harus Diselesaikan:
-- [x] Update file `src/main/resources/application.properties` untuk menggunakan variabel environment (uncomment baris env var dan comment konfigurasi lokal).
-- [x] Buat file `Procfile` di root project untuk deployment Heroku.
-- [ ] Berikan panduan langkah demi langkah untuk deploy ke Heroku dalam bahasa Indonesia.
-
-## Status:
-- Sedang membuat Procfile.
+- [x] Add 15 new questions and answers (51-65) focusing on Java Spring Boot aspects used in the HRD App project.
+- [x] Ensure questions cover topics like Controllers, Services, Repositories, Security, Thymeleaf, JPA, etc.
+- [x] Append the new Q&A to the existing file, continuing numbering from 51.
+- [x] Verify the updated file for correctness and formatting.

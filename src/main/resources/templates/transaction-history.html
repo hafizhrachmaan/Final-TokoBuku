@@ -205,17 +205,58 @@
 </main>
 
 <script>
-    // Inisialisasi Icon Lucide
-    lucide.createIcons();
+    // Fungsi Search yang lebih robust dan sederhana untuk riwayat transaksi
+    const initHistorySearch = () => {
+        const searchInput = document.getElementById('historySearch');
+        if (!searchInput) {
+            console.warn('History search input not found');
+            return;
+        }
 
-    // Logika Pencarian yang Ditingkatkan
-    document.getElementById('historySearch').addEventListener('input', function(e) {
-        const term = e.target.value.toLowerCase();
-        document.querySelectorAll('.product-item').forEach(item => {
-            const content = item.innerText.toLowerCase();
-            item.style.display = content.includes(term) ? '' : 'none';
+        // Target both mobile cards and desktop table rows
+        const allTransactionItems = document.querySelectorAll('.history-card, .product-item'); 
+
+        searchInput.addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase().trim();
+
+            allTransactionItems.forEach(item => {
+                const content = item.innerText.toLowerCase(); // Ambil seluruh teks dalam item
+                const isVisible = content.includes(searchTerm);
+                // Menggunakan '' akan mengembalikan display ke default stylesheet
+                item.style.display = isVisible ? '' : 'none';
+            });
         });
-    });
+        console.log('History search function initialized.');
+    };
+
+    // Fungsi utama untuk inisialisasi semua skrip
+    const mainInit = () => {
+        // Prioritaskan fungsi inti
+        try {
+            initHistorySearch();
+        } catch (e) {
+            console.error("Failed to initialize history search function:", e);
+        }
+
+        // Jalankan fungsi tambahan (seperti ikon) di dalam try-catch agar tidak memblokir fungsi inti
+        try {
+            if (window.lucide) {
+                lucide.createIcons();
+                console.log('Lucide icons created.');
+            } else {
+                console.warn('Lucide library not found.');
+            }
+        } catch (e) {
+            console.error("Error creating lucide icons:", e);
+        }
+    };
+
+    // Jalankan skrip setelah DOM siap
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', mainInit);
+    } else {
+        mainInit();
+    }
 </script>
 </body>
 </html>
