@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="webtoken" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>NITNOT POS TERMINAL</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -106,7 +106,7 @@
                 <div class="w-16 h-16 bg-blue-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-black italic text-[8px] opacity-80">NITNOT</div>
                 <div class="flex-1 min-w-0">
                     <span class="text-[8px] font-black text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full" th:text="'STOK: ' + ${product.stock}">0</span>
-                    <h3 class="font-bold text-slate-800 text-xs uppercase truncate mt-0.5" th:text="${product.name}">Nama Produk</h3>
+                    <p class="font-bold text-slate-800 text-xs uppercase truncate mt-0.5" th:text="${product.name}">Nama Produk</p>
                     <p class="text-blue-600 font-black text-sm" th:text="${'Rp ' + #numbers.formatDecimal(product.price, 0, 'POINT', 0, 'COMMA')}">0</p>
                 </div>
                 <form th:action="@{/kasir/cart/add/{productId}(productId=${product.id})}" method="post">
@@ -125,7 +125,7 @@
                     <i data-lucide="book" class="w-16 h-16"></i>
                 </div>
                 <span class="text-[10px] font-black text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full self-start mb-2" th:text="'STOK: ' + ${product.stock}">0</span>
-                <h3 class="font-black text-slate-800 uppercase text-sm mb-1 truncate" th:text="${product.name}">Nama Produk</h3>
+                <p class="font-black text-slate-800 uppercase text-sm mb-1 truncate" th:text="${product.name}">Nama Produk</p>
                 <p class="text-blue-600 font-black text-xl mb-6" th:text="${'Rp ' + #numbers.formatDecimal(product.price, 0, 'POINT', 0, 'COMMA')}">0</p>
                 <form th:action="@{/kasir/cart/add/{productId}(productId=${product.id})}" method="post" class="mt-auto">
                     <button type="submit" class="w-full bg-slate-900 hover:bg-blue-600 text-white py-4 rounded-2xl font-black uppercase text-xs shadow-lg active:scale-95 transition-all flex items-center justify-center space-x-2">
@@ -189,14 +189,12 @@
 </main>
 
 <script>
-    // Pastikan Lucide ikon dimuat
     lucide.createIcons();
 
-    // Jalankan pencarian setelah DOM siap
     document.addEventListener('DOMContentLoaded', () => {
         const searchInput = document.getElementById('productSearch');
         if (!searchInput) {
-            console.warn('Input pencarian dengan id="productSearch" tidak ditemukan.');
+            console.warn('Input pencarian tidak ditemukan.');
             return;
         }
 
@@ -205,13 +203,18 @@
 
         const filterProducts = (items, query) => {
             items.forEach(item => {
-                const titleEl = item.querySelector('h3');
-                if (!titleEl) {
-                    item.style.display = 'none';
-                    return;
+                let productName = '';
+
+                // Coba ambil dari <p> dengan kelas font-bold (sesuai UI screenshot)
+                const nameEl = item.querySelector('p.font-bold, p.uppercase, .font-bold, .uppercase');
+                if (nameEl) {
+                    productName = nameEl.textContent.trim().toLowerCase();
+                } else {
+                    // Fallback: ambil seluruh teks di dalam item
+                    productName = item.textContent.trim().toLowerCase();
                 }
-                const titleText = titleEl.textContent.trim().toLowerCase();
-                item.style.display = titleText.includes(query) ? '' : 'none';
+
+                item.style.display = productName.includes(query) ? '' : 'none';
             });
         };
 
