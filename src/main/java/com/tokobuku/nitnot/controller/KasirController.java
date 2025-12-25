@@ -16,6 +16,11 @@ import com.tokobuku.nitnot.service.ProductService;
 import com.tokobuku.nitnot.service.ShoppingCart;
 import com.tokobuku.nitnot.service.TransactionService;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+
 import java.io.ByteArrayInputStream;
 import java.security.Principal;
 
@@ -101,11 +106,6 @@ public class KasirController {
         }
     }
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-//...
     @GetMapping("/history")
     public String history(Model model, Principal principal,
                           @RequestParam(name = "page", defaultValue = "0") int page,
@@ -123,7 +123,6 @@ import org.springframework.data.domain.Sort;
         
         return "transaction-history";
     }
-//...
 
     @GetMapping(value = "/transaction/pdf/{id}", produces = MediaType.APPLICATION_PDF_VALUE)
     public ResponseEntity<InputStreamResource> getTransactionPdf(@PathVariable Long id) {
