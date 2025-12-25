@@ -81,7 +81,29 @@
 </head>
 <body class="body-font min-h-screen">
 
-<div th:replace="~{fragments/navbar :: navbar(activePage='history')}"></div>
+<nav class="glass-nav text-white px-4 md:px-10 py-5 sticky top-0 z-50 shadow-2xl">
+    <div class="max-w-[1600px] mx-auto flex justify-between items-center">
+        <div class="flex items-center space-x-6 md:space-x-12">
+            <div class="flex flex-col border-r border-white/10 pr-6">
+                <h1 class="logo-font text-xl md:text-2xl font-black tracking-tighter leading-none">NITNOT</h1>
+                <p class="text-[8px] tracking-[0.3em] text-blue-400 font-bold uppercase mt-1">POS SYSTEM</p>
+            </div>
+            
+            <div class="flex space-x-2 md:space-x-4 text-[10px] md:text-[11px] uppercase">
+                <a th:href="@{/kasir/dashboard}" class="nav-link">POS</a>
+                <a th:href="@{/kasir/history}" class="nav-link active">Riwayat</a>
+            </div>
+        </div>
+        
+        <form th:action="@{/logout}" method="post" class="m-0">
+                <button type="submit" class="w-9 h-9 bg-red-500/80 hover:bg-red-600 rounded-full flex items-center justify-center shadow-lg transition-all border border-white/20">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                    </svg>
+                </button>
+            </form>
+    </div>
+</nav>
 
 <main class="max-w-[1600px] mx-auto p-5 md:p-10 lg:p-16">
     
@@ -176,25 +198,6 @@
         </table>
     </div>
 
-    <!-- Pagination Controls -->
-    <div th:if="${transactionPage.totalPages > 0}" class="mt-12 flex justify-center items-center space-x-4">
-        <a th:href="@{/kasir/history(page=${transactionPage.number - 1}, size=${transactionPage.size})}"
-           th:classappend="${transactionPage.first} ? 'pointer-events-none opacity-50'"
-           class="bg-white/60 backdrop-blur-md ring-1 ring-slate-200 hover:bg-slate-900 hover:text-white transition-all text-slate-800 font-bold py-3 px-5 rounded-xl text-sm shadow-sm flex items-center space-x-2">
-            <i data-lucide="arrow-left" class="w-4 h-4"></i>
-            <span>Sebelumnya</span>
-        </a>
-        
-        <span class="text-sm font-bold text-slate-500" th:text="'Hal ' + (${transactionPage.number} + 1) + ' dari ' + ${transactionPage.totalPages}"></span>
-        
-        <a th:href="@{/kasir/history(page=${transactionPage.number + 1}, size=${transactionPage.size})}"
-           th:classappend="${transactionPage.last} ? 'pointer-events-none opacity-50'"
-           class="bg-white/60 backdrop-blur-md ring-1 ring-slate-200 hover:bg-slate-900 hover:text-white transition-all text-slate-800 font-bold py-3 px-5 rounded-xl text-sm shadow-sm flex items-center space-x-2">
-            <span>Berikutnya</span>
-            <i data-lucide="arrow-right" class="w-4 h-4"></i>
-        </a>
-    </div>
-
     <div th:if="${#lists.isEmpty(transactions)}" class="py-32 text-center opacity-20 flex flex-col items-center">
         <i data-lucide="file-x-2" class="w-20 h-20 mb-4"></i>
         <p class="text-2xl font-black uppercase tracking-[0.4em]">Data Tidak Ditemukan</p>
@@ -202,8 +205,39 @@
 </main>
 
 <script>
+    // Fungsi Search yang lebih robust dan sederhana untuk riwayat transaksi
+    const initHistorySearch = () => {
+        const searchInput = document.getElementById('historySearch');
+        if (!searchInput) {
+            console.warn('History search input not found');
+            return;
+        }
+
+        // Target both mobile cards and desktop table rows
+        const allTransactionItems = document.querySelectorAll('.history-card, .product-item'); 
+
+        searchInput.addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase().trim();
+
+            allTransactionItems.forEach(item => {
+                const content = item.innerText.toLowerCase(); // Ambil seluruh teks dalam item
+                const isVisible = content.includes(searchTerm);
+                // Menggunakan '' akan mengembalikan display ke default stylesheet
+                item.style.display = isVisible ? '' : 'none';
+            });
+        });
+        console.log('History search function initialized.');
+    };
+
     // Fungsi utama untuk inisialisasi semua skrip
     const mainInit = () => {
+        // Prioritaskan fungsi inti
+        try {
+            initHistorySearch();
+        } catch (e) {
+            console.error("Failed to initialize history search function:", e);
+        }
+
         // Jalankan fungsi tambahan (seperti ikon) di dalam try-catch agar tidak memblokir fungsi inti
         try {
             if (window.lucide) {

@@ -16,11 +16,6 @@ import com.tokobuku.nitnot.service.ProductService;
 import com.tokobuku.nitnot.service.ShoppingCart;
 import com.tokobuku.nitnot.service.TransactionService;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-
 import java.io.ByteArrayInputStream;
 import java.security.Principal;
 
@@ -107,20 +102,9 @@ public class KasirController {
     }
 
     @GetMapping("/history")
-    public String history(Model model, Principal principal,
-                          @RequestParam(name = "page", defaultValue = "0") int page,
-                          @RequestParam(name = "size", defaultValue = "8") int size) {
-        
-        // Ensure page is not negative
-        page = Math.max(0, page);
-
-        Pageable pageable = PageRequest.of(page, size, Sort.by("transactionDate").descending());
-        Page<Transaction> transactionPage = transactionRepository.findAllByOrderByTransactionDateDesc(pageable);
-        
+    public String history(Model model, Principal principal) {
         model.addAttribute("username", principal.getName());
-        model.addAttribute("transactionPage", transactionPage);
-        model.addAttribute("transactions", transactionPage.getContent()); // for backward compatibility with th:each
-        
+        model.addAttribute("transactions", transactionRepository.findAllByOrderByTransactionDateDesc());
         return "transaction-history";
     }
 
