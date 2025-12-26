@@ -1,11 +1,10 @@
 #!/bin/bash
 
 # Auto-start in screen if not already in one
-# The --in-screen flag is passed by the script itself to avoid an infinite loop
-if [ -z "$STY" ] && [ "" != "--in-screen" ]; then
+if [ -z "$STY" ]; then
     echo "Memulai sesi screen 'hrdapp' baru dan menjalankan builder di dalamnya..."
-    # Relaunch this script inside a new screen session
-    screen -S hrdapp bash -c "'$0' --in-screen; exec bash"
+    # Relaunch this script inside a new screen session, then leave the user in a bash shell
+    screen -S hrdapp bash -c "'$0'; exec bash"
     echo "Sesi 'hrdapp' telah dibuat. Untuk masuk, ketik: screen -r hrdapp"
     exit 0
 fi
@@ -82,14 +81,12 @@ function detach_screen() {
 }
 
 # Main execution
-# Only check for mvn if we are actually inside the screen session
-if [ "" == "--in-screen" ]; then
-    whereis mvn >/dev/null 2>&1
-    if [ $? -ne 0 ]; then
-        clear
-        echo -e " $cR ERROR $cX Maven tidak terdeteksi!"
-        echo "        Pastikan 'mvn' bisa dijalankan di shell."
-        exit
-    fi
-    menu
+whereis mvn >/dev/null 2>&1
+if [ $? -ne 0 ]; then
+    clear
+    echo -e " $cR ERROR $cX Maven tidak terdeteksi!"
+    echo "        Pastikan 'mvn' bisa dijalankan di shell."
+    exit
 fi
+
+menu
