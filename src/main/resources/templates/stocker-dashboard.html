@@ -71,29 +71,17 @@
         <div class="flex items-center space-x-6">
             <div class="flex flex-col border-r border-white/10 pr-6">
                 <h1 class="logo-font text-xl md:text-2xl font-black tracking-tighter leading-none">NITNOT</h1>
-<<<<<<< HEAD
                 <p class="text-[8px] tracking-[0.3em] text-blue-400 font-bold uppercase mt-1">Inventaris</p>
             </div>
             <div class="hidden md:block">
                 <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Mode Pengelolaan</span>
-=======
-                <p class="text-[8px] tracking-[0.3em] text-blue-400 font-bold uppercase mt-1">Inventory</p>
-            </div>
-            <div class="hidden md:block">
-                <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Management Mode</span>
->>>>>>> a56bd82b71f7f2a0acff05bb08c9ed1c423531b0
             </div>
         </div>
         
         <div class="flex items-center space-x-4">
             <div class="text-right hidden sm:block">
-<<<<<<< HEAD
                 <p class="text-[8px] text-blue-400 uppercase font-black">Stokis</p>
                 <p class="text-xs font-bold leading-none" th:text="${username}">Pengguna</p>
-=======
-                <p class="text-[8px] text-blue-400 uppercase font-black">Stocker</p>
-                <p class="text-xs font-bold leading-none" th:text="${username}">User</p>
->>>>>>> a56bd82b71f7f2a0acff05bb08c9ed1c423531b0
             </div>
             <form th:action="@{/logout}" method="post" class="m-0">
                 <button type="submit" class="w-9 h-9 bg-red-500/80 hover:bg-red-600 rounded-full flex items-center justify-center shadow-lg transition-all border border-white/20">
@@ -117,7 +105,7 @@
             <form th:action="@{/stocker/product/add}" method="post" class="p-8 space-y-5">
                 <div class="space-y-1">
                     <label class="text-[10px] font-black text-slate-400 uppercase ml-4">Nama Produk</label>
-                    <input type="text" name="name" placeholder="Contoh: Novel Laskar Pelangi" required
+                    <input type="text" name="name" placeholder="Contoh: Pulpen Pilot G2" required
                            class="input-field w-full rounded-2xl p-4 text-sm font-semibold outline-none">
                 </div>
                 
@@ -150,15 +138,9 @@
     <div class="lg:col-span-8">
         <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 gap-6">
             <div>
-<<<<<<< HEAD
                 <h3 class="font-black text-slate-900 uppercase tracking-tighter text-3xl md:text-4xl italic leading-none">Inventaris</h3>
                 <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-2 flex items-center">
                     <span class="w-6 h-[2px] bg-blue-500 mr-2"></span> Sistem Kontrol Stok
-=======
-                <h3 class="font-black text-slate-900 uppercase tracking-tighter text-3xl md:text-4xl italic leading-none">Inventory</h3>
-                <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-2 flex items-center">
-                    <span class="w-6 h-[2px] bg-blue-500 mr-2"></span> Stock Control System
->>>>>>> a56bd82b71f7f2a0acff05bb08c9ed1c423531b0
                 </p>
             </div>
             
@@ -178,17 +160,10 @@
             <table class="w-full text-left border-collapse">
                 <thead class="hide-on-mobile bg-slate-900 text-white">
                     <tr>
-<<<<<<< HEAD
                         <th class="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em]">Info Produk</th>
                         <th class="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em]">Harga</th>
                         <th class="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em]">Stok</th>
                         <th class="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-center">Aksi</th>
-=======
-                        <th class="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em]">Product Info</th>
-                        <th class="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em]">Pricing</th>
-                        <th class="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em]">Stock</th>
-                        <th class="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-center">Actions</th>
->>>>>>> a56bd82b71f7f2a0acff05bb08c9ed1c423531b0
                     </tr>
                 </thead>
                 <tbody id="inventoryBody" class="lg:divide-y lg:divide-slate-100">
@@ -196,7 +171,6 @@
                         <td class="px-0 lg:px-8 lg:py-6">
                             <div class="flex flex-col">
                                 <span class="product-name font-black text-slate-800 text-lg lg:text-sm uppercase tracking-tight" th:text="${product.name}">Produk</span>
-<<<<<<< HEAD
                                 <span class="text-[9px] text-slate-400 font-bold uppercase tracking-widest mt-1" th:text="'ID-' + ${product.id}">ID: 1</span>
                             </div>
                         </td>
@@ -206,17 +180,6 @@
                         </td>
                         <td class="px-0 lg:px-8 lg:py-6">
                             <span class="lg:hidden text-[9px] font-black text-slate-400 uppercase block mb-1">Status Stok</span>
-=======
-                                <span class="text-[9px] text-slate-400 font-bold uppercase tracking-widest mt-1" th:text="'UID-' + ${product.id}">ID: 1</span>
-                            </div>
-                        </td>
-                        <td class="px-0 lg:px-8 lg:py-6">
-                            <span class="lg:hidden text-[9px] font-black text-slate-400 uppercase block mb-1">Price Unit</span>
-                            <span class="font-black text-blue-600 text-lg lg:text-sm" th:text="${'Rp ' + #numbers.formatDecimal(product.price, 0, 'POINT', 0, 'COMMA')}">0</span>
-                        </td>
-                        <td class="px-0 lg:px-8 lg:py-6">
-                            <span class="lg:hidden text-[9px] font-black text-slate-400 uppercase block mb-1">Stock Status</span>
->>>>>>> a56bd82b71f7f2a0acff05bb08c9ed1c423531b0
                             <div class="flex items-center">
                                 <span th:classappend="${product.stock <= 5} ? 'bg-rose-100 text-rose-600' : 'bg-emerald-100 text-emerald-600'"
                                       class="px-4 py-1.5 rounded-xl font-black text-[10px] uppercase"
@@ -241,11 +204,7 @@
                             <div th:id="'editModal-' + ${product.id}" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-md">
                                 <div class="bg-white rounded-[2.5rem] w-full max-w-md overflow-hidden shadow-2xl animate-in zoom-in duration-300">
                                     <div class="bg-slate-900 p-6 flex justify-between items-center">
-<<<<<<< HEAD
                                         <h3 class="text-white font-black uppercase text-xs tracking-widest">Perbarui Informasi</h3>
-=======
-                                        <h3 class="text-white font-black uppercase text-xs tracking-widest">Update Information</h3>
->>>>>>> a56bd82b71f7f2a0acff05bb08c9ed1c423531b0
                                         <button th:attr="onclick='closeModal(\'editModal-' + ${product.id} + '\')'" class="text-white/50 hover:text-white transition-colors">
                                             <i data-lucide="x" class="w-6 h-6"></i>
                                         </button>
@@ -271,11 +230,7 @@
                                             </div>
                                         </div>
                                         <button type="submit" class="w-full bg-slate-900 text-white py-5 rounded-2xl font-black text-xs uppercase tracking-[0.2em] shadow-xl active:scale-95 transition-all mt-4">
-<<<<<<< HEAD
                                             Perbarui Produk
-=======
-                                            Update Product
->>>>>>> a56bd82b71f7f2a0acff05bb08c9ed1c423531b0
                                         </button>
                                     </form>
                                 </div>
@@ -288,11 +243,7 @@
         
         <div th:if="${#lists.isEmpty(products)}" class="py-24 text-center opacity-20 flex flex-col items-center">
             <i data-lucide="box-select" class="w-20 h-20 mb-4"></i>
-<<<<<<< HEAD
             <p class="text-xl font-black uppercase tracking-[0.4em]">Tidak Ada Data Inventaris</p>
-=======
-            <p class="text-xl font-black uppercase tracking-[0.4em]">No Inventory Data</p>
->>>>>>> a56bd82b71f7f2a0acff05bb08c9ed1c423531b0
         </div>
     </div>
 

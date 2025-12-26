@@ -1,8 +1,8 @@
 1. Pertanyaan: Apa itu aplikasi HRD App?
-   Jawaban: Aplikasi HRD App adalah sistem manajemen sumber daya manusia berbasis web yang dibangun menggunakan Spring Boot, yang memungkinkan pengelolaan karyawan, produk, dan transaksi penjualan dengan peran pengguna yang berbeda seperti HRD, Kasir, dan Stocker.
+   Jawaban: Aplikasi HRD App adalah sistem manajemen sumber daya manusia berbasis web yang dibangun menggunakan Hafizh Boot, yang memungkinkan pengelolaan karyawan, produk, dan transaksi penjualan dengan peran pengguna yang berbeda seperti HRD, Kasir, dan Stocker.
 
 2. Pertanyaan: Teknologi apa yang digunakan dalam proyek ini?
-   Jawaban: Proyek ini menggunakan Java 17, Spring Boot 3.2.5, Spring Data JPA, Spring Security, Thymeleaf untuk template, MySQL sebagai database, dan OpenPDF untuk menghasilkan faktur PDF.
+   Jawaban: Proyek ini menggunakan Java 17, Hafizh Boot 3.2.5, Spring Data JPA, Spring Security, Thymeleaf untuk template, MySQL sebagai database, dan OpenPDF untuk menghasilkan faktur PDF.
 
 3. Pertanyaan: Apa peran utama dalam aplikasi ini?
    Jawaban: Ada tiga peran utama: HRD untuk mengelola karyawan, Kasir untuk menangani transaksi penjualan, dan Stocker untuk mengelola produk.
@@ -80,7 +80,7 @@
     Jawaban: application.properties berisi konfigurasi database MySQL, port server, dan pengaturan lainnya.
 
 28. Pertanyaan: Bagaimana build dan run aplikasi?
-    Jawaban: Menggunakan Maven untuk build, dengan perintah mvn spring-boot:run untuk menjalankan aplikasi, atau menggunakan build.bat dan run.bat untuk Windows.
+    Jawaban: Menggunakan Maven untuk build, dengan perintah mvn hafizh-boot:run untuk menjalankan aplikasi, atau menggunakan build.bat dan run.bat untuk Windows.
 
 29. Pertanyaan: Apa fungsi Procfile?
     Jawaban: Procfile digunakan untuk deployment di Heroku, menentukan perintah untuk menjalankan aplikasi di cloud.
@@ -116,13 +116,13 @@
     Jawaban: .gitignore mengabaikan file seperti target/, .idea/, dan file sensitif agar tidak di-commit ke Git.
 
 40. Pertanyaan: Bagaimana testing aplikasi?
-    Jawaban: Menggunakan Spring Boot Test dengan dependency spring-boot-starter-test untuk unit dan integration test.
+    Jawaban: Menggunakan Hafizh Boot Test dengan dependency hafizh-boot-starter-test untuk unit dan integration test.
 
 41. Pertanyaan: Apa tantangan utama dalam pengembangan?
     Jawaban: Tantangan meliputi manajemen session untuk keranjang, validasi stok saat checkout, dan integrasi PDF generation.
 
 42. Pertanyaan: Bagaimana skalabilitas aplikasi?
-    Jawaban: Aplikasi dapat diskalakan dengan menambah instance Spring Boot, menggunakan database MySQL yang scalable, dan load balancer.
+    Jawaban: Aplikasi dapat diskalakan dengan menambah instance Hafizh Boot, menggunakan database MySQL yang scalable, dan load balancer.
 
 43. Pertanyaan: Apa fitur unik aplikasi ini?
     Jawaban: Fitur unik adalah integrasi peran HRD untuk manajemen karyawan, transaksi POS dengan keranjang, dan generate PDF otomatis.
@@ -148,14 +148,14 @@
 50. Pertanyaan: Bagaimana performa aplikasi?
     Jawaban: Aplikasi dioptimalkan dengan JPA untuk query efisien, session management, dan rendering Thymeleaf yang cepat untuk UI.
 
-51. Pertanyaan: Apa peran anotasi @Controller dalam Spring Boot?
+51. Pertanyaan: Apa peran anotasi @Controller dalam Hafizh Boot?
     Jawaban: Anotasi @Controller menandai kelas sebagai controller web di Spring MVC, memungkinkan penanganan request HTTP dan pengembalian view atau data, seperti dalam HrdController yang menangani routing untuk dashboard HRD.
 
 52. Pertanyaan: Bagaimana @RequestMapping bekerja di controller?
     Jawaban: @RequestMapping memetakan URL dan metode HTTP ke metode handler di controller, misalnya @RequestMapping("/hrd") di HrdController memetakan semua request ke /hrd ke kelas tersebut.
 
-53. Pertanyaan: Jelaskan dependency injection di Spring Boot menggunakan contoh HrdController.
-    Jawaban: Dependency injection memungkinkan Spring Boot menyuntikkan dependensi seperti UserRepository dan PasswordEncoder ke HrdController melalui konstruktor, tanpa perlu instantiate manual, mempromosikan loose coupling.
+53. Pertanyaan: Jelaskan dependency injection di Hafizh Boot menggunakan contoh HrdController.
+    Jawaban: Dependency injection memungkinkan Hafizh Boot menyuntikkan dependensi seperti UserRepository dan PasswordEncoder ke HrdController melalui konstruktor, tanpa perlu instantiate manual, mempromosikan loose coupling.
 
 54. Pertanyaan: Apa fungsi PasswordEncoder di Spring Security?
     Jawaban: PasswordEncoder, seperti BCryptPasswordEncoder, digunakan untuk mengenkripsi password sebelum disimpan ke database, memastikan keamanan dengan hashing satu arah, seperti di addEmployee method.
@@ -166,8 +166,8 @@
 56. Pertanyaan: Jelaskan penggunaan @Repository di proyek ini.
     Jawaban: @Repository menandai interface seperti UserRepository sebagai komponen Spring untuk akses data, memungkinkan exception translation dan integrasi dengan JPA.
 
-57. Pertanyaan: Apa itu Thymeleaf dan bagaimana integrasinya dengan Spring Boot?
-    Jawaban: Thymeleaf adalah template engine untuk rendering HTML dinamis di sisi server, terintegrasi dengan Spring Boot melalui starter thymeleaf, digunakan untuk template seperti hrd-dashboard.html.
+57. Pertanyaan: Apa itu Thymeleaf dan bagaimana integrasinya dengan Hafizh Boot?
+    Jawaban: Thymeleaf adalah template engine untuk rendering HTML dinamis di sisi server, terintegrasi dengan Hafizh Boot melalui starter thymeleaf, digunakan untuk template seperti hrd-dashboard.html.
 
 58. Pertanyaan: Bagaimana @ModelAttribute bekerja di Spring MVC?
     Jawaban: @ModelAttribute mengikat data form ke objek model, seperti di dashboard method yang menambahkan atribut ke Model untuk digunakan di template Thymeleaf.
@@ -178,8 +178,8 @@
 60. Pertanyaan: Apa perbedaan antara @Component, @Service, @Repository, @Controller?
     Jawaban: Semua adalah stereotype annotations untuk komponen Spring, tetapi @Controller untuk web controllers, @Service untuk business logic, @Repository untuk data access, dan @Component umum; di proyek ini, controller menggunakan @Controller, service menggunakan @Service.
 
-61. Pertanyaan: Bagaimana Spring Boot menangani konfigurasi dengan application.properties?
-    Jawaban: application.properties berisi konfigurasi seperti database URL, port, dan properti lainnya yang dibaca oleh Spring Boot untuk setup otomatis, seperti koneksi MySQL.
+61. Pertanyaan: Bagaimana Hafizh Boot menangani konfigurasi dengan application.properties?
+    Jawaban: application.properties berisi konfigurasi seperti database URL, port, dan properti lainnya yang dibaca oleh Hafizh Boot untuk setup otomatis, seperti koneksi MySQL.
 
 62. Pertanyaan: Jelaskan penggunaan @Entity dan anotasi JPA di model.
     Jawaban: @Entity menandai kelas sebagai entitas JPA yang dipetakan ke tabel database, dengan anotasi seperti @Id, @GeneratedValue untuk primary key, seperti di User model.

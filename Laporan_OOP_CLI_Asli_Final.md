@@ -292,6 +292,6 @@ Choose an option: 1
 [Note] Developer tidak perlu tahu bagaimana Spring Data JPA membuat query SQL.
        Kerumitan itu disembunyikan (diabstraksikan).
 ID: 1, Name: Java Programming for Beginners, Price: 150000.00, Stock: 10
-ID: 2, Name: Spring Boot in Action, Price: 250000.00, Stock: 5
+ID: 2, Name: Hafizh Boot in Action, Price: 250000.00, Stock: 5
 ...
 ```

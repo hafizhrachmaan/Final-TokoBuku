@@ -2,7 +2,7 @@
 setlocal EnableDelayedExpansion
 
 :: ======================================================
-::            J A V A R K   B U I L D E R
+::     H A F I Z H R A C H M A N   B U I L D E R
 :: ======================================================
 
 :: Mendapatkan karakter ESC untuk warna ANSI
@@ -27,7 +27,7 @@ set "bWRN=%ESC%[43m%ESC%[30m WARN  %cX%%cY%"
 :: 2. KONFIGURASI PROYEK
 :: ====================================================
 set "JAR_NAME=hrd-app-0.0.1-SNAPSHOT.jar"
-set "CLI_CLASS=com.example.hrdapp.CliTaskRunner"
+set "CLI_CLASS=com.tokobuku.nitnot.CliTaskRunner"
 
 :: ====================================================
 :: 3. SYSTEM CHECK
@@ -49,18 +49,18 @@ if %ERRORLEVEL% NEQ 0 (
 cls
 echo.
 echo  %cB%======================================================%cX%
-echo  %cW%           J A V A R K   B U I L D E R              %cX%
+echo  %cW%     H A F I Z H R A C H M A N   B U I L D E R      %cX%
 echo  %cB%======================================================%cX%
 echo.
-echo  %cW%[1]%cX% %cG%WEB MODE%cX% : Build JAR + Run Web App
-echo  %cW%[2]%cX% %cY%CLI MODE%cX% : Compile + Run CLI Tasks
+echo  %cW%[1]%cX% %cG%WEB ONLY%cX% : Jalankan hanya aplikasi web
+echo  %cW%[2]%cX% %cY%CLI ONLY%cX% : Jalankan hanya tugas antarmuka baris perintah
 echo  %cW%[0]%cX% %cR%KELUAR%cX%
 echo.
 echo  %cB%------------------------------------------------------%cX%
 set /p "pilih= %cC%>> Pilih Menu (0-2): %cX%"
 
-if "%pilih%"=="1" goto :web_mode
-if "%pilih%"=="2" goto :cli_mode
+if "%pilih%"=="1" goto :web_only_mode
+if "%pilih%"=="2" goto :cli_only_mode
 if "%pilih%"=="0" exit
 goto :menu
 
@@ -68,36 +68,28 @@ goto :menu
 :: 5. CORE LOGIC
 :: ====================================================
 
-:web_mode
+:web_only_mode
 echo.
-call :header "MEMULAI WEB MODE"
-echo %bINF% Building JAR dengan Maven...
-mvn clean package -q
+call :header "MEMULAI WEB ONLY MODE"
+echo %bINF% Menjalankan aplikasi web dengan Maven...
+call mvn spring-boot:run
 if %ERRORLEVEL% NEQ 0 (
-    echo %bERR% Build gagal! Cek kode Anda.
+    echo %bERR% Eksekusi gagal! Periksa output untuk kesalahan.
     pause
-    goto :menu
 )
-echo %bOK%  Build berhasil.
-echo %bINF% Menjalankan aplikasi web...
-java -jar target\%JAR_NAME%
-goto :end
+goto :menu
 
-:cli_mode
+:cli_only_mode
 echo.
-call :header "MEMULAI CLI MODE"
-echo %bINF% Mengkompilasi dengan Maven...
-mvn compile -q
+call :header "MEMULAI CLI ONLY MODE"
+echo %bINF% Menjalankan hanya tugas CLI dengan Maven...
+call mvn spring-boot:run -Dspring-boot.run.profiles=cli -Dspring-boot.run.arguments="--spring.main.web-application-type=none"
 if %ERRORLEVEL% NEQ 0 (
-    echo %bERR% Kompilasi gagal! Cek kode Anda.
+    echo %bERR% Eksekusi gagal! Periksa output untuk kesalahan.
     pause
-    goto :menu
 )
-echo %bOK%  Kompilasi berhasil.
-echo %bINF% Menjalankan CLI tasks...
-java -cp target\classes %CLI_CLASS%
 echo.
-call :header "CLI SELESAI"
+call :header "TUGAS CLI SELESAI"
 pause
 goto :menu
 

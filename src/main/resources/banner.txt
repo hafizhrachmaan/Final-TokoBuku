@@ -1,0 +1,8 @@
+
+HH   HH   AA   FFFFF  IIIII ZZZZZZ HH   HH
+HH   HH  AAAA  FF       III      ZZ HH   HH
+HHHHHHH AAAAAA FFFF     III    ZZZ  HHHHHHH
+HH   HH AA  AA FF       III   ZZ    HH   HH
+HH   HH AA  AA FF     IIIII ZZZZZZ HH   HH
+
+:: Hafizh Boot ::                (v${spring-boot.version})

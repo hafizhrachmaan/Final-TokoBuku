@@ -83,7 +83,7 @@ public class CliTaskRunner implements CommandLineRunner {
                 case "0":
                     System.out.println("\nTerima kasih, sampai jumpa!");
                     scanner.close();
-                    // Use the proper Spring Boot exit method for a graceful shutdown
+                    // Use the proper Hafizh Boot exit method for a graceful shutdown
                     System.exit(SpringApplication.exit(context, () -> 0));
                     return;
                 default:

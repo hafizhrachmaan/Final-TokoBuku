@@ -40,12 +40,8 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `description`, `name`, `price`, `stock`) VALUES
-(1, 'Buku tulis isi 60', 'Buku Sidu', 5000, 100),
-(4, 'BOLPOIN 0.5', 'Bolpoin HI-TECH', 30000, 90),
-(5, '', 'Kertas Folio', 500, 992),
-(6, 'Buku tulis 38 lembar', 'Buku Tulis Sidu 38L', 4500, 117),
-(7, 'Buku tulis 58 lembar', 'Buku Tulis Sidu 58L', 6500, 99),
-(8, 'Buku gambar A4', 'Buku Gambar Joyko', 7000, 72),
+(4, 'Pulpen 0.5', 'Bolpoin HI-TECH', 30000, 90),
+(5, 'Kertas Folio Garis', 'Kertas Folio', 500, 992),
 (9, 'Pulpen tinta hitam', 'Pulpen Standard AE7', 3000, 195),
 (10, 'Pulpen tinta biru', 'Pulpen Pilot G2', 12000, 72),
 (11, 'Pensil HB', 'Pensil Faber Castell HB', 2500, 178),

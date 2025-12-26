@@ -3,11 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<<<<<<< HEAD
     <title>TERMINAL KASIR NITNOT</title>
-=======
-    <title>NITNOT POS TERMINAL</title>
->>>>>>> a56bd82b71f7f2a0acff05bb08c9ed1c423531b0
     <meta name="_csrf" th:content="${_csrf.token}"/>
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <script src="https://cdn.tailwindcss.com"></script>
@@ -37,17 +33,10 @@
         <div class="flex items-center space-x-6 md:space-x-12">
             <div class="flex flex-col border-r border-white/10 pr-6">
                 <h1 class="logo-font text-xl md:text-2xl font-black tracking-tighter leading-none">NITNOT</h1>
-<<<<<<< HEAD
                 <p class="text-[8px] tracking-[0.3em] text-blue-400 font-bold uppercase mt-1">SISTEM KASIR</p>
             </div>
             <div class="flex space-x-2 md:space-x-4 text-[10px] md:text-[11px] uppercase">
                 <a th:href="@{/kasir/dashboard}" class="nav-link active">KASIR</a>
-=======
-                <p class="text-[8px] tracking-[0.3em] text-blue-400 font-bold uppercase mt-1">POS SYSTEM</p>
-            </div>
-            <div class="flex space-x-2 md:space-x-4 text-[10px] md:text-[11px] uppercase">
-                <a th:href="@{/kasir/dashboard}" class="nav-link active">POS</a>
->>>>>>> a56bd82b71f7f2a0acff05bb08c9ed1c423531b0
                 <a th:href="@{/kasir/history}" class="nav-link inactive">Riwayat</a>
             </div>
         </div>
@@ -63,10 +52,10 @@
     
     <div class="lg:col-span-7 xl:col-span-8 order-2 lg:order-1">
         <div class="mb-8">
-            <h2 class="text-2xl md:text-4xl font-black text-slate-800 uppercase tracking-tighter italic">Katalog Buku</h2>
+            <h2 class="text-2xl md:text-4xl font-black text-slate-800 uppercase tracking-tighter italic">Katalog Produk</h2>
             <div class="relative mt-5">
                 <div class="absolute inset-y-0 left-5 flex items-center pointer-events-none text-slate-400"><i data-lucide="search" class="w-5 h-5"></i></div>
-                <input type="text" id="productSearch" placeholder="Cari judul buku..." class="w-full bg-white border-none rounded-[1.5rem] py-4 pl-14 pr-6 shadow-sm focus:ring-2 focus:ring-blue-500 text-sm font-medium">
+                <input type="text" id="productSearch" placeholder="Cari nama produk..." class="w-full bg-white border-none rounded-[1.5rem] py-4 pl-14 pr-6 shadow-sm focus:ring-2 focus:ring-blue-500 text-sm font-medium">
             </div>
         </div>
 
@@ -77,11 +66,7 @@
                     <span class="lg:hidden">NITNOT</span>
                 </div>
                 <div class="flex-1 min-w-0 lg:w-full">
-<<<<<<< HEAD
                     <span class="text-[8px] font-black text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full lg:px-3 lg:py-1 lg:text-[10px] lg:self-start lg:mb-2" th:text="'Stok: ' + ${product.stock}">0</span>
-=======
-                    <span class="text-[8px] font-black text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full lg:px-3 lg:py-1 lg:text-[10px] lg:self-start lg:mb-2" th:text="'Stock: ' + ${product.stock}">0</span>
->>>>>>> a56bd82b71f7f2a0acff05bb08c9ed1c423531b0
                     <h3 class="font-bold text-slate-800 text-xs uppercase truncate mt-0.5 lg:font-black lg:text-sm lg:mb-1" th:text="${product.name}">NAMA</h3>
                     <p class="text-blue-600 font-black text-sm lg:text-xl lg:mb-6" th:text="${'Rp ' + #numbers.formatDecimal(product.price, 0, 'POINT', 0, 'COMMA')}">0</p>
                 </div>
@@ -100,13 +85,8 @@
         <div class="bg-white rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.05)] overflow-hidden flex flex-col cart-sticky border border-slate-100">
             <div class="bg-slate-900 p-6 text-white flex justify-between items-center">
                 <div>
-<<<<<<< HEAD
                     <h2 class="text-lg font-black uppercase tracking-tighter italic">Rincian Tagihan</h2>
                     <p class="text-[8px] font-bold text-blue-400 uppercase tracking-widest mt-1">Ringkasan Transaksi</p>
-=======
-                    <h2 class="text-lg font-black uppercase tracking-tighter italic">Bill Detail</h2>
-                    <p class="text-[8px] font-bold text-blue-400 uppercase tracking-widest mt-1">Transaction Summary</p>
->>>>>>> a56bd82b71f7f2a0acff05bb08c9ed1c423531b0
                 </div>
                 <div id="cart-item-count" class="w-9 h-9 bg-blue-600 rounded-xl flex items-center justify-center font-black text-xs shadow-lg shadow-blue-500/20">0</div>
             </div>
@@ -115,20 +95,12 @@
             </div>
             <div class="p-6 bg-slate-50 border-t border-slate-100">
                 <div class="flex justify-between items-center mb-5">
-<<<<<<< HEAD
                     <p class="text-[9px] font-black text-slate-400 uppercase">Total Semua</p>
-=======
-                    <p class="text-[9px] font-black text-slate-400 uppercase">Grand Total</p>
->>>>>>> a56bd82b71f7f2a0acff05bb08c9ed1c423531b0
                     <p id="cart-total" class="text-2xl font-black text-slate-800">Rp 0</p>
                 </div>
                 <form th:action="@{/kasir/checkout}" method="post">
                     <button id="checkout-button" type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-5 rounded-[1.5rem] font-black uppercase text-xs shadow-xl active:scale-95 disabled:opacity-40 transition-all flex items-center justify-center space-x-2">
-<<<<<<< HEAD
                         <span>Bayar</span><i data-lucide="chevron-right" class="w-4 h-4"></i>
-=======
-                        <span>Checkout</span><i data-lucide="chevron-right" class="w-4 h-4"></i>
->>>>>>> a56bd82b71f7f2a0acff05bb08c9ed1c423531b0
                     </button>
                 </form>
             </div>
