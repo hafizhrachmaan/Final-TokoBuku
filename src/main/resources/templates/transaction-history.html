@@ -3,7 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<<<<<<< HEAD
     <title>Riwayat - SISTEM KASIR NITNOT</title>
+=======
+    <title>Riwayat - NITNOT POS SYSTEM</title>
+>>>>>>> a56bd82b71f7f2a0acff05bb08c9ed1c423531b0
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/lucide.min.js"></script>
@@ -86,11 +90,19 @@
         <div class="flex items-center space-x-6 md:space-x-12">
             <div class="flex flex-col border-r border-white/10 pr-6">
                 <h1 class="logo-font text-xl md:text-2xl font-black tracking-tighter leading-none">NITNOT</h1>
+<<<<<<< HEAD
                 <p class="text-[8px] tracking-[0.3em] text-blue-400 font-bold uppercase mt-1">SISTEM KASIR</p>
             </div>
             
             <div class="flex space-x-2 md:space-x-4 text-[10px] md:text-[11px] uppercase">
                 <a th:href="@{/kasir/dashboard}" class="nav-link">KASIR</a>
+=======
+                <p class="text-[8px] tracking-[0.3em] text-blue-400 font-bold uppercase mt-1">POS SYSTEM</p>
+            </div>
+            
+            <div class="flex space-x-2 md:space-x-4 text-[10px] md:text-[11px] uppercase">
+                <a th:href="@{/kasir/dashboard}" class="nav-link">POS</a>
+>>>>>>> a56bd82b71f7f2a0acff05bb08c9ed1c423531b0
                 <a th:href="@{/kasir/history}" class="nav-link active">Riwayat</a>
             </div>
         </div>
@@ -130,7 +142,11 @@
             <i data-lucide="check" class="w-5 h-5 text-white"></i>
         </div>
         <div class="flex flex-col">
+<<<<<<< HEAD
             <span class="text-[10px] font-black uppercase tracking-widest text-blue-400 leading-none">Status: Sukses</span>
+=======
+            <span class="text-[10px] font-black uppercase tracking-widest text-blue-400 leading-none">Status: Success</span>
+>>>>>>> a56bd82b71f7f2a0acff05bb08c9ed1c423531b0
             <span class="text-xs md:text-sm font-extrabold mt-1" th:text="'Transaksi #' + ${param.checkout_success} + ' Berhasil Dicatat!'"></span>
         </div>
     </div>
@@ -167,7 +183,11 @@
         <table class="w-full text-left">
             <thead>
                 <tr class="bg-slate-900 text-white text-[10px] uppercase tracking-[0.25em] font-black">
+<<<<<<< HEAD
                     <th class="px-10 py-7">ID Faktur</th>
+=======
+                    <th class="px-10 py-7">Invoice ID</th>
+>>>>>>> a56bd82b71f7f2a0acff05bb08c9ed1c423531b0
                     <th class="px-10 py-7">Waktu Penjualan</th>
                     <th class="px-10 py-7">Total Harga</th>
                     <th class="px-10 py-7">Petugas Kasir</th>
