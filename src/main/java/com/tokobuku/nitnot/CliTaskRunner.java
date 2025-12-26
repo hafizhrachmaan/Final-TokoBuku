@@ -19,11 +19,7 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 @Configuration
-<<<<<<< HEAD
 @ComponentScan(basePackages = "com.tokobuku.nitnot")
-=======
-@ComponentScan(basePackages = "com.example.hrdapp")
->>>>>>> a56bd82b71f7f2a0acff05bb08c9ed1c423531b0
 public class CliTaskRunner implements CommandLineRunner {
 
     @Autowired
