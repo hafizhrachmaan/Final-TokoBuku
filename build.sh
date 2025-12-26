@@ -19,14 +19,16 @@ function menu() {
     echo
     echo -e " $cW[1]$cX $cG""WEB ONLY$cX : Jalankan hanya aplikasi web"
     echo -e " $cW[2]$cX $cY""CLI ONLY$cX : Jalankan hanya tugas antarmuka baris perintah"
+    echo -e " $cW[3]$cX $cR""Detach Screen$cX : Keluar dari sesi screen VPS"
     echo -e " $cW[0]$cX $cR""KELUAR$cX"
     echo
     echo -e " $cB------------------------------------------------------$cX"
-    read -p " >> Pilih Menu (0-2): " pilih
+    read -p " >> Pilih Menu (0-3): " pilih
 
     case $pilih in
         1) web_only_mode ;;
         2) cli_only_mode ;;
+        3) detach_screen ;;
         0) exit ;;
         *) menu ;;
     esac
@@ -63,6 +65,11 @@ function cli_only_mode() {
     echo -e " $cB------------------------------------------------------$cX"
     read -p "Tekan [Enter] untuk kembali ke menu..."
     menu
+}
+
+function detach_screen() {
+    echo "Mencoba untuk detach dari sesi screen..."
+    screen -d
 }
 
 # Main execution
