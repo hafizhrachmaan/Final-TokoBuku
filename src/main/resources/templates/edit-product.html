@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Product - Stoker NITNOT</title>
+    <title>Ubah Produk - Stoker NITNOT</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
@@ -46,7 +46,7 @@
                                 <div class="relative p-4 w-full max-w-md h-full md:h-auto">
                                     <div class="relative bg-white rounded-[2.5rem] shadow-2xl p-8 border border-slate-100">
                                         <div class="flex justify-between items-center mb-6 border-b pb-4">
-                                            <h3 class="text-xl font-black text-slate-800 uppercase tracking-tight">Update Produk</h3>
+                                            <h3 class="text-xl font-black text-slate-800 uppercase tracking-tight">Perbarui Produk</h3>
                                             <button type="button" th:attr="data-modal-hide='editProd-' + ${product.id}" class="text-slate-400 hover:text-red-500">
                                                 <i data-lucide="x" class="w-6 h-6"></i>
                                             </button>
@@ -61,7 +61,7 @@
                                             
                                             <div class="grid grid-cols-2 gap-4">
                                                 <div>
-                                                    <label class="text-[10px] font-black text-slate-400 uppercase block mb-1 ml-1">Harga Unit</label>
+                                                    <label class="text-[10px] font-black text-slate-400 uppercase block mb-1 ml-1">Harga Satuan</label>
                                                     <input type="number" name="price" th:value="${product.price}" 
                                                            class="w-full bg-slate-50 border-slate-200 rounded-2xl p-4 text-sm font-bold focus:ring-4 focus:ring-blue-100 transition-all outline-none" required>
                                                 </div>
