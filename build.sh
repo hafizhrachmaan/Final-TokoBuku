@@ -68,8 +68,7 @@ function cli_only_mode() {
 }
 
 function detach_screen() {
-    echo "Mencoba untuk detach dari sesi screen..."
-    screen -d
+    screen -d >/dev/null 2>&1
 }
 
 # Main execution
