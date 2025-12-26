@@ -6,6 +6,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.tokobuku.nitnot.dto.UserRegistrationRequest;
@@ -19,6 +20,7 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 @Configuration
+@Profile("cli")
 @ComponentScan(basePackages = "com.tokobuku.nitnot")
 public class CliTaskRunner implements CommandLineRunner {
 
