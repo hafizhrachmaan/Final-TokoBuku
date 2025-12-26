@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kasir Dashboard - NITNOT TOKO BUKU</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/flowbite@1.7.0/dist/flowbite.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        .logo-font { font-family: 'Playfair Display', serif; }
+        .body-font { font-family: 'Inter', sans-serif; }
+        
+        body {
+            background: linear-gradient(-45deg, #f3f4f6, #e5e7eb, #d1d5db, #f3f4f6);
+            background-size: 400% 400%;
+            animation: moveGradient 15s ease infinite;
+        }
+
+        @keyframes moveGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.1);
+        }
+    </style>
+</head>
+<body class="body-font min-h-screen">
+
+<nav class="bg-[#001f3f] text-white shadow-xl sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+        <div class="flex items-center space-x-8">
+            <div class="flex items-center space-x-2">
+                <span class="logo-font text-2xl tracking-tight">NITNOT</span>
+                <span class="text-[10px] uppercase tracking-[0.3em] text-blue-300 font-bold border-l border-blue-800 pl-3">POS SYSTEM</span>
+            </div>
+            <div class="hidden md:flex space-x-6 text-sm font-medium">
+                <a href="#" class="text-blue-400 border-b-2 border-blue-400 pb-1">POS</a>
+                <a href="#" class="hover:text-blue-300 transition-colors">Riwayat</a>
+            </div>
+        </div>
+        <div class="flex items-center space-x-4">
+            <div class="text-right">
+                <p class="text-[9px] text-blue-300 uppercase font-black tracking-tighter">Kasir Aktif</p>
+                <p class="text-sm font-bold" th:text="${username}">Nitnot</p>
+            </div>
+            <div class="w-10 h-10 bg-blue-500 rounded-full border-2 border-blue-800 flex items-center justify-center">
+                <i data-lucide="user" class="w-5 h-5"></i>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<main class="max-w-7xl mx-auto px-6 py-8 grid grid-cols-1 lg:grid-cols-3 gap-8">
+    
+    <div class="lg:col-span-2">
+        <div class="flex items-center justify-between mb-8">
+            <h1 class="text-2xl font-black text-gray-800 tracking-tight uppercase">Katalog Produk</h1>
+            <div class="relative w-64">
+                <input type="text" placeholder="Cari nama produk..." class="w-full pl-10 pr-4 py-2 bg-white border-none rounded-2xl shadow-sm focus:ring-2 focus:ring-blue-500 text-sm">
+                <i data-lucide="search" class="w-4 h-4 absolute left-3 top-2.5 text-gray-400"></i>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+            <div th:each="product : ${products}" class="glass-card product-card rounded-3xl p-4 transition-all duration-300 flex flex-col items-center text-center">
+                <div class="w-20 h-20 bg-blue-50 rounded-full flex items-center justify-center mb-4">
+                    <i data-lucide="book-open" class="w-10 h-10 text-blue-400"></i>
+                </div>
+                
+                <h3 class="font-bold text-gray-800 text-sm mb-1" th:text="${product.name}">Buku Sidu</h3>
+                <p class="text-blue-600 font-black text-sm mb-2" th:text="'Rp ' + ${#numbers.formatDecimal(product.price, 0, 'POINT', 0, 'COMMA')}">Rp 5.000</p>
+                
+                <div class="mb-4">
+                    <span th:class="${product.stock > 10} ? 'bg-green-100 text-green-600 text-[10px] font-bold px-3 py-1 rounded-full' : 'bg-orange-100 text-orange-600 text-[10px] font-bold px-3 py-1 rounded-full'">
+                        Stok: <span th:text="${product.stock}">12</span>
+                    </span>
+                </div>
+
+                <button class="w-full bg-blue-50 hover:bg-blue-600 hover:text-white text-blue-600 text-[10px] font-black py-2 rounded-xl uppercase tracking-widest transition-all">
+                    ADD
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="lg:col-span-1">
+        <div class="glass-card rounded-[2.5rem] shadow-2xl flex flex-col min-h-[600px] sticky top-24">
+            <div class="p-8 flex items-center justify-between border-b border-gray-100">
+                <h2 class="text-xl font-black text-gray-800">Keranjang Saya</h2>
+                <span class="bg-blue-600 text-white text-[10px] font-bold w-6 h-6 flex items-center justify-center rounded-full shadow-lg shadow-blue-200">0</span>
+            </div>
+
+            <div class="flex-grow flex flex-col items-center justify-center p-8 text-center text-gray-400">
+                <div class="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mb-4">
+                    <i data-lucide="shopping-cart" class="w-10 h-10 opacity-20"></i>
+                </div>
+                <p class="text-sm italic">Belum ada item dipilih.</p>
+            </div>
+
+            <div class="p-8 bg-gray-50/50 rounded-b-[2.5rem] space-y-4">
+                <div class="flex justify-between items-center">
+                    <span class="text-gray-500 font-medium">Total Pembayaran</span>
+                    <span class="text-2xl font-black text-blue-600">Rp 0</span>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <button class="bg-white border border-red-100 text-red-500 font-bold py-4 rounded-2xl hover:bg-red-50 transition-all text-xs uppercase tracking-widest">Reset</button>
+                    <button class="bg-blue-400 text-white font-bold py-4 rounded-2xl cursor-not-allowed text-xs uppercase tracking-widest">Checkout</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script src="https://unpkg.com/flowbite@1.7.0/dist/flowbite.bundle.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/lucide.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        if (window.lucide) { lucide.createIcons(); }
+    });
+</script>
+</body>
+</html>

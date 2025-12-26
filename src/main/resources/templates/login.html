@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Login - NITNOT TOKO BUKU</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/flowbite@1.7.0/dist/flowbite.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/lucide.min.js"></script>
+    
+    <style>
+        .logo-font { font-family: 'Playfair Display', serif; }
+        .body-font { font-family: 'Inter', sans-serif; }
+
+        /* Background Animasi Mewah (Sama dengan Register) */
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: moveGradient 15s ease infinite;
+        }
+
+        @keyframes moveGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Glassmorphism Card */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            animation: slideUp 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Side Illustration Styling */
+        .bg-side-illustration {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Optimalisasi Input Android */
+        input {
+            font-size: 16px !important; /* Mencegah auto-zoom */
+            transition: all 0.3s ease !important;
+        }
+
+        input:focus {
+            transform: translateY(-2px);
+        }
+
+        .btn-elegant {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            transition: all 0.3s ease;
+        }
+
+        .btn-elegant:active {
+            transform: scale(0.96);
+        }
+    </style>
+</head>
+<body class="body-font p-4 md:p-6">
+
+    <div class="glass-card flex flex-col md:flex-row w-full max-w-[450px] md:max-w-4xl rounded-[3rem] shadow-[0_32px_64px_-15px_rgba(0,0,0,0.3)] overflow-hidden min-h-[550px] md:min-h-[600px]">
+        
+        <div class="hidden md:flex md:w-1/2 bg-side-illustration p-12 text-white flex-col justify-between relative">
+            <div class="absolute w-40 h-40 bg-white/5 rounded-full -top-10 -right-10"></div>
+            <div class="absolute w-24 h-24 bg-white/5 rounded-full bottom-20 -left-10"></div>
+            
+            <div class="relative z-10">
+                <h2 class="text-4xl font-black mb-6 leading-tight italic uppercase tracking-tighter">Selamat<br>Datang Kembali</h2>
+                <div class="w-12 h-1 bg-blue-500 mb-6 rounded-full"></div>
+                <p class="text-blue-100 opacity-80 leading-relaxed text-lg font-medium">
+                    Pantau stok buku dan kelola transaksi harian dalam satu dashboard terintegrasi.
+                </p>
+            </div>
+
+            <div class="relative z-10 p-6 bg-white/5 rounded-3xl border border-white/10 backdrop-blur-sm">
+                <p class="text-xs italic text-blue-50 font-medium">"Daftar sebagai karyawan baru dan jadi bagian dari NITNOT."</p>
+            </div>
+
+            <div class="relative z-10">
+                <p class="text-[10px] opacity-40 tracking-[0.4em] uppercase font-bold">© 2025 NITNOT SYSTEM</p>
+            </div>
+        </div>
+
+        <div class="w-full md:w-1/2 p-10 md:p-14 flex flex-col justify-center relative">
+            
+            <div class="text-center mb-10">
+                <h1 class="logo-font text-5xl text-slate-800 tracking-tighter font-bold">NITNOT</h1>
+                <div class="flex justify-center items-center space-x-2 mt-1">
+                    <span class="h-[1px] w-4 bg-blue-600/30"></span>
+                    <p class="text-[10px] uppercase tracking-[0.5em] text-blue-600 font-black">Portal Akses</p>
+                    <span class="h-[1px] w-4 bg-blue-600/30"></span>
+                </div>
+            </div>
+
+            <div th:if="${param.registrationSuccess}" class="bg-emerald-50 border border-emerald-100 text-emerald-600 p-4 rounded-2xl mb-6 text-xs flex items-center shadow-sm">
+                <i data-lucide="check-circle" class="w-4 h-4 mr-2"></i>
+                <span class="font-bold">Registrasi berhasil! Akun Anda menunggu persetujuan HRD.</span>
+            </div>
+
+            <div th:if="${param.error}" class="bg-rose-50 border border-rose-100 text-rose-600 p-4 rounded-2xl mb-6 text-xs flex items-center shadow-sm animate-pulse">
+                <i data-lucide="alert-circle" class="w-4 h-4 mr-2"></i>
+                <span class="font-bold">Username atau password tidak sesuai.</span>
+            </div>
+            
+            <div th:if="${param.logout}" class="bg-emerald-50 border border-emerald-100 text-emerald-600 p-4 rounded-2xl mb-6 text-xs flex items-center shadow-sm">
+                <i data-lucide="check-circle" class="w-4 h-4 mr-2"></i>
+                <span class="font-bold">Sesi Anda telah berakhir secara aman.</span>
+            </div>
+
+            <form th:action="@{/login}" method="post" class="space-y-6">
+                <div class="group">
+                    <label for="username" class="block text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-2 ml-1 group-focus-within:text-blue-600 transition-colors">Username</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
+                            <i data-lucide="user" class="w-4 h-4"></i>
+                        </div>
+                        <input type="text" 
+                               class="w-full pl-11 pr-5 py-4 bg-slate-50/50 border border-slate-100 rounded-2xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 focus:bg-white transition-all outline-none text-slate-700 shadow-inner" 
+                               id="username" name="username" placeholder="Username" required autofocus>
+                    </div>
+                </div>
+
+                <div class="group">
+                    <label for="password" class="block text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-2 ml-1 group-focus-within:text-blue-600 transition-colors">Password</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
+                            <i data-lucide="lock" class="w-4 h-4"></i>
+                        </div>
+                        <input type="password" 
+                               class="w-full pl-11 pr-5 py-4 bg-slate-50/50 border border-slate-100 rounded-2xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 focus:bg-white transition-all outline-none text-slate-700 shadow-inner" 
+                               id="password" name="password" placeholder="••••••••" required>
+                    </div>
+                </div>
+                
+                <div class="pt-4">
+                    <button type="submit" 
+                            class="btn-elegant w-full text-white font-bold py-5 px-4 rounded-2xl shadow-2xl shadow-slate-300 flex items-center justify-center uppercase tracking-widest text-xs space-x-3">
+                        <span>Masuk Sekarang</span>
+                        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </button>
+                </div>
+            </form>
+
+            <div class="text-center mt-10">
+                <p class="text-[11px] text-slate-400 font-medium">Belum terdaftar sebagai tim?</p>
+                <a th:href="@{/register}" class="inline-block mt-2 text-[12px] text-blue-600 font-black hover:text-blue-800 transition-all border-b-2 border-transparent hover:border-blue-800 uppercase tracking-tighter">
+                    Daftar Karyawan Baru
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/flowbite@1.7.0/dist/flowbite.bundle.js"></script>
+    <script>
+        // Inisialisasi Lucide Icons
+        lucide.createIcons();
+    </script>
+</body>
+</html>
