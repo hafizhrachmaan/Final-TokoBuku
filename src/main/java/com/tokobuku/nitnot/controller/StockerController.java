@@ -9,6 +9,7 @@ import com.tokobuku.nitnot.model.Product;
 import com.tokobuku.nitnot.service.ProductService;
 
 import java.security.Principal;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/stocker")
@@ -25,6 +26,19 @@ public class StockerController {
         model.addAttribute("username", principal.getName());
         model.addAttribute("products", productService.getAllProducts());
         return "stocker-dashboard";
+    }
+
+    @GetMapping("/product/edit/{id}")
+    public String editProductPage(@PathVariable Long id, Model model, Principal principal) {
+        model.addAttribute("username", principal.getName());
+        Optional<Product> productOpt = productService.findProductById(id);
+        if (productOpt.isPresent()) {
+            model.addAttribute("product", productOpt.get());
+            return "edit-product";
+        } else {
+            // Optionally, add a flash attribute to show an error message
+            return "redirect:/stocker/dashboard";
+        }
     }
 
     @PostMapping("/product/add")
