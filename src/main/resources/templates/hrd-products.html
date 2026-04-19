@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HRD Data Produk - YUDIZ FOTO COPY</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/lucide.min.js"></script>
+    <style>body { font-family: 'Inter', sans-serif; background-color: #f3f4f6; }</style>
+</head>
+<body>
+
+<nav class="bg-green-800 text-white shadow-md sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+        <div class="flex items-center space-x-6">
+            <div class="flex flex-col border-r border-green-600 pr-6">
+                <span class="text-xl font-bold leading-none">YUDIZ <span class="text-yellow-400">HRD</span></span>
+                <span class="text-[10px] uppercase tracking-wider text-green-200 mt-1">Management</span>
+            </div>
+            <div class="hidden md:flex space-x-2 text-sm font-medium">
+                <a th:href="@{/hrd/dashboard}" class="text-green-200 hover:text-white px-3 py-1.5 rounded transition">Dashboard</a>
+                <a th:href="@{/hrd/products}" class="bg-green-900 text-white px-3 py-1.5 rounded">Produk</a>
+                <a th:href="@{/hrd/transactions}" class="text-green-200 hover:text-white px-3 py-1.5 rounded transition">Transaksi</a>
+            </div>
+        </div>
+        <div class="flex items-center space-x-4">
+            <form th:action="@{/logout}" method="post" class="m-0">
+                <button type="submit" class="bg-red-600 hover:bg-red-700 text-white p-2 rounded transition-colors"><i data-lucide="power" class="w-4 h-4"></i></button>
+            </form>
+        </div>
+    </div>
+</nav>
+
+<div class="max-w-7xl mx-auto mt-6 px-4 pb-12">
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+        <div class="bg-gray-50 border-b border-gray-200 px-5 py-4">
+            <h2 class="text-gray-800 font-bold text-sm uppercase">Data Master Produk (Read-Only)</h2>
+        </div>
+        <div class="overflow-x-auto">
+            <table class="w-full text-left text-sm">
+                <thead class="bg-gray-50 border-b border-gray-200 text-xs text-gray-600 uppercase">
+                    <tr>
+                        <th class="px-6 py-3 font-semibold">ID</th>
+                        <th class="px-6 py-3 font-semibold">Nama Produk</th>
+                        <th class="px-6 py-3 font-semibold">Deskripsi</th>
+                        <th class="px-6 py-3 font-semibold text-right">Harga</th>
+                        <th class="px-6 py-3 font-semibold text-right">Stok</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-100">
+                    <tr th:if="${#lists.isEmpty(allProducts)}"><td colspan="5" class="px-6 py-8 text-center text-gray-400 italic">Tidak ada data produk.</td></tr>
+                    <tr th:each="product : ${allProducts}" class="hover:bg-gray-50">
+                        <td class="px-6 py-3 font-mono text-gray-500" th:text="${product.id}"></td>
+                        <td class="px-6 py-3 font-bold text-gray-800" th:text="${product.name}"></td>
+                        <td class="px-6 py-3 text-xs text-gray-600" th:text="${product.description}"></td>
+                        <td class="px-6 py-3 text-right font-medium text-green-700" th:text="${'Rp ' + #numbers.formatDecimal(product.price, 0, 'POINT', 0, 'COMMA')}"></td>
+                        <td class="px-6 py-3 text-right font-bold" th:text="${product.stock}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script>lucide.createIcons();</script>
+</body>
+</html>

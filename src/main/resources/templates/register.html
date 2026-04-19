@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Daftar Karyawan - NITNOT TOKO ATK</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/lucide.min.js"></script>
+    <style>
+        .logo-font { font-family: 'Playfair Display', serif; }
+        .body-font { font-family: 'Inter', sans-serif; }
+        
+        /* BACKGROUND GERAK - TETAP SAMA */
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            min-height: 100vh;
+            background: linear-gradient(-45deg, #a881af, #f8c9d4, #a3d8f4, #b9fbc0);
+            background-size: 400% 400%;
+            animation: moveGradient 12s ease infinite;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        @keyframes moveGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* GLASSMORPHISM - DIBIKIN TRANSPARAN */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.25); /* Efek Transparan */
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* INPUT TRANSPARAN */
+        .glass-input {
+            background: rgba(255, 255, 255, 0.3) !important;
+            border: 1px solid rgba(255, 255, 255, 0.4) !important;
+            backdrop-filter: blur(5px);
+        }
+
+        /* Optimalisasi Android */
+        input, select, textarea { font-size: 16px !important; }
+        .safe-area-bottom { padding-bottom: env(safe-area-inset-bottom); }
+        .btn-active:active { transform: scale(0.96); }
+    </style>
+</head>
+<body class="body-font p-4 md:p-6">
+
+  <div class="w-full max-w-2xl px-4 py-8 md:py-12 safe-area-bottom">
+    
+    <div class="text-center mb-8">
+        <span class="logo-font text-4xl text-slate-900 tracking-tight font-bold">NITNOT</span>
+        <p class="text-[10px] uppercase tracking-[0.4em] text-blue-800 font-black mt-1">Portal Rekrutmen Karyawan</p>
+    </div>
+
+    <div class="glass-card rounded-[2.5rem] shadow-2xl overflow-hidden">
+        
+        <div class="bg-blue-600/80 px-6 py-10 text-white text-center">
+            <h2 class="text-2xl font-black uppercase tracking-widest italic">Formulir Lamaran</h2>
+            <p class="text-blue-100 text-xs mt-2 font-medium opacity-90">Lengkapi data diri Anda untuk bergabung bersama kami</p>
+        </div>
+
+        <div class="p-6 md:p-10">
+            <div th:if="${param.success}" class="mb-6 p-4 bg-emerald-100/50 border border-emerald-200 text-emerald-800 rounded-2xl flex items-center shadow-sm">
+                <i data-lucide="check-circle" class="w-5 h-5 mr-3 flex-shrink-0"></i>
+                <span class="text-sm font-bold">Registrasi berhasil! Mohon tunggu verifikasi HRD.</span>
+            </div>
+            
+            <div th:if="${param.error}" class="mb-6 p-4 bg-rose-100/50 border border-rose-200 text-rose-800 rounded-2xl flex items-center shadow-sm">
+                <i data-lucide="alert-circle" class="w-5 h-5 mr-3 flex-shrink-0"></i>
+                <span class="text-sm font-bold">Username sudah digunakan, silakan pilih yang lain.</span>
+            </div>
+
+            <form th:action="@{/register}" method="post" class="space-y-10">
+                
+                <div>
+                    <div class="flex items-center space-x-3 mb-6">
+                        <div class="w-8 h-8 rounded-full bg-blue-100/50 flex items-center justify-center text-blue-800">
+                            <i data-lucide="user" class="w-4 h-4"></i>
+                        </div>
+                        <h3 class="text-sm font-black uppercase tracking-wider text-slate-800">Identitas Pribadi</h3>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 gap-5">
+                        <input type="text" name="fullName" required placeholder="Nama sesuai KTP"
+                               class="glass-input w-full rounded-2xl p-4 text-sm focus:ring-4 focus:ring-blue-100 transition-all outline-none border-2">
+                        
+                        <input type="email" name="email" required placeholder="Email Aktif"
+                               class="glass-input w-full rounded-2xl p-4 text-sm focus:ring-4 focus:ring-blue-100 transition-all outline-none border-2">
+
+                        <input type="tel" name="phone" placeholder="Nomor WhatsApp"
+                               class="glass-input w-full rounded-2xl p-4 text-sm focus:ring-4 focus:ring-blue-100 transition-all outline-none border-2">
+
+                        <textarea name="address" rows="3" placeholder="Alamat lengkap sesuai domisili..."
+                                  class="glass-input w-full rounded-2xl p-4 text-sm focus:ring-4 focus:ring-blue-100 transition-all outline-none border-2 resize-none"></textarea>
+                    </div>
+                </div>
+
+                <div class="pt-2">
+                    <div class="flex items-center space-x-3 mb-6">
+                        <div class="w-8 h-8 rounded-full bg-indigo-100/50 flex items-center justify-center text-indigo-800">
+                            <i data-lucide="briefcase" class="w-4 h-4"></i>
+                        </div>
+                        <h3 class="text-sm font-black uppercase tracking-wider text-slate-800">Latar Belakang & Posisi</h3>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 gap-5">
+                        <input type="text" name="lastEducation" placeholder="Pendidikan Terakhir"
+                               class="glass-input w-full rounded-2xl p-4 text-sm focus:ring-4 focus:ring-blue-100 transition-all outline-none border-2">
+
+                        <select name="role" required
+                                class="glass-input w-full rounded-2xl p-4 text-sm font-bold text-slate-800 focus:ring-4 focus:ring-yellow-100 transition-all outline-none border-2 appearance-none">
+                            <option th:value="'KASIR'">KASIR (Bagian Penjualan)</option>
+                            <option th:value="'STOCKER'">STOKIS (Bagian Gudang)</option>
+                        </select>
+
+                        <textarea name="workExperience" rows="3" placeholder="Pengalaman kerja..."
+                                  class="glass-input w-full rounded-2xl p-4 text-sm focus:ring-4 focus:ring-blue-100 transition-all outline-none border-2 resize-none"></textarea>
+                    </div>
+                </div>
+
+                <div class="bg-white/20 p-6 rounded-[2rem] border border-dashed border-white/40">
+                    <div class="grid grid-cols-1 gap-4">
+                        <input type="text" name="username" required placeholder="Buat Username"
+                               class="glass-input w-full rounded-xl p-4 text-sm focus:ring-4 focus:ring-blue-100 outline-none border-2">
+                        
+                        <input type="password" name="password" required placeholder="Buat Password"
+                               class="glass-input w-full rounded-xl p-4 text-sm focus:ring-4 focus:ring-blue-100 outline-none border-2">
+                    </div>
+                </div>
+
+                <div class="pt-4 flex flex-col items-center">
+                    <button type="submit" class="btn-active w-full bg-blue-700 hover:bg-blue-800 text-white font-black rounded-[1.5rem] px-6 py-5 shadow-2xl transition-all flex items-center justify-center space-x-3 text-lg">
+                        <span class="uppercase italic">Kirim Lamaran Sekarang</span>
+                        <i data-lucide="send" class="w-5 h-5"></i>
+                    </button>
+                    
+                    <a th:href="@{/login}" class="mt-8 text-sm font-black text-blue-800 flex items-center group">
+                        <i data-lucide="arrow-left" class="w-4 h-4 mr-2 transition-transform group-hover:-translate-x-1"></i> 
+                        LOGIN SEKARANG
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <div class="text-center mt-12 text-slate-900 text-[10px] font-bold uppercase tracking-[0.2em] opacity-60">
+        &copy; 2025 NITNOT TOKO ATK
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.lucide) { lucide.createIcons(); }
+    });
+  </script>
+</body>
+</html>

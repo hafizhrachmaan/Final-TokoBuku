@@ -1,0 +1,194 @@
+1. Pertanyaan: Apa itu aplikasi HRD App?
+   Jawaban: Aplikasi HRD App adalah sistem manajemen sumber daya manusia berbasis web yang dibangun menggunakan Hafizh Boot, yang memungkinkan pengelolaan karyawan, produk, dan transaksi penjualan dengan peran pengguna yang berbeda seperti HRD, Kasir, dan Stocker.
+
+2. Pertanyaan: Teknologi apa yang digunakan dalam proyek ini?
+   Jawaban: Proyek ini menggunakan Java 17, Hafizh Boot 3.2.5, Spring Data JPA, Spring Security, Thymeleaf untuk template, MySQL sebagai database, dan OpenPDF untuk menghasilkan faktur PDF.
+
+3. Pertanyaan: Apa peran utama dalam aplikasi ini?
+   Jawaban: Ada tiga peran utama: HRD untuk mengelola karyawan, Kasir untuk menangani transaksi penjualan, dan Stocker untuk mengelola produk.
+
+4. Pertanyaan: Bagaimana cara kerja autentikasi di aplikasi ini?
+   Jawaban: Aplikasi menggunakan Spring Security untuk autentikasi, dengan password yang dienkripsi menggunakan PasswordEncoder, dan pengguna harus login dengan username dan password yang valid.
+
+5. Pertanyaan: Apa fungsi dashboard HRD?
+   Jawaban: Dashboard HRD menampilkan daftar karyawan yang pending verifikasi, karyawan yang sudah diverifikasi, dan memungkinkan HRD untuk menambah, menerima, menolak, atau memecat karyawan.
+
+6. Pertanyaan: Bagaimana HRD menambah karyawan baru?
+   Jawaban: HRD dapat menambah karyawan melalui form di dashboard dengan memasukkan username, password, dan peran, lalu menyimpannya ke database setelah memeriksa keunikan username.
+
+7. Pertanyaan: Apa yang terjadi jika username sudah ada saat menambah karyawan?
+   Jawaban: Jika username sudah ada, sistem akan mengarahkan kembali ke dashboard dengan pesan error, dan karyawan tidak akan ditambahkan.
+
+8. Pertanyaan: Bagaimana proses verifikasi karyawan?
+   Jawaban: HRD dapat menerima atau menolak karyawan pending. Jika diterima, status berubah ke VERIFIED; jika ditolak, karyawan dihapus dari database.
+
+9. Pertanyaan: Apa fungsi dashboard Kasir?
+   Jawaban: Dashboard Kasir menampilkan daftar produk, keranjang belanja, total harga, dan memungkinkan Kasir untuk menambah produk ke keranjang, menghapus, atau checkout transaksi.
+
+10. Pertanyaan: Bagaimana Kasir menambah produk ke keranjang?
+    Jawaban: Kasir dapat menekan tombol "Add to Cart" pada produk di dashboard, yang akan menambahkan produk ke session keranjang belanja.
+
+11. Pertanyaan: Apa yang terjadi saat checkout?
+    Jawaban: Saat checkout, sistem memproses transaksi dengan membuat record Transaction dan TransactionDetail, mengurangi stok produk, dan menghapus keranjang dari session.
+
+12. Pertanyaan: Bagaimana jika stok produk tidak cukup saat checkout?
+    Jawaban: Sistem akan melempar IllegalStateException dengan pesan error, dan checkout gagal, mengarahkan kembali ke dashboard dengan pesan error.
+
+13. Pertanyaan: Apa fungsi riwayat transaksi di Kasir?
+    Jawaban: Kasir dapat melihat semua transaksi yang pernah dilakukan, diurutkan berdasarkan tanggal terbaru, dan dapat mengunduh faktur PDF untuk setiap transaksi.
+
+14. Pertanyaan: Bagaimana cara menghasilkan PDF faktur?
+    Jawaban: Menggunakan PdfService yang memanfaatkan OpenPDF untuk membuat dokumen PDF dengan detail transaksi, termasuk produk yang dibeli dan total harga.
+
+15. Pertanyaan: Apa fungsi dashboard Stocker?
+    Jawaban: Dashboard Stocker menampilkan daftar semua produk dan memungkinkan Stocker untuk menambah, mengupdate, atau menghapus produk.
+
+16. Pertanyaan: Bagaimana Stocker menambah produk baru?
+    Jawaban: Stocker mengisi form dengan nama, deskripsi, harga, dan stok produk, lalu menyimpannya ke database melalui ProductRepository.
+
+17. Pertanyaan: Apa yang terjadi saat update produk?
+    Jawaban: Stocker dapat mengubah detail produk seperti nama, deskripsi, harga, dan stok, lalu menyimpan perubahan ke database.
+
+18. Pertanyaan: Bagaimana penghapusan produk?
+    Jawaban: Stocker dapat menghapus produk berdasarkan ID, tetapi jika produk masih terkait dengan transaksi, penghapusan akan gagal dengan pesan error.
+
+19. Pertanyaan: Apa model utama dalam aplikasi ini?
+    Jawaban: Model utama meliputi User (untuk karyawan), Product (untuk barang), Transaction (untuk transaksi), TransactionDetail (detail transaksi), Role (enum peran), dan UserStatus (enum status pengguna).
+
+20. Pertanyaan: Bagaimana struktur database?
+    Jawaban: Menggunakan MySQL dengan tabel users, products, transactions, transaction_details, dan relasi antara mereka seperti transaction_details yang menghubungkan transactions dan products.
+
+21. Pertanyaan: Apa fungsi ShoppingCart?
+    Jawaban: ShoppingCart adalah service yang mengelola keranjang belanja dalam session, memungkinkan penambahan, penghapusan produk, dan perhitungan total harga.
+
+22. Pertanyaan: Bagaimana TransactionService bekerja?
+    Jawaban: TransactionService memproses checkout dengan membuat Transaction baru, menyimpan detail produk, dan mengupdate stok produk.
+
+23. Pertanyaan: Apa peran PdfService?
+    Jawaban: PdfService menghasilkan faktur PDF untuk transaksi, menggunakan OpenPDF untuk membuat dokumen dengan informasi pembelian.
+
+24. Pertanyaan: Bagaimana keamanan aplikasi?
+    Jawaban: Menggunakan Spring Security dengan konfigurasi di SecurityConfig, termasuk CustomAuthenticationSuccessHandler untuk redirect berdasarkan peran setelah login.
+
+25. Pertanyaan: Apa fungsi DataInitializer?
+    Jawaban: DataInitializer adalah service yang menginisialisasi data awal seperti pengguna admin atau produk default saat aplikasi startup.
+
+26. Pertanyaan: Bagaimana template Thymeleaf digunakan?
+    Jawaban: Thymeleaf digunakan untuk rendering halaman HTML dinamis, seperti dashboard untuk setiap peran, dengan data dari controller dimasukkan ke model.
+
+27. Pertanyaan: Apa file konfigurasi utama?
+    Jawaban: application.properties berisi konfigurasi database MySQL, port server, dan pengaturan lainnya.
+
+28. Pertanyaan: Bagaimana build dan run aplikasi?
+    Jawaban: Menggunakan Maven untuk build, dengan perintah mvn hafizh-boot:run untuk menjalankan aplikasi, atau menggunakan build.bat dan run.bat untuk Windows.
+
+29. Pertanyaan: Apa fungsi Procfile?
+    Jawaban: Procfile digunakan untuk deployment di Heroku, menentukan perintah untuk menjalankan aplikasi di cloud.
+
+30. Pertanyaan: Bagaimana error handling di aplikasi?
+    Jawaban: Error ditangani dengan try-catch di controller, dan redirect dengan parameter query seperti ?error=true untuk menampilkan pesan di template.
+
+31. Pertanyaan: Apa perbedaan antara UserStatus PENDING dan VERIFIED?
+    Jawaban: PENDING untuk karyawan baru yang menunggu verifikasi HRD, VERIFIED untuk karyawan yang sudah diterima dan dapat login.
+
+32. Pertanyaan: Bagaimana Role enum digunakan?
+    Jawaban: Role enum (HRD, KASIR, STOCKER) menentukan otoritas pengguna dan redirect dashboard setelah login.
+
+33. Pertanyaan: Apa fungsi repository?
+    Jawaban: Repository seperti UserRepository, ProductRepository, TransactionRepository menggunakan Spring Data JPA untuk operasi CRUD pada database.
+
+34. Pertanyaan: Bagaimana relasi antara Transaction dan TransactionDetail?
+    Jawaban: Transaction memiliki many-to-many dengan Product melalui TransactionDetail, yang menyimpan quantity dan harga per produk.
+
+35. Pertanyaan: Apa fungsi session di KasirController?
+    Jawaban: Session digunakan untuk menyimpan ShoppingCart, sehingga keranjang tetap ada selama session aktif.
+
+36. Pertanyaan: Bagaimana validasi input?
+    Jawaban: Validasi dilakukan di frontend dengan HTML5 dan di backend dengan pengecekan manual, seperti memeriksa keberadaan produk sebelum operasi.
+
+37. Pertanyaan: Apa teknologi frontend?
+    Jawaban: Menggunakan Thymeleaf untuk server-side rendering, dengan CSS di pos-style.css untuk styling, dan gambar logo di static/images.
+
+38. Pertanyaan: Bagaimana deployment aplikasi?
+    Jawaban: Aplikasi dapat di-deploy ke Heroku menggunakan Procfile, atau sebagai JAR standalone dengan Maven.
+
+39. Pertanyaan: Apa fungsi .gitignore?
+    Jawaban: .gitignore mengabaikan file seperti target/, .idea/, dan file sensitif agar tidak di-commit ke Git.
+
+40. Pertanyaan: Bagaimana testing aplikasi?
+    Jawaban: Menggunakan Hafizh Boot Test dengan dependency hafizh-boot-starter-test untuk unit dan integration test.
+
+41. Pertanyaan: Apa tantangan utama dalam pengembangan?
+    Jawaban: Tantangan meliputi manajemen session untuk keranjang, validasi stok saat checkout, dan integrasi PDF generation.
+
+42. Pertanyaan: Bagaimana skalabilitas aplikasi?
+    Jawaban: Aplikasi dapat diskalakan dengan menambah instance Hafizh Boot, menggunakan database MySQL yang scalable, dan load balancer.
+
+43. Pertanyaan: Apa fitur unik aplikasi ini?
+    Jawaban: Fitur unik adalah integrasi peran HRD untuk manajemen karyawan, transaksi POS dengan keranjang, dan generate PDF otomatis.
+
+44. Pertanyaan: Bagaimana update stok produk?
+    Jawaban: Stok diupdate otomatis saat checkout berhasil, dikurangi berdasarkan quantity di keranjang.
+
+45. Pertanyaan: Apa fungsi MenuManager dan MenuAction?
+    Jawaban: Ini adalah service untuk CLI interface, memungkinkan operasi menu-based untuk testing atau admin tasks.
+
+46. Pertanyaan: Bagaimana login dan register?
+    Jawaban: Ada halaman login dan register, dengan register membuat user dengan status PENDING, menunggu verifikasi HRD.
+
+47. Pertanyaan: Apa peran WebController?
+    Jawaban: WebController menangani routing umum seperti halaman login, register, dan redirect berdasarkan autentikasi.
+
+48. Pertanyaan: Bagaimana enkripsi password?
+    Jawaban: Password dienkripsi menggunakan BCrypt melalui PasswordEncoder sebelum disimpan ke database.
+
+49. Pertanyaan: Apa fungsi hrd_app.sql?
+    Jawaban: File SQL ini berisi schema database untuk setup awal tabel dan data.
+
+50. Pertanyaan: Bagaimana performa aplikasi?
+    Jawaban: Aplikasi dioptimalkan dengan JPA untuk query efisien, session management, dan rendering Thymeleaf yang cepat untuk UI.
+
+51. Pertanyaan: Apa peran anotasi @Controller dalam Hafizh Boot?
+    Jawaban: Anotasi @Controller menandai kelas sebagai controller web di Spring MVC, memungkinkan penanganan request HTTP dan pengembalian view atau data, seperti dalam HrdController yang menangani routing untuk dashboard HRD.
+
+52. Pertanyaan: Bagaimana @RequestMapping bekerja di controller?
+    Jawaban: @RequestMapping memetakan URL dan metode HTTP ke metode handler di controller, misalnya @RequestMapping("/hrd") di HrdController memetakan semua request ke /hrd ke kelas tersebut.
+
+53. Pertanyaan: Jelaskan dependency injection di Hafizh Boot menggunakan contoh HrdController.
+    Jawaban: Dependency injection memungkinkan Hafizh Boot menyuntikkan dependensi seperti UserRepository dan PasswordEncoder ke HrdController melalui konstruktor, tanpa perlu instantiate manual, mempromosikan loose coupling.
+
+54. Pertanyaan: Apa fungsi PasswordEncoder di Spring Security?
+    Jawaban: PasswordEncoder, seperti BCryptPasswordEncoder, digunakan untuk mengenkripsi password sebelum disimpan ke database, memastikan keamanan dengan hashing satu arah, seperti di addEmployee method.
+
+55. Pertanyaan: Bagaimana Spring Data JPA menyederhanakan operasi database?
+    Jawaban: Spring Data JPA menyediakan interface repository seperti UserRepository yang secara otomatis menghasilkan query CRUD berdasarkan nama metode, tanpa perlu menulis SQL manual.
+
+56. Pertanyaan: Jelaskan penggunaan @Repository di proyek ini.
+    Jawaban: @Repository menandai interface seperti UserRepository sebagai komponen Spring untuk akses data, memungkinkan exception translation dan integrasi dengan JPA.
+
+57. Pertanyaan: Apa itu Thymeleaf dan bagaimana integrasinya dengan Hafizh Boot?
+    Jawaban: Thymeleaf adalah template engine untuk rendering HTML dinamis di sisi server, terintegrasi dengan Hafizh Boot melalui starter thymeleaf, digunakan untuk template seperti hrd-dashboard.html.
+
+58. Pertanyaan: Bagaimana @ModelAttribute bekerja di Spring MVC?
+    Jawaban: @ModelAttribute mengikat data form ke objek model, seperti di dashboard method yang menambahkan atribut ke Model untuk digunakan di template Thymeleaf.
+
+59. Pertanyaan: Jelaskan anotasi @Autowired.
+    Jawaban: @Autowired menyuntikkan dependensi secara otomatis oleh Spring container, meskipun dalam proyek ini lebih sering digunakan constructor injection untuk dependensi seperti di HrdController.
+
+60. Pertanyaan: Apa perbedaan antara @Component, @Service, @Repository, @Controller?
+    Jawaban: Semua adalah stereotype annotations untuk komponen Spring, tetapi @Controller untuk web controllers, @Service untuk business logic, @Repository untuk data access, dan @Component umum; di proyek ini, controller menggunakan @Controller, service menggunakan @Service.
+
+61. Pertanyaan: Bagaimana Hafizh Boot menangani konfigurasi dengan application.properties?
+    Jawaban: application.properties berisi konfigurasi seperti database URL, port, dan properti lainnya yang dibaca oleh Hafizh Boot untuk setup otomatis, seperti koneksi MySQL.
+
+62. Pertanyaan: Jelaskan penggunaan @Entity dan anotasi JPA di model.
+    Jawaban: @Entity menandai kelas sebagai entitas JPA yang dipetakan ke tabel database, dengan anotasi seperti @Id, @GeneratedValue untuk primary key, seperti di User model.
+
+63. Pertanyaan: Apa peran anotasi @Service dalam business logic?
+    Jawaban: @Service menandai kelas sebagai komponen business logic, seperti TransactionService, memungkinkan dependency injection dan transaksi management.
+
+64. Pertanyaan: Bagaimana Spring Security mengkonfigurasi autentikasi?
+    Jawaban: Spring Security menggunakan SecurityConfig untuk mengatur autentikasi, seperti dengan UserDetailsService dan PasswordEncoder, serta CustomAuthenticationSuccessHandler untuk redirect berdasarkan role.
+
+65. Pertanyaan: Jelaskan penggunaan @Transactional di service.
+    Jawaban: @Transactional memastikan operasi database dalam metode berjalan dalam transaksi, rollback jika error, seperti di TransactionService untuk checkout yang melibatkan multiple operasi database.
