@@ -6,19 +6,15 @@
     <title>POS Terminal</title>
     <meta name="_csrf" th:content="${_csrf.token}"/>
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
-    <link rel="stylesheet" th:href="@{/css/claymorphism.css(v=3)}" />
+    <link rel="stylesheet" th:href="@{/css/claymorphism.css(v=5)}" />
     <style>
         body { display: block; }
         .pos-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
         }
         @media (max-width: 768px) {
-            .pos-header {
-                flex-direction: column;
-                align-items: stretch;
             .pos-header { flex-direction: column; align-items: flex-start; gap: 10px; }
             .pos-header > div:last-child { width: 100%; flex-direction: column; align-items: stretch !important; gap: 10px; }
             .pos-header > div:last-child > div, .pos-header > div:last-child > a, .pos-header > div:last-child > form { width: 100% !important; text-align: center; }
@@ -62,19 +58,21 @@
             </div>
 
             <!-- Shopping Cart -->
-            <div class="pos-cart clay-card" style="padding: 20px;">
+            <div class="pos-cart clay-card" style="padding: 20px; position: relative;">
+                <button type="button" class="close-cart-btn clay-btn clay-btn-danger clay-btn-small" onclick="document.querySelector('.pos-cart').classList.remove('active');">X</button>
+                
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                     <h2 style="margin: 0;">Struk Belanja</h2>
                     <span id="cart-item-count" class="clay-btn clay-btn-small" style="cursor: default;">0 Item</span>
                 </div>
                 
-                <div class="clay-table-container cart-items" style="max-height: 400px; overflow-y: auto;">
+                <div class="clay-table-container cart-items" style="flex-grow: 1; overflow-y: auto;">
                     <div id="cart-items-container">
                         <p style="text-align: center; color: #718096; margin-top: 40px;">Keranjang kosong.</p>
                     </div>
                 </div>
                 
-                <div style="padding-top: 20px;">
+                <div style="padding-top: 20px; flex-shrink: 0;">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                         <span style="font-weight: bold; color: #5a6678;">TOTAL</span>
                         <span id="cart-total" style="font-size: 1.8em; font-weight: bold; color: #4a5568;">Rp 0</span>
@@ -87,6 +85,10 @@
                     </form>
                 </div>
             </div>
+            
+            <button id="mobile-cart-toggle" class="mobile-cart-btn clay-btn clay-btn-success" onclick="document.querySelector('.pos-cart').classList.add('active');">
+                🛒 Lihat Keranjang
+            </button>
         </div>
     </div>
     <script th:src="@{/js/kasir-pos.js}" defer></script>

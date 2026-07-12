@@ -408,6 +408,14 @@ a.link:hover {
     font-size: 1.1em;
 }
 
+/* Mobile Cart Modals (Hidden on Desktop) */
+.mobile-cart-btn {
+    display: none;
+}
+.close-cart-btn {
+    display: none;
+}
+
 /* =========================================
    Responsive Mobile Layout 
    ========================================= */
@@ -490,9 +498,40 @@ a.link:hover {
         gap: 15px;
     }
     .pos-cart {
-        flex: 1 1 auto; /* Remove the fixed 550px width */
-        width: 100%;
-        margin-top: 10px;
+        position: fixed;
+        bottom: -100%;
+        left: 0;
+        width: 100vw;
+        height: 85vh;
+        max-width: 100vw;
+        border-radius: 30px 30px 0 0;
+        margin: 0;
+        z-index: 1000;
+        box-shadow: 0 -10px 30px rgba(0,0,0,0.2);
+        transition: bottom 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        padding-bottom: 40px;
+        display: flex;
+        flex-direction: column;
+    }
+    .pos-cart.active {
+        bottom: 0;
+    }
+    .mobile-cart-btn {
+        display: flex !important;
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 999;
+        box-shadow: 0 10px 20px rgba(56, 161, 105, 0.4);
+        padding: 15px 25px;
+        font-size: 1.2em;
+    }
+    .close-cart-btn {
+        display: block !important;
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        z-index: 1001;
     }
     .clay-table-container {
         padding: 10px;
