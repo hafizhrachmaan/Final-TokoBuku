@@ -4,14 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard HRD</title>
-    <link rel="stylesheet" th:href="@{/css/claymorphism.css}" />
+    <link rel="stylesheet" th:href="@{/css/claymorphism.css(v=3)}" />
     <style>
-        body { display: block; padding: 40px 20px; }
         .grid-layout { display: grid; grid-template-columns: 2fr 1fr; gap: 40px; width: 100%; }
         @media (max-width: 900px) { .grid-layout { grid-template-columns: 1fr; } }
     </style>
 </head>
-<body>
+<body class="scrollable">
     <div class="clay-container">
         <div class="header">
             <h1>Dashboard HRD</h1>
