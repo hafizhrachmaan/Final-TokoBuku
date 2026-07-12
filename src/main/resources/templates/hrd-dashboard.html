@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard HRD</title>
-    <link rel="stylesheet" th:href="@{/css/claymorphism.css(v=3)}" />
+    <link rel="stylesheet" th:href="@{/css/claymorphism.css(v=4)}" />
     <style>
         .grid-layout { display: grid; grid-template-columns: 2fr 1fr; gap: 40px; width: 100%; }
-        @media (max-width: 900px) { .grid-layout { grid-template-columns: 1fr; } }
+        @media (max-width: 900px) { .grid-layout { grid-template-columns: minmax(0, 1fr); gap: 20px; } }
     </style>
 </head>
 <body class="scrollable">
