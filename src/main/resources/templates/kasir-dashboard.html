@@ -9,6 +9,84 @@
     <link rel="stylesheet" th:href="@{/css/claymorphism.css(v=5)}" />
     <style>
         body { display: block; }
+        /* Receipt-like Cart Items */
+        .cart-receipt-item {
+            padding: 12px 0;
+            border-bottom: 2px dashed #cbd5e0;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        .cart-receipt-item:last-child {
+            border-bottom: none;
+        }
+        .receipt-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 8px;
+        }
+        .receipt-header .item-name {
+            font-weight: bold;
+            color: #2d3748;
+            font-size: 1.1em;
+            padding-right: 10px;
+        }
+        .receipt-header .remove-from-cart-btn {
+            padding: 2px 8px;
+            font-size: 0.9em;
+            border-radius: 8px;
+            background: #fc8181;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-family: sans-serif;
+            font-weight: bold;
+        }
+        .receipt-details {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .receipt-qty-price {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #4a5568;
+        }
+        .qty-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #edf2f7;
+            padding: 4px;
+            border-radius: 12px;
+        }
+        .qty-controls button {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2em;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .qty-controls .decrease-qty-btn { background: white; color: #e53e3e; }
+        .qty-controls .increase-qty-btn { background: #48bb78; color: white; }
+        .qty-controls .qty-num { font-weight: bold; min-width: 15px; text-align: center; font-size: 1.1em; }
+        
+        .receipt-subtotal {
+            font-weight: bold;
+            color: #2d3748;
+            font-size: 1.1em;
+        }
+        /* Make TOTAL also monospace */
+        #cart-total {
+            font-family: 'Courier New', Courier, monospace;
+        }
+
         .pos-header {
             display: flex;
             justify-content: space-between;

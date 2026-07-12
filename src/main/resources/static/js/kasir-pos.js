@@ -85,21 +85,21 @@ const initCartAjax = () => {
             cartItemsContainer.innerHTML = `<p style="text-align: center; color: #718096; margin-top: 40px;">Keranjang kosong.</p>`;
         } else {
             cartItemsContainer.innerHTML = cart.items.map(item => `
-                <div class="cart-item-stacked">
-                    <div class="cart-item-row-1">
+                <div class="cart-receipt-item">
+                    <div class="receipt-header">
                         <span class="item-name">${item.product.name}</span>
-                        <button type="button" class="remove-from-cart-btn clay-btn clay-btn-small clay-btn-danger" data-product-id="${item.product.id}">X</button>
+                        <button type="button" class="remove-from-cart-btn" data-product-id="${item.product.id}">X</button>
                     </div>
-                    <div class="cart-item-row-2">
-                        <div class="cart-item-controls">
-                            <button type="button" class="decrease-qty-btn clay-btn clay-btn-small clay-btn-logout" data-product-id="${item.product.id}">-</button>
-                            <span>${item.quantity}</span>
-                            <button type="button" class="increase-qty-btn clay-btn clay-btn-small" data-product-id="${item.product.id}">+</button>
+                    <div class="receipt-details">
+                        <div class="receipt-qty-price">
+                            <span class="qty-controls">
+                                <button type="button" class="decrease-qty-btn" data-product-id="${item.product.id}">-</button>
+                                <span class="qty-num">${item.quantity}</span>
+                                <button type="button" class="increase-qty-btn" data-product-id="${item.product.id}">+</button>
+                            </span>
+                            <span class="times-price">x ${formatCurrency(item.product.price)}</span>
                         </div>
-                        <div class="item-price-info">
-                            @ ${formatCurrency(item.product.price)}
-                        </div>
-                        <div class="cart-item-subtotal">
+                        <div class="receipt-subtotal">
                             ${formatCurrency(item.subtotal)}
                         </div>
                     </div>
