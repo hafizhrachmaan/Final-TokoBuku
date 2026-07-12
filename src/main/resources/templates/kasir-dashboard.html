@@ -19,33 +19,23 @@
             .pos-header {
                 flex-direction: column;
                 align-items: stretch;
-                gap: 15px;
-            }
-            .pos-header > div:last-child {
-                flex-direction: column;
-                width: 100%;
-            }
-            .pos-header > div:last-child > div {
-                width: 100% !important;
-            }
-            .pos-header > div:last-child input {
-                width: 100%;
-            }
-            .pos-header .clay-btn {
-                width: 100%;
-                margin: 0;
-            }
+            .pos-header { flex-direction: column; align-items: flex-start; gap: 10px; }
+            .pos-header > div:last-child { width: 100%; flex-direction: column; align-items: stretch !important; gap: 10px; }
+            .pos-header > div:last-child > div, .pos-header > div:last-child > a, .pos-header > div:last-child > form { width: 100% !important; text-align: center; }
+            .pos-header > div:last-child input { width: 100%; box-sizing: border-box; }
+            .pos-header .clay-btn { width: 100%; }
+            .add-to-cart-btn { width: 100%; margin-top: 15px; }
         }
     </style>
 </head>
 <body class="scrollable">
-    <div class="clay-container" style="max-width: 1400px;">
+    <div class="clay-container" style="max-width: 1400px; padding: 15px;">
         <div class="pos-header">
             <div class="header" style="margin-bottom: 0;">
                 <h1>POS Terminal</h1>
             </div>
             <div style="display: flex; align-items: center; gap: 20px;">
-                <div style="width: 300px;">
+                <div>
                     <input type="text" id="productSearch" placeholder="Cari produk..." class="clay-input">
                 </div>
                 <a th:href="@{/kasir/history}" class="clay-btn clay-btn-small clay-btn-info">Riwayat Transaksi</a>
@@ -72,14 +62,14 @@
             </div>
 
             <!-- Shopping Cart -->
-            <div class="pos-cart clay-card">
+            <div class="pos-cart clay-card" style="padding: 20px;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                     <h2 style="margin: 0;">Struk Belanja</h2>
                     <span id="cart-item-count" class="clay-btn clay-btn-small" style="cursor: default;">0 Item</span>
                 </div>
                 
-                <div class="clay-table-container cart-items" style="height: 100%;">
-                    <div id="cart-items-container" style="padding: 10px;">
+                <div class="clay-table-container cart-items" style="max-height: 400px; overflow-y: auto;">
+                    <div id="cart-items-container">
                         <p style="text-align: center; color: #718096; margin-top: 40px;">Keranjang kosong.</p>
                     </div>
                 </div>
