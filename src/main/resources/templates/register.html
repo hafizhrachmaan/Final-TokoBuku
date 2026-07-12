@@ -33,6 +33,22 @@
                 <input type="email" id="email" name="email" class="clay-input" required>
             </div>
             <div class="form-group">
+                <label for="phone">No HP</label>
+                <input type="text" id="phone" name="phone" class="clay-input" required>
+            </div>
+            <div class="form-group">
+                <label for="address">Alamat</label>
+                <textarea id="address" name="address" class="clay-input" rows="3" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="lastEducation">Pendidikan Terakhir</label>
+                <input type="text" id="lastEducation" name="lastEducation" class="clay-input" required>
+            </div>
+            <div class="form-group">
+                <label for="workExperience">Pengalaman Kerja</label>
+                <textarea id="workExperience" name="workExperience" class="clay-input" rows="3" required></textarea>
+            </div>
+            <div class="form-group">
                 <label for="role">Daftar sebagai</label>
                 <select id="role" name="role" class="clay-select" required>
                     <option th:each="roleOpt : ${roles}" th:value="${roleOpt}" th:text="${roleOpt.name()}"></option>
