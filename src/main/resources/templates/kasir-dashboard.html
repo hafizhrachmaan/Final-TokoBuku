@@ -104,6 +104,25 @@
             .pos-header .clay-btn { width: 100%; }
             .add-to-cart-btn { width: 100%; margin-top: 15px; }
             
+            /* Force exactly 2 columns for products on mobile */
+            .pos-products-grid {
+                display: grid !important;
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 10px !important;
+            }
+            .clay-product-card {
+                padding: 10px !important;
+                border-radius: 20px !important;
+            }
+            .clay-product-card h3 {
+                font-size: 1em !important;
+                margin-bottom: 5px !important;
+            }
+            .clay-product-card .price {
+                font-size: 0.9em !important;
+                margin-bottom: 10px !important;
+            }
+
             /* Mobile Cart Popup Styles */
             .pos-cart {
                 position: fixed !important;
