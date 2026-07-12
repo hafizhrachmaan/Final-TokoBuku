@@ -199,20 +199,73 @@ a.link:hover {
     color: #c53030;
 }
 
-/* Header */
-.header {
+/* Header & Structure */
+.header, .content-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 30px;
 }
-.header h1 {
+.header h1, .content-header h1 {
     margin: 0;
 }
 .logout-form {
     margin: 0;
 }
 
+/* App Layout Structure (Sidebar + Main Content) */
+.app-layout {
+    display: flex;
+    width: 100%;
+    min-height: 100vh;
+}
+.app-sidebar {
+    width: 260px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    border-right: 2px solid #dce1e6;
+}
+.sidebar-header {
+    margin-bottom: 30px;
+    text-align: center;
+}
+.sidebar-title {
+    font-size: 1.5em;
+    color: #8b5cf6;
+    margin: 0;
+}
+.sidebar-title span {
+    color: #4a5568;
+}
+.app-sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    flex-grow: 1;
+}
+.app-sidebar-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 15px 20px;
+    text-decoration: none;
+    color: #4a5568;
+    font-weight: bold;
+    border-radius: 20px;
+    box-shadow: 5px 5px 10px #d0d4d8, -5px -5px 10px #ffffff;
+    transition: all 0.2s ease;
+}
+.app-sidebar-link:hover, .app-sidebar-link.active {
+    background-color: #8b5cf6;
+    color: white;
+    box-shadow: inset 4px 4px 8px rgba(0,0,0,0.1), inset -4px -4px 8px rgba(255,255,255,0.2);
+}
+.app-main-content {
+    flex: 1;
+    padding: 40px;
+    overflow-y: auto;
 /* POS Specific */
 .pos-layout {
     display: flex;
@@ -375,6 +428,32 @@ a.link:hover {
         gap: 15px;
     }
     
+    /* App Layout Adjustments for Mobile */
+    .app-layout {
+        flex-direction: column;
+    }
+    .app-sidebar {
+        width: 100%;
+        padding: 15px;
+        border-right: none;
+        border-bottom: 2px solid #dce1e6;
+    }
+    .app-sidebar-nav {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    .app-sidebar-link {
+        padding: 10px 15px;
+        font-size: 0.9em;
+    }
+    .app-sidebar-link span {
+        display: none; /* Hide text, show only icon on small screens to save space */
+    }
+    .app-main-content {
+        padding: 20px 10px;
+    }
+
     /* POS Layout Adjustments for Mobile */
     .pos-layout {
         flex-direction: column;
