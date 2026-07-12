@@ -23,16 +23,14 @@ public class DataInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        // Find and delete the old 'hrd' user if it exists
-        Optional<User> oldHrdUser = userRepository.findByUsername("hrd");
-        oldHrdUser.ifPresent(userRepository::delete);
-
-        // Create a new 'hrd' user with the new password
-        User newHrdUser = new User();
-        newHrdUser.setUsername("hrd");
-        newHrdUser.setPassword(passwordEncoder.encode("123"));
-        newHrdUser.setRole(Role.HRD);
-        newHrdUser.setStatus(UserStatus.VERIFIED);
-        userRepository.save(newHrdUser);
+        // Create 'hrd' user only if it doesn't exist. This is a safer pattern.
+        if (userRepository.findByUsername("hrd").isEmpty()) {
+            User newHrdUser = new User();
+            newHrdUser.setUsername("hrd");
+            newHrdUser.setPassword(passwordEncoder.encode("123"));
+            newHrdUser.setRole(Role.HRD);
+            newHrdUser.setStatus(UserStatus.VERIFIED);
+            userRepository.save(newHrdUser);
+        }
     }
 }

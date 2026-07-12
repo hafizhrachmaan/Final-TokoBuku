@@ -39,7 +39,13 @@ public class User implements UserDetails {
     @Column(columnDefinition = "TEXT")
     private String workExperience;
 
+    @Column(nullable = false)
+    private boolean profileComplete = false;
+
     // Getters and Setters
+
+    public boolean isProfileComplete() { return profileComplete; }
+    public void setProfileComplete(boolean profileComplete) { this.profileComplete = profileComplete; }
 
     public String getFullName() { return fullName; }
     public void setFullName(String fullName) { this.fullName = fullName; }

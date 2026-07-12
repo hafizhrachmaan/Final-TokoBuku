@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<!-- Head fragment -->
+<head th:fragment="head(title)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${title} ?: 'YUDIZ FOTO COPY'">Dashboard</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/claymorphism.css}">
+    <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/lucide.min.js"></script>
+    
+    <meta name="_csrf" th:content="${_csrf?.token}" th:if="${_csrf}"/>
+    <meta name="_csrf_header" th:content="${_csrf?.headerName}" th:if="${_csrf}"/>
+</head>
+
+<body>
+
+    <!-- Sidebar fragment -->
+    <aside th:fragment="sidebar" class="app-sidebar">
+        <div class="sidebar-header">
+            <h1 class="sidebar-title">YUDIZ <span>SYSTEM</span></h1>
+        </div>
+        <nav class="app-sidebar-nav">
+            <!-- HRD Links -->
+            <div th:if="${userRole == 'hrd'}">
+                <a th:href="@{/hrd/dashboard}" class="app-sidebar-link" th:classappend="${#httpServletRequest.requestURI.contains('/hrd/dashboard') ? 'active' : ''}">
+                    <i data-lucide="layout-dashboard"></i><span>Dashboard</span>
+                </a>
+                <a th:href="@{/hrd/products}" class="app-sidebar-link" th:classappend="${#httpServletRequest.requestURI.contains('/products') ? 'active' : ''}">
+                    <i data-lucide="package"></i><span>Produk</span>
+                </a>
+                <a th:href="@{/hrd/transactions}" class="app-sidebar-link" th:classappend="${#httpServletRequest.requestURI.contains('/transactions') ? 'active' : ''}">
+                    <i data-lucide="receipt"></i><span>Transaksi</span>
+                </a>
+            </div>
+            <!-- Kasir Links -->
+             <div th:if="${userRole == 'kasir'}">
+                <a th:href="@{/kasir/dashboard}" class="app-sidebar-link" th:classappend="${#httpServletRequest.requestURI.contains('/kasir/dashboard') ? 'active' : ''}">
+                    <i data-lucide="shopping-cart"></i><span>Point of Sale</span>
+                </a>
+                <a th:href="@{/kasir/history}" class="app-sidebar-link" th:classappend="${#httpServletRequest.requestURI.contains('/history') ? 'active' : ''}">
+                    <i data-lucide="history"></i><span>Riwayat</span>
+                </a>
+            </div>
+            <!-- Stocker Links -->
+             <div th:if="${userRole == 'stocker'}">
+                <a th:href="@{/stocker/dashboard}" class="app-sidebar-link" th:classappend="${#httpServletRequest.requestURI.contains('/stocker/dashboard') ? 'active' : ''}">
+                    <i data-lucide="archive"></i><span>Manajemen Stok</span>
+                </a>
+            </div>
+        </nav>
+        <!-- Logout Button -->
+        <div class="sidebar-footer">
+            <form th:action="@{/logout}" method="post">
+                <button type="submit" class="app-sidebar-link logout">
+                    <i data-lucide="power"></i><span>Logout</span>
+                </button>
+            </form>
+        </div>
+    </aside>
+
+    <!-- Scripts fragment -->
+    <div th:fragment="scripts">
+        <script>
+            lucide.createIcons();
+        </script>
+        <!-- Specific page scripts can be added here in the child template -->
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="id" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Selamat Datang</title>
+    <link rel="stylesheet" th:href="@{/css/claymorphism.css}" />
+</head>
+<body>
+    <div class="clay-card">
+        <h2>Aplikasi Manajemen Toko Buku</h2>
+        <p>Sistem terintegrasi untuk manajemen Karyawan, Stok, dan Penjualan.</p>
+        <div style="margin-top: 40px;">
+            <a th:href="@{/login}" class="clay-btn" style="width: auto; padding: 15px 40px; margin: 10px;">Login</a>
+            <a th:href="@{/register}" class="clay-btn" style="width: auto; padding: 15px 40px; margin: 10px;">Register</a>
+        </div>
+    </div>
+</body>
+</html>

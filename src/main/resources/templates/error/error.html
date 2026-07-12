@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="id" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <title>Terjadi Kesalahan</title>
+  <link rel="stylesheet" th:href="@{/css/claymorphism.css}" />
+  <!-- Override untuk warna judul error spesifik -->
+  <style> .clay-card h2 { color: #c53030; } </style>
+</head>
+<body>
+  <div class="clay-card">
+    <h2>Terjadi kesalahan</h2>
+    <p>Maaf, terjadi kesalahan pada aplikasi.</p>
+    <a th:href="@{/}" class="clay-btn">Kembali ke halaman utama</a>
+  </div>
+</body>
+</html>

@@ -2,93 +2,102 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>POS Terminal - YUDIZ FOTO COPY</title>
+    <title>POS Terminal</title>
     <meta name="_csrf" th:content="${_csrf.token}"/>
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/lucide.min.js"></script>
+    <link rel="stylesheet" th:href="@{/css/claymorphism.css}" />
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
-        .product-card { transition: all 0.2s; border: 1px solid #e2e8f0; }
-        .product-card:hover { border-color: #15803d; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
-        .custom-scroll::-webkit-scrollbar { width: 6px; }
-        .custom-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        body { display: block; padding: 40px; }
+        .pos-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        @media (max-width: 768px) {
+            .pos-header {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 15px;
+            }
+            .pos-header > div:last-child {
+                flex-direction: column;
+                width: 100%;
+            }
+            .pos-header > div:last-child > div {
+                width: 100% !important;
+            }
+            .pos-header > div:last-child input {
+                width: 100%;
+            }
+            .pos-header .clay-btn {
+                width: 100%;
+                margin: 0;
+            }
+        }
     </style>
 </head>
-<body class="flex flex-col h-screen overflow-hidden">
+<body>
+    <div class="clay-container" style="max-width: 1400px; padding: 30px;">
+        <div class="pos-header">
+            <div class="header" style="margin-bottom: 0;">
+                <h1>POS Terminal</h1>
+            </div>
+            <div style="display: flex; align-items: center; gap: 20px;">
+                <div style="width: 300px;">
+                    <input type="text" id="productSearch" placeholder="Cari produk..." class="clay-input">
+                </div>
+                <a th:href="@{/kasir/history}" class="clay-btn clay-btn-small clay-btn-info">Riwayat Transaksi</a>
+                <form th:action="@{/logout}" method="post" class="logout-form">
+                    <button type="submit" class="clay-btn clay-btn-small clay-btn-danger">Logout</button>
+                </form>
+            </div>
+        </div>
 
-<nav class="bg-green-800 text-white shadow-md z-50 shrink-0">
-    <div class="px-6 py-3 flex justify-between items-center">
-        <div class="flex items-center space-x-6">
-            <div class="flex flex-col border-r border-green-600 pr-6">
-                <h1 class="text-xl font-bold tracking-tight">YUDIZ <span class="text-yellow-400">FOTO COPY</span></h1>
-                <p class="text-[9px] tracking-widest text-green-200 font-semibold uppercase">Point of Sale</p>
-            </div>
-            <div class="hidden md:flex space-x-2 text-sm font-medium">
-                <a th:href="@{/kasir/dashboard}" class="bg-green-900 text-white px-3 py-1.5 rounded">Terminal POS</a>
-                <a th:href="@{/kasir/history}" class="text-green-200 hover:text-white px-3 py-1.5 rounded transition">Riwayat</a>
-            </div>
-        </div>
-        <div class="flex items-center space-x-4">
-            <div class="text-right hidden sm:block">
-                <p class="text-[10px] text-green-200 uppercase font-bold">Kasir Aktif</p>
-                <p class="text-sm font-semibold" th:text="${username}">User</p>
-            </div>
-            <form th:action="@{/logout}" method="post" class="m-0">
-                <button type="submit" class="bg-red-600 hover:bg-red-700 text-white p-2 rounded transition" title="Logout">
-                    <i data-lucide="power" class="w-4 h-4"></i>
-                </button>
-            </form>
-        </div>
-    </div>
-</nav>
+        <!-- Notifikasi Pop-up -->
+        <div th:if="${success}" class="clay-alert clay-alert-success" th:text="${success}"></div>
+        <div th:if="${error}" class="clay-alert clay-alert-error" th:text="${error}"></div>
 
-<main class="flex-1 flex overflow-hidden">
-    <div class="flex-1 flex flex-col p-6 bg-slate-50 overflow-y-auto">
-        <div class="flex justify-between items-center mb-6">
-            <h2 class="text-xl font-bold text-gray-800">Katalog Barang & Jasa</h2>
-            <div class="relative w-72">
-                <i data-lucide="search" class="w-4 h-4 absolute left-3 top-3 text-gray-400"></i>
-                <input type="text" id="productSearch" placeholder="Cari barang..." class="w-full pl-10 pr-4 py-2 bg-white border border-gray-300 rounded text-sm focus:ring-1 focus:ring-green-600 outline-none">
+        <div class="pos-layout">
+            <!-- Product List -->
+            <div class="pos-products">
+                <div id="product-list-container" class="pos-products-grid">
+                    <div th:each="product : ${products}" class="product-item clay-product-card">
+                        <h3 th:text="${product.name}">Nama Barang</h3>
+                        <p class="price" th:text="${'Rp ' + #numbers.formatDecimal(product.price, 0, 'POINT', 0, 'COMMA')}">0</p>
+                        <button type="button" class="add-to-cart-btn clay-btn clay-btn-small" th:attr="data-product-id=${product.id}, data-product-name=${product.name}, data-product-price=${product.price}">Tambah</button>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div id="product-list-container" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 pb-20">
-            <div th:each="product : ${products}" class="product-item product-card bg-white p-4 rounded-lg flex flex-col cursor-pointer" th:attr="data-product-id=${product.id}">
-                <div class="w-full aspect-video bg-gray-100 rounded flex items-center justify-center text-gray-400 mb-3"><i data-lucide="copy" class="w-8 h-8"></i></div>
-                <h3 class="font-semibold text-gray-800 text-sm line-clamp-2" th:text="${product.name}">Nama Barang</h3>
-                <p class="text-green-700 font-bold text-lg mt-auto pt-2" th:text="${'Rp ' + #numbers.formatDecimal(product.price, 0, 'POINT', 0, 'COMMA')}">0</p>
-                <div class="flex justify-between items-center mt-3 border-t pt-3">
-                    <span class="text-[10px] font-semibold text-gray-500 bg-gray-100 border border-gray-200 px-2 py-1 rounded" th:text="'Stok: ' + ${product.stock}">0</span>
-                    <button type="button" class="add-to-cart-btn bg-green-700 hover:bg-green-800 text-white px-3 py-1.5 rounded text-xs font-semibold transition">Tambah</button>
+
+            <!-- Shopping Cart -->
+            <div class="pos-cart clay-card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h2 style="margin: 0;">Struk Belanja</h2>
+                    <span id="cart-item-count" class="clay-btn clay-btn-small" style="cursor: default;">0 Item</span>
+                </div>
+                
+                <div class="clay-table-container cart-items" style="height: 100%;">
+                    <div id="cart-items-container" style="padding: 10px;">
+                        <p style="text-align: center; color: #718096; margin-top: 40px;">Keranjang kosong.</p>
+                    </div>
+                </div>
+                
+                <div style="padding-top: 20px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                        <span style="font-weight: bold; color: #5a6678;">TOTAL</span>
+                        <span id="cart-total" style="font-size: 1.8em; font-weight: bold; color: #4a5568;">Rp 0</span>
+                    </div>
+                    <form th:action="@{/kasir/checkout}" method="post">
+                        <input type="hidden" name="cartData" id="cart-data-input">
+                        <button id="checkout-button" type="submit" class="clay-btn" disabled>
+                            Proses & Cetak
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
-
-    <div class="w-96 bg-white border-l border-gray-200 flex flex-col shadow-lg shrink-0">
-        <div class="p-4 bg-gray-50 border-b border-gray-200 flex justify-between items-center">
-            <h2 class="text-sm font-bold text-gray-800 uppercase tracking-wide">Struk Belanja</h2>
-            <div id="cart-item-count" class="bg-yellow-500 text-white text-xs font-bold px-2 py-1 rounded">0 Item</div>
-        </div>
-        <div id="cart-items-container" class="flex-1 overflow-y-auto p-4 custom-scroll space-y-3">
-            <div class="text-center text-gray-400 text-sm mt-10 italic">Keranjang kosong.</div>
-        </div>
-        <div class="p-4 border-t border-gray-200 bg-gray-50">
-            <div class="flex justify-between items-center mb-4">
-                <span class="text-sm font-semibold text-gray-600 uppercase">Total Bayar</span>
-                <span id="cart-total" class="text-2xl font-bold text-green-700">Rp 0</span>
-            </div>
-            <form th:action="@{/kasir/checkout}" method="post">
-                <button id="checkout-button" type="submit" class="w-full bg-green-700 hover:bg-green-800 text-white py-3 rounded font-bold uppercase text-sm shadow-sm transition disabled:opacity-50 flex justify-center items-center">
-                    <i data-lucide="printer" class="w-4 h-4 mr-2"></i> Proses & Cetak
-                </button>
-            </form>
-        </div>
-    </div>
-</main>
-<script th:src="@{/js/kasir-pos.js}" defer></script>
-<script>lucide.createIcons();</script>
+    <script th:src="@{/js/kasir-pos.js}" defer></script>
 </body>
 </html>

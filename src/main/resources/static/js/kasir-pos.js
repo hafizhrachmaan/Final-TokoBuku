@@ -76,30 +76,31 @@ const initCartAjax = () => {
         checkoutButton.disabled = cart.items.length === 0;
 
         if (cart.items.length === 0) {
-            cartItemsContainer.innerHTML = `<div class="py-10 text-center opacity-30 flex flex-col items-center"><i data-lucide="shopping-bag" class="w-12 h-12 mb-2"></i><p class="font-black uppercase text-[10px]">Kosong</p></div>`;
+            cartItemsContainer.innerHTML = `<p style="text-align: center; color: #718096; margin-top: 40px;">Keranjang kosong.</p>`;
         } else {
             cartItemsContainer.innerHTML = cart.items.map(item => `
-                <div class="flex flex-col border-b border-slate-50 pb-4 mb-4 last:border-0">
-                    <div class="flex justify-between items-start">
-                        <div class="flex-1 pr-4">
-                            <h4 class="font-bold text-slate-800 text-[11px] uppercase">${item.product.name}</h4>
-                            <p class="text-blue-600 font-black text-[10px]">${formatCurrency(item.product.price)}</p>
-                        </div>
-                        <button type="button" class="remove-from-cart-btn text-rose-400 hover:text-rose-600 p-1" data-product-id="${item.product.id}"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+                <div class="cart-item-stacked">
+                    <div class="cart-item-row-1">
+                        <span class="item-name">${item.product.name}</span>
+                        <button type="button" class="remove-from-cart-btn clay-btn clay-btn-small clay-btn-danger" data-product-id="${item.product.id}">X</button>
                     </div>
-                    <div class="flex justify-between items-center mt-3">
-                        <div class="flex items-center gap-2">
-                            <button type="button" class="decrease-qty-btn rounded-full w-6 h-6 flex items-center justify-center bg-slate-200 text-slate-600" data-product-id="${item.product.id}">-</button>
-                            <span class="text-[11px] font-black text-slate-600 min-w-[20px] text-center">${item.quantity}</span>
-                            <button type="button" class="increase-qty-btn rounded-full w-6 h-6 flex items-center justify-center bg-slate-900 text-white" data-product-id="${item.product.id}">+</button>
+                    <div class="cart-item-row-2">
+                        <div class="cart-item-controls">
+                            <button type="button" class="decrease-qty-btn clay-btn clay-btn-small clay-btn-logout" data-product-id="${item.product.id}">-</button>
+                            <span>${item.quantity}</span>
+                            <button type="button" class="increase-qty-btn clay-btn clay-btn-small" data-product-id="${item.product.id}">+</button>
                         </div>
-                        <span class="font-black text-slate-800 text-sm">${formatCurrency(item.subtotal)}</span>
+                        <div class="item-price-info">
+                            @ ${formatCurrency(item.product.price)}
+                        </div>
+                        <div class="cart-item-subtotal">
+                            ${formatCurrency(item.subtotal)}
+                        </div>
                     </div>
                 </div>
             `).join('');
         }
         // Re-initialize icons for any new elements added to the DOM
-        if (window.lucide) lucide.createIcons();
     };
 
     /**

@@ -3,6 +3,7 @@ package com.tokobuku.nitnot.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.tokobuku.nitnot.model.Product;
@@ -24,6 +25,8 @@ public class StockerController {
     @GetMapping("/dashboard")
     public String dashboard(Model model, Principal principal) {
         model.addAttribute("username", principal.getName());
+        model.addAttribute("userRole", "stocker");
+        model.addAttribute("pageTitle", "Manajemen Stok");
         model.addAttribute("products", productService.getAllProducts());
         return "stocker-dashboard";
     }
@@ -31,12 +34,14 @@ public class StockerController {
     @GetMapping("/product/edit/{id}")
     public String editProductPage(@PathVariable Long id, Model model, Principal principal) {
         model.addAttribute("username", principal.getName());
+        model.addAttribute("userRole", "stocker");
+        model.addAttribute("pageTitle", "Edit Produk");
+
         Optional<Product> productOpt = productService.findProductById(id);
         if (productOpt.isPresent()) {
             model.addAttribute("product", productOpt.get());
             return "edit-product";
         } else {
-            // Optionally, add a flash attribute to show an error message
             return "redirect:/stocker/dashboard";
         }
     }
@@ -48,18 +53,18 @@ public class StockerController {
         return "redirect:/stocker/dashboard";
     }
 
-    @PostMapping("/product/update")
-    public String updateProduct(@RequestParam Long id,
-                                @RequestParam String name,
-                                @RequestParam String description,
-                                @RequestParam double price,
-                                @RequestParam int stock,
+    @PostMapping("/product/edit/{id}")
+    public String updateProduct(@PathVariable Long id,
+                                @ModelAttribute Product product,
                                 RedirectAttributes ra) {
         try {
-            productService.updateProduct(id, name, description, price, stock);
-            ra.addFlashAttribute("success", "Data produk diperbarui!");
-        } catch (IllegalArgumentException e) {
-            ra.addFlashAttribute("error", e.getMessage());
+            // Set ID dari URL ke objek produk untuk memastikan ini adalah operasi update
+            product.setId(id);
+            // Panggil metode save (dibungkus dalam addProduct) yang akan melakukan update
+            productService.addProduct(product);
+            ra.addFlashAttribute("success", "Data produk berhasil diubah!");
+        } catch (Exception e) {
+            ra.addFlashAttribute("error", "Gagal memperbarui produk: " + e.getMessage());
         }
         return "redirect:/stocker/dashboard";
     }
@@ -69,8 +74,10 @@ public class StockerController {
         try {
             productService.deleteProduct(id);
             ra.addFlashAttribute("success", "Produk berhasil dihapus!");
+        } catch (DataIntegrityViolationException e) {
+            ra.addFlashAttribute("error", "Gagal: Produk ini tidak dapat dihapus karena sudah tercatat dalam riwayat transaksi.");
         } catch (Exception e) {
-            ra.addFlashAttribute("error", "Gagal hapus! " + e.getMessage());
+            ra.addFlashAttribute("error", "Gagal menghapus produk: " + e.getMessage());
         }
         return "redirect:/stocker/dashboard";
     }
