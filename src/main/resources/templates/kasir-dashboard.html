@@ -14,6 +14,10 @@
             justify-content: space-between;
             align-items: center;
         }
+        /* Modals initially hidden */
+        .mobile-cart-btn, .close-cart-btn {
+            display: none;
+        }
         @media (max-width: 768px) {
             .pos-header { flex-direction: column; align-items: flex-start; gap: 10px; }
             .pos-header > div:last-child { width: 100%; flex-direction: column; align-items: stretch !important; gap: 10px; }
@@ -21,6 +25,48 @@
             .pos-header > div:last-child input { width: 100%; box-sizing: border-box; }
             .pos-header .clay-btn { width: 100%; }
             .add-to-cart-btn { width: 100%; margin-top: 15px; }
+            
+            /* Mobile Cart Popup Styles */
+            .pos-cart {
+                position: fixed !important;
+                bottom: -100% !important;
+                left: 0 !important;
+                width: 100vw !important;
+                height: 85vh !important;
+                max-width: 100vw !important;
+                border-radius: 30px 30px 0 0 !important;
+                margin: 0 !important;
+                z-index: 1000 !important;
+                box-shadow: 0 -10px 30px rgba(0,0,0,0.2) !important;
+                transition: bottom 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+                padding: 20px !important;
+                padding-bottom: 40px !important;
+                display: flex !important;
+                flex-direction: column !important;
+                background-color: #f0f4f8 !important;
+                box-sizing: border-box;
+            }
+            .pos-cart.active {
+                bottom: 0 !important;
+            }
+            .mobile-cart-btn {
+                display: flex !important;
+                position: fixed !important;
+                bottom: 20px !important;
+                right: 20px !important;
+                z-index: 999 !important;
+                box-shadow: 0 10px 20px rgba(56, 161, 105, 0.4) !important;
+                padding: 15px 25px !important;
+                font-size: 1.2em !important;
+                border-radius: 30px !important;
+            }
+            .close-cart-btn {
+                display: block !important;
+                position: absolute !important;
+                top: 20px !important;
+                right: 20px !important;
+                z-index: 1001 !important;
+            }
         }
     </style>
 </head>
@@ -58,7 +104,7 @@
             </div>
 
             <!-- Shopping Cart -->
-            <div class="pos-cart clay-card" style="padding: 20px; position: relative;">
+            <div class="pos-cart clay-card">
                 <button type="button" class="close-cart-btn clay-btn clay-btn-danger clay-btn-small" onclick="document.querySelector('.pos-cart').classList.remove('active');">X</button>
                 
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
