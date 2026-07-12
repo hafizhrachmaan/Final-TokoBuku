@@ -29,7 +29,8 @@ public class WebController {
     }
 
     @GetMapping("/register")
-    public String showRegistrationForm() {
+    public String showRegistrationForm(org.springframework.ui.Model model) {
+        model.addAttribute("roles", Role.values());
         return "register";
     }
 
