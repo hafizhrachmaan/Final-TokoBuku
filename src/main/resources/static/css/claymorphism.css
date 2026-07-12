@@ -494,8 +494,19 @@ a.link:hover {
         padding: 0;
     }
     .pos-products-grid {
-        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-        gap: 15px;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+    .clay-product-card {
+        padding: 12px;
+    }
+    .clay-product-card h3 {
+        font-size: 1.1em;
+        margin-bottom: 8px;
+    }
+    .clay-product-card .price {
+        font-size: 0.9em;
+        margin-bottom: 12px;
     }
     .pos-cart {
         position: fixed;
