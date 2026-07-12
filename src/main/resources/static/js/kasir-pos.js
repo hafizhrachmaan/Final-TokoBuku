@@ -75,6 +75,12 @@ const initCartAjax = () => {
         cartTotalEl.textContent = formatCurrency(cart.total);
         checkoutButton.disabled = cart.items.length === 0;
 
+        const mobileBadge = document.getElementById('mobile-cart-badge');
+        if (mobileBadge) {
+            mobileBadge.textContent = cart.items.length;
+            mobileBadge.style.display = cart.items.length > 0 ? 'flex' : 'none';
+        }
+
         if (cart.items.length === 0) {
             cartItemsContainer.innerHTML = `<p style="text-align: center; color: #718096; margin-top: 40px;">Keranjang kosong.</p>`;
         } else {

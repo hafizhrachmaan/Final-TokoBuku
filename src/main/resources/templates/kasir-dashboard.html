@@ -60,6 +60,22 @@
                 font-size: 1.2em !important;
                 border-radius: 30px !important;
             }
+            .mobile-cart-badge {
+                position: absolute;
+                top: -5px;
+                right: -5px;
+                background-color: #e53e3e;
+                color: white;
+                border-radius: 50%;
+                width: 24px;
+                height: 24px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 0.75em;
+                font-weight: bold;
+                box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+            }
             .close-cart-btn {
                 display: block !important;
                 position: absolute !important;
@@ -134,6 +150,7 @@
             
             <button id="mobile-cart-toggle" class="mobile-cart-btn clay-btn clay-btn-success" onclick="document.querySelector('.pos-cart').classList.add('active');">
                 🛒 Lihat Keranjang
+                <span id="mobile-cart-badge" class="mobile-cart-badge" style="display: none;">0</span>
             </button>
         </div>
     </div>
