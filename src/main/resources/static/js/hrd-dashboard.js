@@ -146,21 +146,18 @@ document.addEventListener('DOMContentLoaded', () => {
      */
     const addVerifiedRow = (user) => {
         // If the placeholder "no employees" row exists, remove it.
-        const placeholderRow = verifiedTbody.querySelector('td[colspan="3"]');
+        const placeholderRow = verifiedTbody.querySelector('td[colspan="2"]');
         if (placeholderRow) placeholderRow.parentElement.remove();
 
         const newRow = document.createElement('tr');
         newRow.id = `verified-row-${user.id}`;
         newRow.innerHTML = `
-            <td class="px-5 py-3">
-                <p class="font-bold text-gray-800">${user.username}</p>
-                <p class="text-xs text-gray-500">ID: #${user.id}</p>
+            <td>
+                <p style="font-weight: bold;">${user.username}</p>
+                <p style="font-size: 0.8em; color: #718096;">${user.role}</p>
             </td>
-            <td class="px-5 py-3 text-center">
-                <span class="bg-gray-100 text-gray-700 text-xs font-semibold px-2 py-1 rounded">${user.role}</span>
-            </td>
-            <td class="px-5 py-3 text-center">
-                <button type="button" class="cut-btn bg-red-500 hover:bg-red-600 text-white text-xs font-bold px-3 py-1.5 rounded transition" data-user-id="${user.id}">PECAT</button>
+            <td style="text-align: center;">
+                <button type="button" class="cut-btn clay-btn clay-btn-small clay-btn-danger" data-user-id="${user.id}">Pecat</button>
             </td>
         `;
         verifiedTbody.appendChild(newRow);
