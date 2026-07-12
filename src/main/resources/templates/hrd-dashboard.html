@@ -9,18 +9,25 @@
     <link rel="stylesheet" th:href="@{/css/claymorphism.css(v=4)}" />
     <style>
         .grid-layout { display: grid; grid-template-columns: 2fr 1fr; gap: 40px; width: 100%; }
-        @media (max-width: 900px) { .grid-layout { grid-template-columns: minmax(0, 1fr); gap: 20px; } }
+        .header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }
+        
+        @media (max-width: 900px) { 
+            .grid-layout { grid-template-columns: minmax(0, 1fr); gap: 20px; } 
+            .header h1 { font-size: 1.8em; margin: 0; }
+            .action-buttons { display: flex; flex-direction: column; gap: 8px; }
+            .clay-table th, .clay-table td { padding: 10px 5px; font-size: 0.9em; }
+        }
     </style>
 </head>
 <body class="scrollable">
     <div class="clay-container">
         <div class="header">
-            <h1>Dashboard HRD</h1>
-            <form th:action="@{/logout}" method="post" class="logout-form">
+            <h1 style="margin-bottom: 0;">Dashboard HRD</h1>
+            <form th:action="@{/logout}" method="post" class="logout-form" style="margin: 0;">
                 <button type="submit" class="clay-btn clay-btn-small clay-btn-logout">Logout</button>
             </form>
         </div>
-        <p>Selamat datang, <strong th:text="${username}"></strong>! Anda login sebagai <strong th:text="${userRole}"></strong>.</p>
+        <p style="margin-top: 15px;">Selamat datang, <strong th:text="${username}"></strong>!</p>
 
         <div class="grid-layout" style="margin-top: 40px;">
             <!-- Kolom Kiri: Daftar Karyawan -->
@@ -41,11 +48,11 @@
                                 <tr th:if="${#lists.isEmpty(pendingEmployees)}"><td colspan="3" style="text-align: center; padding: 2rem;">Tidak ada permohonan baru.</td></tr>
                                 <tr th:each="employee : ${pendingEmployees}" th:id="'pending-row-' + ${employee.id}">
                                     <td>
-                                        <p style="font-weight: bold;" th:text="${employee.fullName}">Nama Pelamar</p>
-                                        <p style="font-size: 0.8em; color: #718096;" th:text="${employee.email}">email@pelamar.com</p>
+                                        <p style="font-weight: bold; margin-bottom: 5px;" th:text="${employee.fullName}">Nama Pelamar</p>
+                                        <p style="font-size: 0.8em; color: #718096; margin: 0; word-break: break-all;" th:text="${employee.email}">email@pelamar.com</p>
                                     </td>
-                                    <td th:text="${employee.role}">KASIR</td>
-                                    <td style="text-align: center;">
+                                    <td th:text="${employee.role}" style="font-size: 0.9em; font-weight: bold;">KASIR</td>
+                                    <td style="text-align: center;" class="action-buttons">
                                         <button type="button" class="accept-btn clay-btn clay-btn-small clay-btn-success" th:attr="data-user-id=${employee.id}">Terima</button>
                                         <button type="button" class="reject-btn clay-btn clay-btn-small clay-btn-danger" th:attr="data-user-id=${employee.id}">Tolak</button>
                                     </td>
