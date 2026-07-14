@@ -34,11 +34,11 @@ public class PdfService {
             Font thankYouFont = FontFactory.getFont(FontFactory.HELVETICA_OBLIQUE, 7, Color.GRAY);
 
             // === Header Section ===
-            Paragraph storeName = new Paragraph("NITNOT TOKO BUKU", storeNameFont);
+            Paragraph storeName = new Paragraph("YUDIZ FOTOCOPY & ATK", storeNameFont);
             storeName.setAlignment(Element.ALIGN_CENTER);
             document.add(storeName);
 
-            Paragraph storeAddress = new Paragraph("Jl. Raya Teknologi No. 1, Surabaya\nTelp: (031) 123-4567", addressFont);
+            Paragraph storeAddress = new Paragraph("Jl. Raya Cerme Lor No. 1, Gresik\nTelp: (031) 123-4567", addressFont);
             storeAddress.setAlignment(Element.ALIGN_CENTER);
             document.add(storeAddress);
             
